@@ -134,17 +134,18 @@ dependencies {
     androidTestImplementation(Deps.Test.activityTestRule)
     androidTestImplementation(Deps.Test.espressoCore)
 
+    // kotlin-std-lib
+    implementation(Deps.Libs.kotlinStdLib)
+
     // androidx
-//    implementation(Deps.AndroidX.core)
-//    implementation(Deps.AndroidX.appCompat)
+    implementation(Deps.AndroidX.core)
+    implementation(Deps.AndroidX.appCompat)
 //    implementation(Deps.AndroidX.material)
 //    implementation(Deps.AndroidX.recyclerView)
-//    implementation(Deps.AndroidX.constraintLayout)
+    implementation(Deps.AndroidX.constraintLayout)
 //
-//    implementation(Deps.AndroidX.lifecycleRuntime)
-//    implementation(Deps.AndroidX.lifecycleExtensions)
-//    implementation(Deps.AndroidX.lifecycleCommonJava)
-//    kapt(Deps.AndroidX.lifecycleCompiler)
+    kapt(Deps.AndroidX.lifecycleCompiler)
+    implementation(Deps.AndroidX.lifecycleViewModelKtx)
 //
 //    implementation(Deps.AndroidX.fragmentsExt)
 //
@@ -162,13 +163,12 @@ dependencies {
 //    // logging
 //    implementation(Deps.Libs.timber)
 //
-//    // network
-//    implementation(Deps.Libs.retrofit)
-//    implementation(Deps.Libs.retrofitMoshiConverter)
-//    implementation(Deps.Libs.retrofitRxAdapter)
-//    implementation(Deps.Libs.okHttpLogging)
-//    implementation(Deps.Libs.moshi)
-//    kapt(Deps.Libs.moshiCodeGen)
+    // network
+    implementation(Deps.Libs.retrofit)
+    implementation(Deps.Libs.retrofitMoshiConverter)
+    implementation(Deps.Libs.okHttpLogging)
+    implementation(Deps.Libs.moshi)
+    kapt(Deps.Libs.moshiCodeGen)
 //
 //    // image
 //    implementation(Deps.Libs.glide)
@@ -181,10 +181,6 @@ dependencies {
 //    // model-parcel
 //    implementation(Deps.Libs.parcel)
 //    kapt(Deps.Libs.parcelCompiler)
-//
-//    // reactive
-//    implementation(Deps.Libs.rxjava)
-//    implementation(Deps.Libs.rxandroid)
 //
 //    // view-binding
 //    implementation(Deps.Libs.rxbinding)

@@ -15,7 +15,6 @@ object Deps {
         val lifecycleVersion = "2.2.0"
         val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion"
         val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
-        val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
         val lifecycleCommonJava = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
         val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
         val lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
@@ -57,7 +56,6 @@ object Deps {
         val retrofitVersion = "2.9.0"
         val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
         val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-        val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
         val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.0.0"
 
         val moshiVersion = "1.10.0"
@@ -75,9 +73,6 @@ object Deps {
         val parcelVersion = "1.1.12"
         val parcel = "org.parceler:parceler-api:$parcelVersion"
         val parcelCompiler = "org.parceler:parceler:$parcelVersion"
-
-        val rxjava = "io.reactivex.rxjava3:rxjava:3.0.6"
-        val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
 
         val rxbindingVersion = "4.0.0"
         val rxbinding = "com.jakewharton.rxbinding4:rxbinding:$rxbindingVersion"
