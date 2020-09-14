@@ -2,14 +2,16 @@ package com.example.comicdiscovery.feature
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
-import com.example.comicdiscovery.R
+import com.example.comicdiscovery.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
+    // ----------------------------------------------------------------------------
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        setContentView(binding.root)
     }
 }

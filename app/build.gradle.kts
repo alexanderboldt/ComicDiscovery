@@ -140,42 +140,38 @@ dependencies {
     // androidx
     implementation(Deps.AndroidX.core)
     implementation(Deps.AndroidX.appCompat)
-//    implementation(Deps.AndroidX.material)
-//    implementation(Deps.AndroidX.recyclerView)
+    implementation(Deps.AndroidX.material)
+    implementation(Deps.AndroidX.recyclerView)
     implementation(Deps.AndroidX.constraintLayout)
-//
+
     kapt(Deps.AndroidX.lifecycleCompiler)
     implementation(Deps.AndroidX.lifecycleViewModelKtx)
-//
-//    implementation(Deps.AndroidX.fragmentsExt)
-//
-//    implementation(Deps.AndroidX.navigationFragment)
-//    implementation(Deps.AndroidX.navigationUi)
-//
+
+    implementation(Deps.AndroidX.fragmentsExt)
+
+    implementation(Deps.AndroidX.navigationFragment)
+    implementation(Deps.AndroidX.navigationUi)
+
 //    implementation(Deps.AndroidX.room)
 //    kapt(Deps.AndroidX.roomCompiler)
-//
-//    // core-library
-//    implementation(Deps.Libs.androidCore)
-//
-//    // 3rd-party libraries
-//
-//    // logging
-//    implementation(Deps.Libs.timber)
-//
+
+    // 3rd-party libraries
+
+    // logging
+    implementation(Deps.Libs.timber)
+
     // network
     implementation(Deps.Libs.retrofit)
     implementation(Deps.Libs.retrofitMoshiConverter)
     implementation(Deps.Libs.okHttpLogging)
     implementation(Deps.Libs.moshi)
     kapt(Deps.Libs.moshiCodeGen)
-//
-//    // image
-//    implementation(Deps.Libs.glide)
-//    implementation(Deps.Libs.glideTransformations)
-//    kapt(Deps.Libs.glideCompiler)
-//    implementation(Deps.Libs.glideOkHttpIntegration)
-//
+
+    // image
+    implementation(Deps.Libs.glide)
+    kapt(Deps.Libs.glideCompiler)
+    implementation(Deps.Libs.glideOkHttpIntegration)
+
 //    implementation(Deps.Libs.liveEvent)
 //
 //    // model-parcel
@@ -186,11 +182,11 @@ dependencies {
 //    implementation(Deps.Libs.rxbinding)
 //    implementation(Deps.Libs.rxbindingAppcompat)
 //    implementation(Deps.Libs.rxbindingSwiperefreshlayout)
-//
-//    // leak-detection
-//    debugImplementation(Deps.Libs.leakCanary)
-//
-//    // dependency injection
-//    implementation(Deps.Libs.koin)
-//    implementation(Deps.Libs.koinViewModel)
+
+    // leak-detection
+    debugImplementation(Deps.Libs.leakCanary)
+
+    // dependency injection
+    implementation(Deps.Libs.koin)
+    implementation(Deps.Libs.koinViewModel)
 }

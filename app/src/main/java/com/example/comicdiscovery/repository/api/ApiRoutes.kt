@@ -2,12 +2,10 @@ package com.example.comicdiscovery.repository.api
 
 import com.example.comicdiscovery.repository.api.models.GetSearchResponse
 import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface ApiRoutes {
 
-    @GET("search?&sort=name:asc&limit=10&resources=character")
-    suspend fun get(
-        @Query("query") query: String
-    ): GetSearchResponse
+    @GET("search")
+    suspend fun getSearch(@QueryMap options: Map<String, String>): GetSearchResponse
 }

@@ -47,6 +47,7 @@ object Deps {
     object Libs {
         val kotlinVersion = "1.4.0"
         val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
         val androidCore = "com.github.alexanderboldt:androidcore:2.0.0"
 
         val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC2"
