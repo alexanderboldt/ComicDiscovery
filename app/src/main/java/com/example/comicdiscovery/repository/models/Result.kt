@@ -1,6 +1,6 @@
 package com.example.comicdiscovery.repository.models
 
-data class Result<T>(
-    val limit: Int,
-    val result: List<T>
-)
+sealed class Result<R> {
+    data class Success<T>(val data: T) : Result<T>()
+    data class Failure<T>(val throwable: Throwable) : Result<T>()
+}

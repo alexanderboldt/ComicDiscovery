@@ -1,6 +1,7 @@
 package com.example.comicdiscovery
 
 import android.app.Application
+import com.example.comicdiscovery.feature.base.di.resourceProviderModule
 import com.example.comicdiscovery.feature.character.overview.di.characterOverviewModule
 import com.example.comicdiscovery.repository.api.ApiClient
 import com.example.comicdiscovery.repository.search.di.searchRepositoryModule
@@ -25,7 +26,11 @@ class ComicDiscoveryApplication : Application() {
     private fun setupKoin() {
         startKoin {
             androidContext(this@ComicDiscoveryApplication)
-            modules(listOf(characterOverviewModule, searchRepositoryModule))
+            modules(
+                listOf(
+                    characterOverviewModule,
+                    resourceProviderModule,
+                    searchRepositoryModule))
         }
     }
 }

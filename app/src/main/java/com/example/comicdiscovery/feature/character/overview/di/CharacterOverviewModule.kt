@@ -5,5 +5,5 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val characterOverviewModule = module {
-    viewModel { CharacterOverviewViewModel(get()) }
+    viewModel { CharacterOverviewViewModel(get(), get()) }
 }

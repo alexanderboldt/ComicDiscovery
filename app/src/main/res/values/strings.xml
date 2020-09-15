@@ -1,2 +1,4 @@
 <resources>
+    <string name="character_overview_message_no_entries">No characters found</string>
+    <string name="character_overview_message_error">Could not load characters</string>
 </resources>
