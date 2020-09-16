@@ -8,7 +8,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.comicdiscovery.databinding.ItemCharacterOverviewBinding
 import com.example.comicdiscovery.feature.character.overview.models.Character
 
-class CharacterOverviewAdapter : RecyclerView.Adapter<CharacterOverviewAdapter.ViewHolder>() {
+class CharacterOverviewAdapter(val characterClick: (Int) -> Unit) : RecyclerView.Adapter<CharacterOverviewAdapter.ViewHolder>() {
 
     private val characters = mutableListOf<Character>()
 
@@ -26,6 +26,10 @@ class CharacterOverviewAdapter : RecyclerView.Adapter<CharacterOverviewAdapter.V
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val character = characters[position]
+
+        viewHolder.binding.root.setOnClickListener {
+            characterClick(character.id)
+        }
 
         viewHolder.binding.apply {
             textViewName.text = character.name

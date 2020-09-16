@@ -2,8 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
     app:startDestination="@id/characterOverviewFragment">
+
     <fragment
         android:id="@+id/characterOverviewFragment"
         android:name="com.example.comicdiscovery.feature.character.overview.CharacterOverviewFragment"
-        android:label="CharacterOverviewFragment" />
+        android:label="CharacterOverviewFragment" >
+        <action
+            android:id="@+id/action_characterOverviewFragment_to_characterDetailFragment"
+            app:destination="@id/characterDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/characterDetailFragment"
+        android:name="com.example.comicdiscovery.feature.character.detail.CharacterDetailFragment"
+        android:label="CharacterDetailFragment" />
 </navigation>

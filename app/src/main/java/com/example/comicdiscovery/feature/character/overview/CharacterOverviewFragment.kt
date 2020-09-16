@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.comicdiscovery.R
 import com.example.comicdiscovery.databinding.FragmentCharacterOverviewBinding
 import com.example.comicdiscovery.feature.character.overview.models.RecyclerViewState
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CharacterOverviewFragment : Fragment() {
@@ -24,7 +24,7 @@ class CharacterOverviewFragment : Fragment() {
 
     private lateinit var binding: FragmentCharacterOverviewBinding
 
-    private val adapter by lazy { CharacterOverviewAdapter() }
+    private lateinit var adapter: CharacterOverviewAdapter
 
     // ----------------------------------------------------------------------------
 
@@ -41,9 +41,14 @@ class CharacterOverviewFragment : Fragment() {
     // ----------------------------------------------------------------------------
 
     private fun setupView() {
+        adapter = CharacterOverviewAdapter { id ->
+            viewModel.onClickCharacter(id)
+        }
+
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
+            it.setHasFixedSize(true)
         }
         binding.contentLoadingProgressBar.show()
     }
@@ -81,6 +86,10 @@ class CharacterOverviewFragment : Fragment() {
                     }
                 }
             }
+        })
+
+        viewModel.detailState.observe(viewLifecycleOwner, Observer { state ->
+            findNavController().navigate(R.id.characterDetailFragment, bundleOf("id" to state))
         })
     }
 }

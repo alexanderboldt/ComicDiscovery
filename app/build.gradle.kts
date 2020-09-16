@@ -172,12 +172,8 @@ dependencies {
     kapt(Deps.Libs.glideCompiler)
     implementation(Deps.Libs.glideOkHttpIntegration)
 
-//    implementation(Deps.Libs.liveEvent)
-//
-//    // model-parcel
-//    implementation(Deps.Libs.parcel)
-//    kapt(Deps.Libs.parcelCompiler)
-//
+    implementation(Deps.Libs.liveEvent)
+
 //    // view-binding
 //    implementation(Deps.Libs.rxbinding)
 //    implementation(Deps.Libs.rxbindingAppcompat)

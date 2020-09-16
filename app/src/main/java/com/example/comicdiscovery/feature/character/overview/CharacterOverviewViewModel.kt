@@ -10,6 +10,7 @@ import com.example.comicdiscovery.feature.character.overview.models.Character
 import com.example.comicdiscovery.feature.character.overview.models.RecyclerViewState
 import com.example.comicdiscovery.repository.models.Result
 import com.example.comicdiscovery.repository.search.SearchRepository
+import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.launch
 
 class CharacterOverviewViewModel(
@@ -22,6 +23,10 @@ class CharacterOverviewViewModel(
     // true -> visible / false -> gone
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState: LiveData<Boolean> = _loadingState
+
+    // the detail-id as an Int
+    private val _detailState = LiveEvent<Int>()
+    val detailState: LiveData<Int> = _detailState
 
     // ----------------------------------------------------------------------------
 
@@ -39,6 +44,10 @@ class CharacterOverviewViewModel(
         }
     }
 
+    fun onClickCharacter(id: Int) {
+        _detailState.postValue(id)
+    }
+
     // ----------------------------------------------------------------------------
 
     private fun search(query: String) {
@@ -51,7 +60,7 @@ class CharacterOverviewViewModel(
                     result
                         .data
                         .result
-                        .map {  character -> Character(character.name, character.realName, character.image.iconUrl) }
+                        .map {  character -> Character(character.id, character.name, character.realName, character.image.iconUrl) }
                         .let { characters ->
                             when (characters.isEmpty()) {
                                 true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))
