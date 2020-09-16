@@ -13,31 +13,51 @@ import com.example.comicdiscovery.repository.search.SearchRepository
 import kotlinx.coroutines.launch
 
 class CharacterOverviewViewModel(
-    searchRepository: SearchRepository,
-    resourceProvider: ResourceProvider) : ViewModel() {
+    private val searchRepository: SearchRepository,
+    private val resourceProvider: ResourceProvider) : ViewModel() {
 
     private val _recyclerViewState = MutableLiveData<RecyclerViewState>()
     val recyclerViewState: LiveData<RecyclerViewState> = _recyclerViewState
 
-    // true -> is visible
-    // false -> is gone
+    // true -> visible / false -> gone
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState: LiveData<Boolean> = _loadingState
 
     // ----------------------------------------------------------------------------
 
     init {
+        _loadingState.postValue(false)
+        _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
+    }
+
+    // ----------------------------------------------------------------------------
+
+    fun onSubmitSearch(query: String?) {
+        when (query.isNullOrBlank()) {
+            true -> _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
+            false -> search(query)
+        }
+    }
+
+    // ----------------------------------------------------------------------------
+
+    private fun search(query: String) {
         viewModelScope.launch {
             _loadingState.postValue(true)
 
-            when (val result = searchRepository.getSearch("Barry Allen")) {
+            when (val result = searchRepository.getSearch(query)) {
                 is Result.Success -> {
                     _loadingState.postValue(false)
                     result
                         .data
                         .result
                         .map {  character -> Character(character.name, character.realName, character.image.iconUrl) }
-                        .apply { _recyclerViewState.postValue(RecyclerViewState.CharacterState(this)) }
+                        .let { characters ->
+                            when (characters.isEmpty()) {
+                                true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))
+                                false -> RecyclerViewState.CharacterState(characters)
+                            }
+                        }.also { state -> _recyclerViewState.postValue(state) }
                 }
                 is Result.Failure -> {
                     _loadingState.postValue(false)

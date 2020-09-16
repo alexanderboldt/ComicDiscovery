@@ -1,4 +1,5 @@
 <resources>
+    <string name="character_overview_message_no_search">Make a search for some characters</string>
     <string name="character_overview_message_no_entries">No characters found</string>
     <string name="character_overview_message_error">Could not load characters</string>
 </resources>

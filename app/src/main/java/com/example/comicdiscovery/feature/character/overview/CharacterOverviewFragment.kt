@@ -4,18 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.comicdiscovery.databinding.FragmentCharacterOverviewBinding
 import com.example.comicdiscovery.feature.character.overview.models.RecyclerViewState
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CharacterOverviewFragment : Fragment() {
 
-    private val viewModel: CharacterOverviewViewModel by inject()
+    private val viewModel: CharacterOverviewViewModel by viewModel()
 
     private lateinit var binding: FragmentCharacterOverviewBinding
 
@@ -27,6 +32,7 @@ class CharacterOverviewFragment : Fragment() {
         binding = FragmentCharacterOverviewBinding.inflate(inflater, container, false)
 
         setupView()
+        setupViewBinding()
         setupViewModel()
 
         return binding.root
@@ -40,6 +46,17 @@ class CharacterOverviewFragment : Fragment() {
             it.adapter = adapter
         }
         binding.contentLoadingProgressBar.show()
+    }
+
+    private fun setupViewBinding() {
+        binding.searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.onSubmitSearch(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?) = false
+        })
     }
 
     private fun setupViewModel() {
@@ -58,7 +75,7 @@ class CharacterOverviewFragment : Fragment() {
                 }
                 is RecyclerViewState.MessageState -> {
                     binding.apply {
-                        recyclerView.isGone = true
+                        recyclerView.isInvisible = true
                         textViewMessage.isVisible = true
                         textViewMessage.text = state.message
                     }
