@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/characterOverviewFragment"
-        android:name="com.example.comicdiscovery.feature.character.overview.CharacterOverviewFragment"
+        android:name="com.alex.comicdiscovery.feature.character.overview.CharacterOverviewFragment"
         android:label="CharacterOverviewFragment">
         <action
             android:id="@+id/action_characterOverviewFragment_to_characterDetailFragment"
@@ -17,6 +17,6 @@
     </fragment>
     <fragment
         android:id="@+id/characterDetailFragment"
-        android:name="com.example.comicdiscovery.feature.character.detail.CharacterDetailFragment"
+        android:name="com.alex.comicdiscovery.feature.character.detail.CharacterDetailFragment"
         android:label="CharacterDetailFragment" />
 </navigation>
