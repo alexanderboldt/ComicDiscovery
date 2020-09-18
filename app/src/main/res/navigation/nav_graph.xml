@@ -6,10 +6,14 @@
     <fragment
         android:id="@+id/characterOverviewFragment"
         android:name="com.example.comicdiscovery.feature.character.overview.CharacterOverviewFragment"
-        android:label="CharacterOverviewFragment" >
+        android:label="CharacterOverviewFragment">
         <action
             android:id="@+id/action_characterOverviewFragment_to_characterDetailFragment"
-            app:destination="@id/characterDetailFragment" />
+            app:destination="@id/characterDetailFragment"
+            app:enterAnim="@anim/slide_from_end_to_center"
+            app:exitAnim="@anim/slide_from_center_to_start"
+            app:popEnterAnim="@anim/slide_from_start_to_center"
+            app:popExitAnim="@anim/slide_from_center_to_end"/>
     </fragment>
     <fragment
         android:id="@+id/characterDetailFragment"

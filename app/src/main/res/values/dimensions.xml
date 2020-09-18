@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- TextView -->
     <dimen name="textAppearanceHeadline6">20sp</dimen>
     <dimen name="textAppearanceBody1">16sp</dimen>
 </resources>

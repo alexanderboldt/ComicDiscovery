@@ -11,6 +11,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.comicdiscovery.R
@@ -89,7 +90,7 @@ class CharacterOverviewFragment : Fragment() {
         })
 
         viewModel.detailState.observe(viewLifecycleOwner, Observer { state ->
-            findNavController().navigate(R.id.characterDetailFragment, bundleOf("id" to state))
+            findNavController().navigate(R.id.action_characterOverviewFragment_to_characterDetailFragment, bundleOf("id" to state))
         })
     }
 }
