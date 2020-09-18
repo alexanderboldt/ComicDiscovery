@@ -19,9 +19,15 @@ class CharacterDetailViewModel(
     private val _contentState = MutableLiveData<ContentState>()
     val contentState: LiveData<ContentState> = _contentState
 
+    private val _starState = MutableLiveData<Int>()
+    val starState: LiveData<Int> = _starState
+
     // true -> visible / false -> gone
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState: LiveData<Boolean> = _loadingState
+
+    private var currentId: Int = 0
+    private var isStarred = false
 
     // ----------------------------------------------------------------------------
 
@@ -29,11 +35,14 @@ class CharacterDetailViewModel(
         viewModelScope.launch {
             _loadingState.postValue(true)
 
-            when (val result = characterRepository.getCharacter("4005-$id")) {
+            currentId = id
+
+            when (val result = characterRepository.getCharacter(id)) {
                 is Result.Success -> {
                     _loadingState.postValue(false)
 
                     val character = result.data.result
+                    isStarred = character.isStarred
 
                     _loadingState.postValue(false)
                     _contentState.postValue(ContentState.CharacterState(Character(
@@ -46,6 +55,7 @@ class CharacterDetailViewModel(
                         "Powers\n ${character.powers.toString()}",
                         "Origin\n ${character.origin.toString()}"
                     )))
+                    _starState.postValue(getStarIcon())
                 }
                 is Result.Failure -> {
                     _loadingState.postValue(false)
@@ -54,4 +64,23 @@ class CharacterDetailViewModel(
             }
         }
     }
+
+    // ----------------------------------------------------------------------------
+
+    fun onClickStar() {
+        viewModelScope.launch {
+            val wasSuccessful = when (isStarred) {
+                true -> characterRepository.unstarCharacter(currentId)
+                false -> characterRepository.starCharacter(currentId)
+            }
+            if (wasSuccessful) {
+                isStarred = !isStarred
+                _starState.postValue(getStarIcon())
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------------
+
+    private fun getStarIcon() = if (isStarred) android.R.drawable.btn_star_big_on else android.R.drawable.btn_star_big_off
 }

@@ -152,8 +152,9 @@ dependencies {
     implementation(Deps.AndroidX.navigationFragment)
     implementation(Deps.AndroidX.navigationUi)
 
-//    implementation(Deps.AndroidX.room)
-//    kapt(Deps.AndroidX.roomCompiler)
+    implementation(Deps.AndroidX.room)
+    implementation(Deps.AndroidX.roomKtx)
+    kapt(Deps.AndroidX.roomCompiler)
 
     // 3rd-party libraries
 

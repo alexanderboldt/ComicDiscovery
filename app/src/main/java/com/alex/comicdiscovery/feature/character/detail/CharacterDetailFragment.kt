@@ -23,12 +23,19 @@ class CharacterDetailFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCharacterDetailBinding.inflate(inflater, container, false)
 
+        setupViewBinding()
         setupViewModel()
 
         return binding.root
     }
 
     // ----------------------------------------------------------------------------
+
+    private fun setupViewBinding() {
+        binding.imageViewStar.setOnClickListener {
+            viewModel.onClickStar()
+        }
+    }
 
     private fun setupViewModel() {
         viewModel.loadingState.observe { state ->
@@ -60,6 +67,10 @@ class CharacterDetailFragment : BaseFragment() {
                     }
                 }
             }
+        }
+
+        viewModel.starState.observe { state ->
+            binding.imageViewStar.setImageResource(state)
         }
 
         viewModel.init(requireArguments().getInt("id"))

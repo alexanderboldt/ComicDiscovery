@@ -27,6 +27,7 @@ object Deps {
 
         val roomVersion = "2.2.5"
         val room = "androidx.room:room-runtime:$roomVersion"
+        val roomKtx = "androidx.room:room-ktx:$roomVersion"
         val roomCompiler = "androidx.room:room-compiler:$roomVersion"
     }
 

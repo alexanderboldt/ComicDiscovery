@@ -10,5 +10,6 @@ data class CharacterDetail(
     val aliases: String?,
     val birth: String?,
     val powers: List<Power>,
-    val origin: String
+    val origin: String,
+    val isStarred: Boolean
 )

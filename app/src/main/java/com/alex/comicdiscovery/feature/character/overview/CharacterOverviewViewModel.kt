@@ -33,6 +33,7 @@ class CharacterOverviewViewModel(
     init {
         _loadingState.postValue(false)
         _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
+        search("barry")
     }
 
     // ----------------------------------------------------------------------------
