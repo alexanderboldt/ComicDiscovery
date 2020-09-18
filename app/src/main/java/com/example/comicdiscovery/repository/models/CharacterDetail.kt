@@ -7,8 +7,8 @@ data class CharacterDetail(
     val realName: String?,
     val image: Image,
     val gender: Int,
-    val aliases: String,
-    val birth: String,
+    val aliases: String?,
+    val birth: String?,
     val powers: List<Power>,
     val origin: String
 )

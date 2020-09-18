@@ -9,8 +9,8 @@ data class CharacterDetail(
     @Json(name = "real_name") val realName: String?,
     val image: Image,
     val gender: Int,
-    val aliases: String,
-    val birth: String,
+    val aliases: String?,
+    val birth: String?,
     val powers: List<Power>,
     val origin: Origin
 )
