@@ -9,17 +9,15 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.comicdiscovery.R
 import com.example.comicdiscovery.databinding.FragmentCharacterOverviewBinding
+import com.example.comicdiscovery.feature.base.BaseFragment
 import com.example.comicdiscovery.feature.character.overview.models.RecyclerViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CharacterOverviewFragment : Fragment() {
+class CharacterOverviewFragment : BaseFragment() {
 
     private val viewModel: CharacterOverviewViewModel by viewModel()
 
@@ -66,11 +64,11 @@ class CharacterOverviewFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel.loadingState.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.loadingState.observe { state ->
             binding.contentLoadingProgressBar.apply { if (state) show() else hide() }
-        })
+        }
 
-        viewModel.recyclerViewState.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.recyclerViewState.observe { state ->
             when (state) {
                 is RecyclerViewState.CharacterState -> {
                     binding.apply {
@@ -87,10 +85,10 @@ class CharacterOverviewFragment : Fragment() {
                     }
                 }
             }
-        })
+        }
 
-        viewModel.detailState.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.detailState.observe { state ->
             findNavController().navigate(R.id.action_characterOverviewFragment_to_characterDetailFragment, bundleOf("id" to state))
-        })
+        }
     }
 }
