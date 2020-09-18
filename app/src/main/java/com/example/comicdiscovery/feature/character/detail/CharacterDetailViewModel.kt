@@ -4,15 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.comicdiscovery.R
+import com.example.comicdiscovery.feature.base.ResourceProvider
 import com.example.comicdiscovery.feature.character.detail.models.Character
+import com.example.comicdiscovery.feature.character.detail.models.ContentState
 import com.example.comicdiscovery.repository.character.CharacterRepository
 import com.example.comicdiscovery.repository.models.Result
 import kotlinx.coroutines.launch
 
-class CharacterDetailViewModel(private val characterRepository: CharacterRepository) : ViewModel() {
+class CharacterDetailViewModel(
+    private val characterRepository: CharacterRepository,
+    private val resourceProvider: ResourceProvider) : ViewModel() {
 
-    private val _characterState = MutableLiveData<Character>()
-    val characterState: LiveData<Character> = _characterState
+    private val _contentState = MutableLiveData<ContentState>()
+    val contentState: LiveData<ContentState> = _contentState
 
     // true -> visible / false -> gone
     private val _loadingState = MutableLiveData<Boolean>()
@@ -31,7 +36,7 @@ class CharacterDetailViewModel(private val characterRepository: CharacterReposit
                     val character = result.data.result
 
                     _loadingState.postValue(false)
-                    _characterState.postValue(Character(
+                    _contentState.postValue(ContentState.CharacterState(Character(
                         character.image.iconUrl,
                         "Name\n ${character.name}",
                         "Real Name\n ${character.realName}",
@@ -40,11 +45,11 @@ class CharacterDetailViewModel(private val characterRepository: CharacterReposit
                         "Birth\n ${character.birth}",
                         "Powers\n ${character.powers.toString()}",
                         "Origin\n ${character.origin.toString()}"
-                    ))
+                    )))
                 }
                 is Result.Failure -> {
                     _loadingState.postValue(false)
-                    // todo
+                    _contentState.postValue(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error)))
                 }
             }
         }
