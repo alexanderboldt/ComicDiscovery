@@ -1,4 +1,4 @@
-package com.alex.comicdiscovery.feature.character.overview
+package com.alex.comicdiscovery.feature.character.starred
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,15 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.overview.models.Character
-import com.alex.comicdiscovery.feature.character.overview.models.RecyclerViewState
+import com.alex.comicdiscovery.feature.character.starred.models.Character
+import com.alex.comicdiscovery.feature.character.starred.models.RecyclerViewState
+import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.repository.models.Result
-import com.alex.comicdiscovery.repository.search.SearchRepository
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.launch
 
-class CharacterOverviewViewModel(
-    private val searchRepository: SearchRepository,
+class CharacterStarredViewModel(
+    private val characterRepository: CharacterRepository,
     private val resourceProvider: ResourceProvider) : ViewModel() {
 
     private val _recyclerViewState = MutableLiveData<RecyclerViewState>()
@@ -32,17 +32,12 @@ class CharacterOverviewViewModel(
 
     init {
         _loadingState.postValue(false)
-        _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
+
+        getCharacters()
     }
 
     // ----------------------------------------------------------------------------
 
-    fun onSubmitSearch(query: String?) {
-        when (query.isNullOrBlank()) {
-            true -> _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
-            false -> search(query)
-        }
-    }
 
     fun onClickCharacter(id: Int) {
         _detailState.postValue(id)
@@ -50,11 +45,11 @@ class CharacterOverviewViewModel(
 
     // ----------------------------------------------------------------------------
 
-    private fun search(query: String) {
+    private fun getCharacters() {
         viewModelScope.launch {
             _loadingState.postValue(true)
 
-            when (val result = searchRepository.getSearch(query)) {
+            when (val result = characterRepository.getStarredCharacters()) {
                 is Result.Success -> {
                     _loadingState.postValue(false)
                     result
@@ -63,14 +58,16 @@ class CharacterOverviewViewModel(
                         .map {  character -> Character(character.id, character.name, character.realName, character.image.iconUrl) }
                         .let { characters ->
                             when (characters.isEmpty()) {
-                                true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))
+                                true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_starred_message_no_entries))
                                 false -> RecyclerViewState.CharacterState(characters)
                             }
                         }.also { state -> _recyclerViewState.postValue(state) }
                 }
                 is Result.Failure -> {
                     _loadingState.postValue(false)
-                    _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_error)))
+                    _recyclerViewState.postValue(
+                        RecyclerViewState.MessageState(resourceProvider.getString(
+                            R.string.character_starred_message_error)))
                 }
             }
         }

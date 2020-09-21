@@ -1,10 +1,9 @@
-package com.alex.comicdiscovery.feature.character.overview
+package com.alex.comicdiscovery.feature.character.starred
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
@@ -12,24 +11,24 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alex.comicdiscovery.R
-import com.alex.comicdiscovery.databinding.FragmentCharacterOverviewBinding
+import com.alex.comicdiscovery.databinding.FragmentCharacterStarredBinding
 import com.alex.comicdiscovery.feature.base.BaseFragment
 import com.alex.comicdiscovery.feature.character.detail.CharacterDetailFragment
-import com.alex.comicdiscovery.feature.character.overview.models.RecyclerViewState
+import com.alex.comicdiscovery.feature.character.starred.models.RecyclerViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CharacterOverviewFragment : BaseFragment() {
+class CharacterStarredFragment : BaseFragment() {
 
-    private val viewModel: CharacterOverviewViewModel by viewModel()
+    private val viewModel: CharacterStarredViewModel by viewModel()
 
-    private lateinit var binding: FragmentCharacterOverviewBinding
+    private lateinit var binding: FragmentCharacterStarredBinding
 
-    private lateinit var adapter: CharacterOverviewAdapter
+    private lateinit var adapter: CharacterStarredAdapter
 
     // ----------------------------------------------------------------------------
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentCharacterOverviewBinding.inflate(inflater, container, false)
+        binding = FragmentCharacterStarredBinding.inflate(inflater, container, false)
 
         setupView()
         setupViewBinding()
@@ -41,7 +40,7 @@ class CharacterOverviewFragment : BaseFragment() {
     // ----------------------------------------------------------------------------
 
     private fun setupView() {
-        adapter = CharacterOverviewAdapter { id ->
+        adapter = CharacterStarredAdapter { id ->
             viewModel.onClickCharacter(id)
         }
 
@@ -53,14 +52,6 @@ class CharacterOverviewFragment : BaseFragment() {
     }
 
     private fun setupViewBinding() {
-        binding.searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.onSubmitSearch(query)
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?) = false
-        })
     }
 
     private fun setupViewModel() {
@@ -89,7 +80,7 @@ class CharacterOverviewFragment : BaseFragment() {
 
         viewModel.detailState.observe { state ->
             findNavController().navigate(
-                R.id.action_characterOverviewFragment_to_characterDetailFragment,
+                R.id.action_characterStarredFragment_to_characterDetailFragment,
                 CharacterDetailFragment.bundle(state, false))
         }
     }

@@ -31,35 +31,46 @@ class CharacterDetailViewModel(
 
     // ----------------------------------------------------------------------------
 
-    fun init(id: Int) {
+    fun init(id: Int, userComesFromStarredScreen: Boolean) {
         viewModelScope.launch {
             _loadingState.postValue(true)
 
             currentId = id
 
-            when (val result = characterRepository.getCharacter(id)) {
-                is Result.Success -> {
-                    _loadingState.postValue(false)
+            when (userComesFromStarredScreen) {
+                true -> characterRepository.getStarredCharacter(id)
+                false -> characterRepository.getCharacter(id)
+            }.also { result ->
+                when (result) {
+                    is Result.Success -> {
+                        _loadingState.postValue(false)
 
-                    val character = result.data.result
-                    isStarred = character.isStarred
+                        val character = result.data.result
+                        isStarred = character.isStarred
 
-                    _loadingState.postValue(false)
-                    _contentState.postValue(ContentState.CharacterState(Character(
-                        character.image.iconUrl,
-                        "Name\n ${character.name}",
-                        "Real Name\n ${character.realName}",
-                        "Aliases\n ${character.aliases}",
-                        "Gender\n ${character.gender.toString()}",
-                        "Birth\n ${character.birth}",
-                        "Powers\n ${character.powers.toString()}",
-                        "Origin\n ${character.origin.toString()}"
-                    )))
-                    _starState.postValue(getStarIcon())
-                }
-                is Result.Failure -> {
-                    _loadingState.postValue(false)
-                    _contentState.postValue(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error)))
+                        _loadingState.postValue(false)
+                        _contentState.postValue(
+                            ContentState.CharacterState(
+                                Character(
+                                    character.image.iconUrl,
+                                    "Name\n ${character.name}",
+                                    "Real Name\n ${character.realName}",
+                                    "Aliases\n ${character.aliases}",
+                                    "Gender\n ${character.gender}",
+                                    "Birth\n ${character.birth}",
+                                    "Powers\n ${character.powers}",
+                                    "Origin\n ${character.origin}"
+                                )
+                            )
+                        )
+                        _starState.postValue(getStarIcon())
+                    }
+                    is Result.Failure -> {
+                        _loadingState.postValue(false)
+                        _contentState.postValue(
+                            ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error))
+                        )
+                    }
                 }
             }
         }

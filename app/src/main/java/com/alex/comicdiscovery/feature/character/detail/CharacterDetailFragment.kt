@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import com.bumptech.glide.request.RequestOptions
 import com.alex.comicdiscovery.databinding.FragmentCharacterDetailBinding
 import com.alex.comicdiscovery.feature.base.BaseFragment
 import com.alex.comicdiscovery.feature.character.detail.models.ContentState
+import com.bumptech.glide.request.RequestOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CharacterDetailFragment : BaseFragment() {
@@ -17,6 +18,16 @@ class CharacterDetailFragment : BaseFragment() {
     private val viewModel: CharacterDetailViewModel by viewModel()
 
     private lateinit var binding: FragmentCharacterDetailBinding
+
+    // ----------------------------------------------------------------------------
+
+    companion object {
+        private const val KEY_ID = "KEY_ID"
+        private const val KEY_SCREEN = "KEY_SCREEN"
+
+        fun bundle(id: Int, userComesFromStarredScreen: Boolean)
+                = bundleOf(KEY_ID to id, KEY_SCREEN to userComesFromStarredScreen)
+    }
 
     // ----------------------------------------------------------------------------
 
@@ -73,6 +84,6 @@ class CharacterDetailFragment : BaseFragment() {
             binding.imageViewStar.setImageResource(state)
         }
 
-        viewModel.init(requireArguments().getInt("id"))
+        requireArguments().apply { viewModel.init(getInt(KEY_ID), getBoolean(KEY_SCREEN)) }
     }
 }

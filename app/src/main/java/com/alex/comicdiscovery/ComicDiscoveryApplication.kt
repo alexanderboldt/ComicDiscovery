@@ -4,6 +4,7 @@ import android.app.Application
 import com.alex.comicdiscovery.feature.base.di.resourceProviderModule
 import com.alex.comicdiscovery.feature.character.detail.di.characterDetailModule
 import com.alex.comicdiscovery.feature.character.overview.di.characterOverviewModule
+import com.alex.comicdiscovery.feature.character.starred.di.characterStarredModule
 import com.alex.comicdiscovery.repository.api.ApiClient
 import com.alex.comicdiscovery.repository.character.di.characterRepositoryModule
 import com.alex.comicdiscovery.repository.database.ComicDiscoveryDatabase
@@ -37,6 +38,7 @@ class ComicDiscoveryApplication : Application() {
             modules(
                 listOf(
                     characterOverviewModule,
+                    characterStarredModule,
                     characterDetailModule,
                     resourceProviderModule,
                     searchRepositoryModule,
