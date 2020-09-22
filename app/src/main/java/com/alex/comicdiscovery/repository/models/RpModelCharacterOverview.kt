@@ -1,8 +1,8 @@
 package com.alex.comicdiscovery.repository.models
 
-data class CharacterOverview(
+data class RpModelCharacterOverview(
     val id: Int,
     val name: String,
     val realName: String?,
-    val image: Image
+    val image: RpModelImage
 )

@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.alex.comicdiscovery.databinding.ItemCharacterOverviewBinding
-import com.alex.comicdiscovery.feature.character.starred.models.Character
+import com.alex.comicdiscovery.feature.character.starred.models.UiModelCharacter
 import com.bumptech.glide.request.RequestOptions
 
 class CharacterStarredAdapter(val characterClick: (Int) -> Unit) : RecyclerView.Adapter<CharacterStarredAdapter.ViewHolder>() {
 
-    private val characters = mutableListOf<Character>()
+    private val characters = mutableListOf<UiModelCharacter>()
 
     // ----------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ class CharacterStarredAdapter(val characterClick: (Int) -> Unit) : RecyclerView.
 
     // ----------------------------------------------------------------------------
 
-    fun setCharacters(characters: List<Character>) {
+    fun setCharacters(characters: List<UiModelCharacter>) {
         this.characters.apply {
             clear()
             addAll(characters)

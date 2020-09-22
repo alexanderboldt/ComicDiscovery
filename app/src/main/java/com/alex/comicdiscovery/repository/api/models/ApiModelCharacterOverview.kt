@@ -4,13 +4,9 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class CharacterDetail(
+data class ApiModelCharacterOverview(
+    val id: Int,
     val name: String,
     @Json(name = "real_name") val realName: String?,
-    val image: Image,
-    val gender: Int,
-    val aliases: String?,
-    val birth: String?,
-    val powers: List<Power>,
-    val origin: Origin
+    val image: ApiModelImage
 )

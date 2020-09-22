@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.detail.models.Character
+import com.alex.comicdiscovery.feature.character.detail.models.UiModelCharacter
 import com.alex.comicdiscovery.feature.character.detail.models.ContentState
 import com.alex.comicdiscovery.repository.character.CharacterRepository
-import com.alex.comicdiscovery.repository.models.Result
+import com.alex.comicdiscovery.repository.models.RpModelResult
 import kotlinx.coroutines.launch
 
 class CharacterDetailViewModel(
@@ -42,7 +42,7 @@ class CharacterDetailViewModel(
                 false -> characterRepository.getCharacter(id)
             }.also { result ->
                 when (result) {
-                    is Result.Success -> {
+                    is RpModelResult.Success -> {
                         _loadingState.postValue(false)
 
                         val character = result.data.result
@@ -51,8 +51,8 @@ class CharacterDetailViewModel(
                         _loadingState.postValue(false)
                         _contentState.postValue(
                             ContentState.CharacterState(
-                                Character(
-                                    character.image.iconUrl,
+                                UiModelCharacter(
+                                    character.image.smallUrl,
                                     "Name\n ${character.name}",
                                     "Real Name\n ${character.realName}",
                                     "Aliases\n ${character.aliases}",
@@ -65,7 +65,7 @@ class CharacterDetailViewModel(
                         )
                         _starState.postValue(getStarIcon())
                     }
-                    is Result.Failure -> {
+                    is RpModelResult.Failure -> {
                         _loadingState.postValue(false)
                         _contentState.postValue(
                             ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error))

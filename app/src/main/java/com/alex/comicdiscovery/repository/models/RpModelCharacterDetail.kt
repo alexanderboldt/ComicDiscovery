@@ -1,15 +1,14 @@
 package com.alex.comicdiscovery.repository.models
 
-import com.alex.comicdiscovery.repository.api.models.Power
-
-data class CharacterDetail(
+data class RpModelCharacterDetail(
+    val id: Int,
     val name: String,
     val realName: String?,
-    val image: Image,
+    val image: RpModelImage,
     val gender: Int,
     val aliases: String?,
     val birth: String?,
-    val powers: List<Power>,
+    val powers: List<String>,
     val origin: String,
     val isStarred: Boolean
 )

@@ -5,15 +5,15 @@ import androidx.room.*
 @Dao
 interface CharacterDao {
 
-    @Query("select * from character")
-    suspend fun getAll(): List<Character>
+    @Query("select * from DbModelCharacter")
+    suspend fun getAll(): List<DbModelCharacter>
 
-    @Query("SELECT * FROM character WHERE id = :id")
-    suspend fun getCharacter(id: Int): Character?
+    @Query("SELECT * FROM DbModelCharacter WHERE id = :id")
+    suspend fun getCharacter(id: Int): DbModelCharacter?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(character: Character): Long
+    suspend fun insert(character: DbModelCharacter): Long
 
-    @Query("DELETE FROM character WHERE id = :id")
+    @Query("DELETE FROM DbModelCharacter WHERE id = :id")
     fun delete(id: Int): Int
 }

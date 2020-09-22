@@ -1,14 +1,14 @@
 package com.alex.comicdiscovery.repository.search
 
 import com.alex.comicdiscovery.repository.api.ApiClient
-import com.alex.comicdiscovery.repository.models.CharacterOverview
-import com.alex.comicdiscovery.repository.models.Image
-import com.alex.comicdiscovery.repository.models.Response
-import com.alex.comicdiscovery.repository.models.Result
+import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
+import com.alex.comicdiscovery.repository.models.RpModelResponse
+import com.alex.comicdiscovery.repository.models.RpModelResult
+import com.alex.comicdiscovery.util.mapping.CharacterMapper
 
 class SearchRepository {
 
-    suspend fun getSearch(query: String): Result<Response<List<CharacterOverview>>> {
+    suspend fun getSearch(query: String): RpModelResult<RpModelResponse<List<RpModelCharacterOverview>>> {
         return try {
             ApiClient
                 .getInterface()
@@ -20,21 +20,14 @@ class SearchRepository {
                         "resources" to "character",
                         "field_list" to "id,name,real_name,image"))
                 .let { response ->
-                    Response(
+                    RpModelResponse(
                         response.numberOfPageResults,
                         response.numberOfTotalResults,
-                        response.results.map {
-                            CharacterOverview(
-                                it.id,
-                                it.name,
-                                it.realName,
-                                Image(it.image.smallUrl)
-                            )
-                        }
+                        CharacterMapper.mapApiModelOverviewToRpModelOverview(response.results)
                     )
-                }.let { response -> Result.Success(response) }
+                }.let { response -> RpModelResult.Success(response) }
         } catch (throwable: Throwable) {
-            Result.Failure(throwable)
+            RpModelResult.Failure(throwable)
         }
     }
 }

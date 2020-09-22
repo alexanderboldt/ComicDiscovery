@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.overview.models.Character
+import com.alex.comicdiscovery.feature.character.overview.models.UiModelCharacter
 import com.alex.comicdiscovery.feature.character.overview.models.RecyclerViewState
-import com.alex.comicdiscovery.repository.models.Result
+import com.alex.comicdiscovery.repository.models.RpModelResult
 import com.alex.comicdiscovery.repository.search.SearchRepository
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.launch
@@ -55,12 +55,12 @@ class CharacterOverviewViewModel(
             _loadingState.postValue(true)
 
             when (val result = searchRepository.getSearch(query)) {
-                is Result.Success -> {
+                is RpModelResult.Success -> {
                     _loadingState.postValue(false)
                     result
                         .data
                         .result
-                        .map {  character -> Character(character.id, character.name, character.realName, character.image.iconUrl) }
+                        .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.image.smallUrl) }
                         .let { characters ->
                             when (characters.isEmpty()) {
                                 true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))
@@ -68,7 +68,7 @@ class CharacterOverviewViewModel(
                             }
                         }.also { state -> _recyclerViewState.postValue(state) }
                 }
-                is Result.Failure -> {
+                is RpModelResult.Failure -> {
                     _loadingState.postValue(false)
                     _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_error)))
                 }

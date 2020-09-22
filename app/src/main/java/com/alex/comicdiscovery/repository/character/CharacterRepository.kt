@@ -1,74 +1,53 @@
 package com.alex.comicdiscovery.repository.character
 
 import com.alex.comicdiscovery.repository.api.ApiClient
-import com.alex.comicdiscovery.repository.api.models.Power
 import com.alex.comicdiscovery.repository.database.ComicDiscoveryDatabase
-import com.alex.comicdiscovery.repository.database.character.Character
 import com.alex.comicdiscovery.repository.models.*
+import com.alex.comicdiscovery.util.mapping.CharacterMapper
 
 class CharacterRepository {
 
-    suspend fun getCharacter(id: Int): Result<Response<CharacterDetail>> {
+    suspend fun getCharacter(id: Int): RpModelResult<RpModelResponse<RpModelCharacterDetail>> {
         return try {
             ApiClient
                 .getInterface()
                 .getCharacter(
                     "4005-$id",
-                    mapOf("field_list" to "name,real_name,image,aliases,birth,gender,powers,origin"))
+                    mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin"))
                 .let { response ->
-                    Response(
+                    RpModelResponse(
                         response.numberOfPageResults,
                         response.numberOfTotalResults,
-                        CharacterDetail(
-                            response.results.name,
-                            response.results.realName,
-                            Image(response.results.image.smallUrl),
-                            response.results.gender,
-                            response.results.aliases,
-                            response.results.birth,
-                            response.results.powers,
-                            response.results.origin.name,
-                            ComicDiscoveryDatabase.database.characterDao().getCharacter(id) != null
-                        )
+                        CharacterMapper.mapApiModelDetailToRpModelDetail(
+                            response.results,
+                            ComicDiscoveryDatabase.database.characterDao().getCharacter(id) != null)
                     )
-                }.let { response -> Result.Success(response) }
+                }.let { response -> RpModelResult.Success(response) }
         } catch (throwable: Throwable) {
-            Result.Failure(throwable)
+            RpModelResult.Failure(throwable)
         }
     }
 
     // ----------------------------------------------------------------------------
 
-    suspend fun getStarredCharacters(): Result<Response<List<CharacterOverview>>> {
+    suspend fun getStarredCharacters(): RpModelResult<RpModelResponse<List<RpModelCharacterOverview>>> {
         return ComicDiscoveryDatabase
             .database
             .characterDao()
             .getAll()
-            .map { character ->
-                CharacterOverview(character.id, character.name, character.realName, Image(character.smallImageUrl))
-            }.let { characters -> Response(characters.size, characters.size, characters) }
-            .let { response -> Result.Success(response) }
+            .let { characters -> CharacterMapper.mapDbModelToRpModelOverview(characters) }
+            .let { characters -> RpModelResponse(characters.size, characters.size, characters) }
+            .let { response -> RpModelResult.Success(response) }
     }
 
-    suspend fun getStarredCharacter(id: Int): Result<Response<CharacterDetail>> {
+    suspend fun getStarredCharacter(id: Int): RpModelResult<RpModelResponse<RpModelCharacterDetail>> {
         return ComicDiscoveryDatabase
             .database
             .characterDao()
             .getCharacter(id)!!
-            .let { character ->
-                CharacterDetail(
-                    character.name,
-                    character.realName,
-                    Image(character.smallImageUrl),
-                    character.gender,
-                    character.aliases,
-                    character.birth,
-                    character.powers.split(";").map { Power(it) },
-                    character.origin,
-                    true,
-                )
-            }.let { character -> Response(1, 1, character) }
-            .let { response -> Result.Success(response) }
+            .let { character -> CharacterMapper.mapDbModelToRpModelDetail(character,true) }
+            .let { character -> RpModelResponse(1, 1, character) }
+            .let { response -> RpModelResult.Success(response) }
     }
 
     // ----------------------------------------------------------------------------
@@ -79,22 +58,10 @@ class CharacterRepository {
                 .getInterface()
                 .getCharacter(
                     "4005-$id",
-                    mapOf("field_list" to "name,real_name,image,aliases,birth,gender,powers,origin"))
+                    mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin"))
                 .results
-                .let { character ->
-                    Character(
-                        id,
-                        character.name,
-                        character.realName,
-                        character.image.smallUrl,
-                        character.gender,
-                        character.aliases,
-                        character.birth,
-                        character.powers.joinToString(";"),
-                        character.origin.name)
-                }.also { dbCharacter ->
-                    ComicDiscoveryDatabase.database.characterDao().insert(dbCharacter)
-                }
+                .let { character -> CharacterMapper.mapApiModelDetailToDbModel(character) }
+                .also { dbCharacter -> ComicDiscoveryDatabase.database.characterDao().insert(dbCharacter) }
             true
         } catch (throwable: Throwable) {
             false

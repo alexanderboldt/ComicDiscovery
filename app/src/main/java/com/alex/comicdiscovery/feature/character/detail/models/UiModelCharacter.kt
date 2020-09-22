@@ -1,6 +1,6 @@
 package com.alex.comicdiscovery.feature.character.detail.models
 
-data class Character(
+data class UiModelCharacter(
     val imageUrl: String,
     val name: String,
     val realName: String?,
