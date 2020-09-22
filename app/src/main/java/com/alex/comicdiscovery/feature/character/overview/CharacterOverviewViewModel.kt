@@ -11,6 +11,8 @@ import com.alex.comicdiscovery.feature.character.overview.models.RecyclerViewSta
 import com.alex.comicdiscovery.repository.models.RpModelResult
 import com.alex.comicdiscovery.repository.search.SearchRepository
 import com.hadilq.liveevent.LiveEvent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CharacterOverviewViewModel(
@@ -51,7 +53,8 @@ class CharacterOverviewViewModel(
     // ----------------------------------------------------------------------------
 
     private fun search(query: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
+
             _loadingState.postValue(true)
 
             when (val result = searchRepository.getSearch(query)) {

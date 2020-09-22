@@ -11,6 +11,7 @@ import com.alex.comicdiscovery.feature.character.starred.models.RecyclerViewStat
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.repository.models.RpModelResult
 import com.hadilq.liveevent.LiveEvent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CharacterStarredViewModel(
@@ -46,7 +47,7 @@ class CharacterStarredViewModel(
     // ----------------------------------------------------------------------------
 
     private fun getCharacters() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _loadingState.postValue(true)
 
             when (val result = characterRepository.getStarredCharacters()) {

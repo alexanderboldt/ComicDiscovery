@@ -10,6 +10,7 @@ import com.alex.comicdiscovery.feature.character.detail.models.UiModelCharacter
 import com.alex.comicdiscovery.feature.character.detail.models.ContentState
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.repository.models.RpModelResult
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CharacterDetailViewModel(
@@ -32,7 +33,8 @@ class CharacterDetailViewModel(
     // ----------------------------------------------------------------------------
 
     fun init(id: Int, userComesFromStarredScreen: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
+
             _loadingState.postValue(true)
 
             currentId = id
@@ -79,7 +81,7 @@ class CharacterDetailViewModel(
     // ----------------------------------------------------------------------------
 
     fun onClickStar() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val wasSuccessful = when (isStarred) {
                 true -> characterRepository.unstarCharacter(currentId)
                 false -> characterRepository.starCharacter(currentId)
