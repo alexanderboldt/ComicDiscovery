@@ -53,7 +53,7 @@ class CharacterOverviewViewModel(
     // ----------------------------------------------------------------------------
 
     private fun search(query: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
 
             _loadingState.postValue(true)
 

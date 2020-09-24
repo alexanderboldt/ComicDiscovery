@@ -47,7 +47,7 @@ class CharacterStarredViewModel(
     // ----------------------------------------------------------------------------
 
     private fun getCharacters() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _loadingState.postValue(true)
 
             when (val result = characterRepository.getStarredCharacters()) {

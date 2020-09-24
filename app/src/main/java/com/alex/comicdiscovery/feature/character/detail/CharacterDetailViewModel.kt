@@ -33,7 +33,7 @@ class CharacterDetailViewModel(
     // ----------------------------------------------------------------------------
 
     fun init(id: Int, userComesFromStarredScreen: Boolean) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
 
             _loadingState.postValue(true)
 
@@ -81,7 +81,7 @@ class CharacterDetailViewModel(
     // ----------------------------------------------------------------------------
 
     fun onClickStar() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val wasSuccessful = when (isStarred) {
                 true -> characterRepository.unstarCharacter(currentId)
                 false -> characterRepository.starCharacter(currentId)
