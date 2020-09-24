@@ -11,14 +11,16 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    private lateinit var api: ApiRoutes
-
     private const val TIMEOUT: Long = 30
 
     // ----------------------------------------------------------------------------
 
-    fun init() {
-        api = OkHttpClient.Builder()
+    val routes: ApiRoutes
+
+    // ----------------------------------------------------------------------------
+
+    init {
+        routes = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request()
 
@@ -55,6 +57,4 @@ object ApiClient {
                     .create(ApiRoutes::class.java)
             }
     }
-
-    fun getInterface() = api
 }

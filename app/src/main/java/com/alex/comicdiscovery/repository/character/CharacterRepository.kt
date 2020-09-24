@@ -10,7 +10,7 @@ class CharacterRepository {
     suspend fun getCharacter(id: Int): RpModelResult<RpModelResponse<RpModelCharacterDetail>> {
         return try {
             ApiClient
-                .getInterface()
+                .routes
                 .getCharacter(
                     "4005-$id",
                     mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin"))
@@ -55,7 +55,7 @@ class CharacterRepository {
     suspend fun starCharacter(id: Int): Boolean {
         return try {
             ApiClient
-                .getInterface()
+                .routes
                 .getCharacter(
                     "4005-$id",
                     mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin"))

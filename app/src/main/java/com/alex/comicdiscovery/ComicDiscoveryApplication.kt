@@ -5,7 +5,6 @@ import com.alex.comicdiscovery.feature.base.di.resourceProviderModule
 import com.alex.comicdiscovery.feature.character.detail.di.characterDetailModule
 import com.alex.comicdiscovery.feature.character.overview.di.characterOverviewModule
 import com.alex.comicdiscovery.feature.character.starred.di.characterStarredModule
-import com.alex.comicdiscovery.repository.api.ApiClient
 import com.alex.comicdiscovery.repository.character.di.characterRepositoryModule
 import com.alex.comicdiscovery.repository.database.ComicDiscoveryDatabase
 import com.alex.comicdiscovery.repository.search.di.searchRepositoryModule
@@ -17,16 +16,11 @@ class ComicDiscoveryApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        setupRetrofit()
         setupDatabase()
         setupKoin()
     }
 
     // ----------------------------------------------------------------------------
-
-    private fun setupRetrofit() {
-        ApiClient.init()
-    }
 
     private fun setupDatabase() {
         ComicDiscoveryDatabase.init(this)

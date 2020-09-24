@@ -11,7 +11,7 @@ class SearchRepository {
     suspend fun getSearch(query: String): RpModelResult<RpModelResponse<List<RpModelCharacterOverview>>> {
         return try {
             ApiClient
-                .getInterface()
+                .routes
                 .getSearch(
                     mapOf(
                         "query" to query,
