@@ -11,6 +11,7 @@ import com.alex.comicdiscovery.feature.character.detail.models.ContentState
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.repository.models.RpModelResult
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class CharacterDetailViewModel(
@@ -33,7 +34,7 @@ class CharacterDetailViewModel(
     // ----------------------------------------------------------------------------
 
     fun init(id: Int, userComesFromStarredScreen: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
 
             _loadingState.postValue(true)
 
@@ -42,7 +43,7 @@ class CharacterDetailViewModel(
             when (userComesFromStarredScreen) {
                 true -> characterRepository.getStarredCharacter(id)
                 false -> characterRepository.getCharacter(id)
-            }.also { result ->
+            }.collect { result ->
                 when (result) {
                     is RpModelResult.Success -> {
                         _loadingState.postValue(false)
@@ -81,14 +82,15 @@ class CharacterDetailViewModel(
     // ----------------------------------------------------------------------------
 
     fun onClickStar() {
-        viewModelScope.launch {
-            val wasSuccessful = when (isStarred) {
+        viewModelScope.launch(Dispatchers.Main) {
+            when (isStarred) {
                 true -> characterRepository.unstarCharacter(currentId)
                 false -> characterRepository.starCharacter(currentId)
-            }
-            if (wasSuccessful) {
-                isStarred = !isStarred
-                _starState.postValue(getStarIcon())
+            }.collect { wasSuccessful ->
+                if (wasSuccessful) {
+                    isStarred = !isStarred
+                    _starState.postValue(getStarIcon())
+                }
             }
         }
     }

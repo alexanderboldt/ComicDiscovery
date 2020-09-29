@@ -12,6 +12,7 @@ import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.repository.models.RpModelResult
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class CharacterStarredViewModel(
@@ -47,30 +48,45 @@ class CharacterStarredViewModel(
     // ----------------------------------------------------------------------------
 
     private fun getCharacters() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             _loadingState.postValue(true)
 
-            when (val result = characterRepository.getStarredCharacters()) {
-                is RpModelResult.Success -> {
+            characterRepository
+                .getStarredCharacters()
+                .collect { result ->
                     _loadingState.postValue(false)
-                    result
-                        .data
-                        .result
-                        .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.image.smallUrl) }
-                        .let { characters ->
-                            when (characters.isEmpty()) {
-                                true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_starred_message_no_entries))
-                                false -> RecyclerViewState.CharacterState(characters)
-                            }
-                        }.also { state -> _recyclerViewState.postValue(state) }
+
+                    when (result) {
+                        is RpModelResult.Success -> {
+                            result
+                                .data
+                                .result
+                                .map { character ->
+                                    UiModelCharacter(
+                                        character.id,
+                                        character.name,
+                                        character.realName,
+                                        character.image.smallUrl
+                                    )
+                                }
+                                .let { characters ->
+                                    when (characters.isEmpty()) {
+                                        true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_starred_message_no_entries))
+                                        false -> RecyclerViewState.CharacterState(characters)
+                                    }
+                                }.also { state -> _recyclerViewState.postValue(state) }
+                        }
+                        is RpModelResult.Failure -> {
+                            _recyclerViewState.postValue(
+                                RecyclerViewState.MessageState(
+                                    resourceProvider.getString(
+                                        R.string.character_starred_message_error
+                                    )
+                                )
+                            )
+                        }
+                    }
                 }
-                is RpModelResult.Failure -> {
-                    _loadingState.postValue(false)
-                    _recyclerViewState.postValue(
-                        RecyclerViewState.MessageState(resourceProvider.getString(
-                            R.string.character_starred_message_error)))
-                }
-            }
         }
     }
 }

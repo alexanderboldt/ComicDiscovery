@@ -6,12 +6,14 @@ import com.alex.comicdiscovery.repository.models.RpModelResponse
 import com.alex.comicdiscovery.repository.models.RpModelResult
 import com.alex.comicdiscovery.util.mapping.CharacterMapper
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 
 class SearchRepository {
 
-    suspend fun getSearch(query: String): RpModelResult<RpModelResponse<List<RpModelCharacterOverview>>> {
-        return withContext(Dispatchers.IO) {
+    suspend fun getSearch(query: String): Flow<RpModelResult<RpModelResponse<List<RpModelCharacterOverview>>>> {
+        return flowOf(withContext(Dispatchers.IO) {
             try {
                 ApiClient
                     .routes
@@ -32,6 +34,6 @@ class SearchRepository {
             } catch (throwable: Throwable) {
                 RpModelResult.Failure<RpModelResponse<List<RpModelCharacterOverview>>>(throwable)
             }
-        }
+        })
     }
 }
