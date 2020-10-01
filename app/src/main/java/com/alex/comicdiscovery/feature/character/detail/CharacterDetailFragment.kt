@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.alex.comicdiscovery.databinding.FragmentCharacterDetailBinding
 import com.alex.comicdiscovery.feature.base.BaseFragment
 import com.alex.comicdiscovery.feature.character.detail.models.ContentState
 import com.bumptech.glide.request.RequestOptions
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.ldralighieri.corbind.view.clicks
 
 class CharacterDetailFragment : BaseFragment() {
 
@@ -43,8 +46,10 @@ class CharacterDetailFragment : BaseFragment() {
     // ----------------------------------------------------------------------------
 
     private fun setupViewBinding() {
-        binding.imageViewStar.setOnClickListener {
-            viewModel.onClickStar()
+        lifecycleScope.launch {
+            binding.imageViewStar.clicks {
+                viewModel.onClickStar()
+            }
         }
     }
 

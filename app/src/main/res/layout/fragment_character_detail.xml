@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="glideImageView,viewSwitcher_star,textView_name,textView_real_name,textView_birth,textView_aliases,textView_gender,textView_origin,textView_powers" />
+            app:constraint_referenced_ids="glideImageView,imageView_star,textView_name,textView_real_name,textView_birth,textView_aliases,textView_gender,textView_origin,textView_powers" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             style="?android:attr/progressBarStyleLarge"

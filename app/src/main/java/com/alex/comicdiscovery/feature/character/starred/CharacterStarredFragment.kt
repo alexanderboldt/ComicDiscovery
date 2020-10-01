@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -31,7 +30,6 @@ class CharacterStarredFragment : BaseFragment() {
         binding = FragmentCharacterStarredBinding.inflate(inflater, container, false)
 
         setupView()
-        setupViewBinding()
         setupViewModel()
 
         return binding.root
@@ -40,18 +38,13 @@ class CharacterStarredFragment : BaseFragment() {
     // ----------------------------------------------------------------------------
 
     private fun setupView() {
-        adapter = CharacterStarredAdapter { id ->
-            viewModel.onClickCharacter(id)
-        }
+        adapter = CharacterStarredAdapter(viewModel::onClickCharacter)
 
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
             it.setHasFixedSize(true)
         }
-    }
-
-    private fun setupViewBinding() {
     }
 
     private fun setupViewModel() {

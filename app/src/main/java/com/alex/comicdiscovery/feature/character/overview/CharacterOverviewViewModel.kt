@@ -30,6 +30,9 @@ class CharacterOverviewViewModel(
     private val _detailState = LiveEvent<Int>()
     val detailState: LiveData<Int> = _detailState
 
+    private val _hideKeyboardState = MutableLiveData<Unit>()
+    val hideKeyboardState: LiveData<Unit> = _hideKeyboardState
+
     // ----------------------------------------------------------------------------
 
     init {
@@ -42,7 +45,10 @@ class CharacterOverviewViewModel(
     fun onSubmitSearch(query: String?) {
         when (query.isNullOrBlank()) {
             true -> _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
-            false -> search(query)
+            false -> {
+                search(query)
+                _hideKeyboardState.postValue(Unit)
+            }
         }
     }
 

@@ -1,14 +1,15 @@
 package com.alex.comicdiscovery.feature.character.overview
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alex.comicdiscovery.R
@@ -16,7 +17,9 @@ import com.alex.comicdiscovery.databinding.FragmentCharacterOverviewBinding
 import com.alex.comicdiscovery.feature.base.BaseFragment
 import com.alex.comicdiscovery.feature.character.detail.CharacterDetailFragment
 import com.alex.comicdiscovery.feature.character.overview.models.RecyclerViewState
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.ldralighieri.corbind.appcompat.queryTextChangeEvents
 
 class CharacterOverviewFragment : BaseFragment() {
 
@@ -41,9 +44,7 @@ class CharacterOverviewFragment : BaseFragment() {
     // ----------------------------------------------------------------------------
 
     private fun setupView() {
-        adapter = CharacterOverviewAdapter { id ->
-            viewModel.onClickCharacter(id)
-        }
+        adapter = CharacterOverviewAdapter(viewModel::onClickCharacter)
 
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
@@ -53,14 +54,11 @@ class CharacterOverviewFragment : BaseFragment() {
     }
 
     private fun setupViewBinding() {
-        binding.searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.onSubmitSearch(query)
-                return false
+        lifecycleScope.launch {
+            binding.searchView.queryTextChangeEvents { event ->
+                if (event.isSubmitted) viewModel.onSubmitSearch(event.queryText.toString())
             }
-
-            override fun onQueryTextChange(newText: String?) = false
-        })
+        }
     }
 
     private fun setupViewModel() {
@@ -91,6 +89,13 @@ class CharacterOverviewFragment : BaseFragment() {
             findNavController().navigate(
                 R.id.action_characterOverviewFragment_to_characterDetailFragment,
                 CharacterDetailFragment.bundle(state, false))
+        }
+
+        viewModel.hideKeyboardState.observe {
+            activity
+                ?.getSystemService(Context.INPUT_METHOD_SERVICE)
+                .run { this as InputMethodManager }
+                .run { hideSoftInputFromWindow(view?.windowToken, 0) }
         }
     }
 }

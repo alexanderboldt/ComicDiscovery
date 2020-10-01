@@ -12,19 +12,30 @@ object Deps {
         val recyclerView = "androidx.recyclerview:recyclerview:1.1.0"
         val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.1"
 
+        // lifecycle
+
         val lifecycleVersion = "2.2.0"
+
+        // LifecycleRegistry, LifecycleRegistryOwner
         val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion"
+
+        // coroutineScope() on Lifecycle, lifecycleScope on LifecycleOwner
         val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
-        val lifecycleCommonJava = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+
+        // Annotation processor
         val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
+
+        // viewModelScope for coroutines
         val lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
         val fragmentsExt = "androidx.fragment:fragment-ktx:1.2.5"
 
+        // navigation-component
         val navVersion = "2.3.0"
         val navigationFragment = "androidx.navigation:navigation-fragment-ktx:$navVersion"
         val navigationUi = "androidx.navigation:navigation-ui-ktx:$navVersion"
 
+        // room
         val roomVersion = "2.2.5"
         val room = "androidx.room:room-runtime:$roomVersion"
         val roomKtx = "androidx.room:room-ktx:$roomVersion"
@@ -42,16 +53,14 @@ object Deps {
         val activityTestRule = "androidx.test:rules:1.1.0"
         val espressoCore = "androidx.test.espresso:espresso-core:3.1.0"
 
-        val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.0-RC2"
+        val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9"
     }
 
     object Libs {
         val kotlinVersion = "1.4.0"
         val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
-        val androidCore = "com.github.alexanderboldt:androidcore:2.0.0"
-
-        val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC2"
+        val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
 
         val timber = "com.jakewharton.timber:timber:4.7.1"
 
@@ -76,15 +85,14 @@ object Deps {
         val parcel = "org.parceler:parceler-api:$parcelVersion"
         val parcelCompiler = "org.parceler:parceler:$parcelVersion"
 
-        val rxbindingVersion = "4.0.0"
-        val rxbinding = "com.jakewharton.rxbinding4:rxbinding:$rxbindingVersion"
-        val rxbindingAppcompat = "com.jakewharton.rxbinding4:rxbinding-appcompat:$rxbindingVersion"
-        val rxbindingSwiperefreshlayout = "com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:$rxbindingVersion"
-
         val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
 
         val koinVersion = "2.1.6"
         val koin = "org.koin:koin-android:$koinVersion"
         val koinViewModel = "org.koin:koin-androidx-viewmodel:$koinVersion"
+
+        val flowBindingVersion = "1.4.0"
+        val flowBinding = "ru.ldralighieri.corbind:corbind:$flowBindingVersion"
+        val flowBindingAppCompat = "ru.ldralighieri.corbind:corbind-appcompat:$flowBindingVersion"
     }
 }

@@ -144,6 +144,7 @@ dependencies {
     implementation(Deps.AndroidX.recyclerView)
     implementation(Deps.AndroidX.constraintLayout)
 
+    implementation(Deps.AndroidX.lifecycleRuntimeKtx)
     kapt(Deps.AndroidX.lifecycleCompiler)
     implementation(Deps.AndroidX.lifecycleViewModelKtx)
 
@@ -157,6 +158,9 @@ dependencies {
     kapt(Deps.AndroidX.roomCompiler)
 
     // 3rd-party libraries
+
+    // coroutines
+    implementation(Deps.Libs.coroutinesCore)
 
     // logging
     implementation(Deps.Libs.timber)
@@ -175,15 +179,14 @@ dependencies {
 
     implementation(Deps.Libs.liveEvent)
 
-//    // view-binding
-//    implementation(Deps.Libs.rxbinding)
-//    implementation(Deps.Libs.rxbindingAppcompat)
-//    implementation(Deps.Libs.rxbindingSwiperefreshlayout)
-
     // leak-detection
     debugImplementation(Deps.Libs.leakCanary)
 
     // dependency injection
     implementation(Deps.Libs.koin)
     implementation(Deps.Libs.koinViewModel)
+
+    // view-binding with flow/coroutines
+    implementation(Deps.Libs.flowBinding)
+    implementation(Deps.Libs.flowBindingAppCompat)
 }
