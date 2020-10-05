@@ -14,7 +14,7 @@ object Deps {
 
         // lifecycle
 
-        val lifecycleVersion = "2.2.0"
+        private val lifecycleVersion = "2.2.0"
 
         // LifecycleRegistry, LifecycleRegistryOwner
         val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion"
@@ -31,12 +31,12 @@ object Deps {
         val fragmentsExt = "androidx.fragment:fragment-ktx:1.2.5"
 
         // navigation-component
-        val navVersion = "2.3.0"
+        private val navVersion = "2.3.0"
         val navigationFragment = "androidx.navigation:navigation-fragment-ktx:$navVersion"
         val navigationUi = "androidx.navigation:navigation-ui-ktx:$navVersion"
 
         // room
-        val roomVersion = "2.2.5"
+        private val roomVersion = "2.2.5"
         val room = "androidx.room:room-runtime:$roomVersion"
         val roomKtx = "androidx.room:room-ktx:$roomVersion"
         val roomCompiler = "androidx.room:room-compiler:$roomVersion"
@@ -64,16 +64,16 @@ object Deps {
 
         val timber = "com.jakewharton.timber:timber:4.7.1"
 
-        val retrofitVersion = "2.9.0"
+        private val retrofitVersion = "2.9.0"
         val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
         val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
         val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.0.0"
 
-        val moshiVersion = "1.10.0"
+        private val moshiVersion = "1.10.0"
         val moshi = "com.squareup.moshi:moshi:$moshiVersion"
         val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
 
-        val glideVersion = "4.11.0"
+        private val glideVersion = "4.11.0"
         val glide = "com.github.bumptech.glide:glide:$glideVersion"
         val glideCompiler = "com.github.bumptech.glide:compiler:$glideVersion"
         val glideOkHttpIntegration = "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
@@ -81,17 +81,13 @@ object Deps {
 
         val liveEvent = "com.github.hadilq.liveevent:liveevent:1.2.0"
 
-        val parcelVersion = "1.1.12"
-        val parcel = "org.parceler:parceler-api:$parcelVersion"
-        val parcelCompiler = "org.parceler:parceler:$parcelVersion"
-
         val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
 
-        val koinVersion = "2.1.6"
+        private val koinVersion = "2.1.6"
         val koin = "org.koin:koin-android:$koinVersion"
         val koinViewModel = "org.koin:koin-androidx-viewmodel:$koinVersion"
 
-        val flowBindingVersion = "1.4.0"
+        private val flowBindingVersion = "1.4.0"
         val flowBinding = "ru.ldralighieri.corbind:corbind:$flowBindingVersion"
         val flowBindingAppCompat = "ru.ldralighieri.corbind:corbind-appcompat:$flowBindingVersion"
     }
