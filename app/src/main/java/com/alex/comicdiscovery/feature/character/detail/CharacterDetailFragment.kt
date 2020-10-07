@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -24,16 +23,6 @@ class CharacterDetailFragment : BaseFragment() {
     private lateinit var binding: FragmentCharacterDetailBinding
 
     private val arguments: CharacterDetailFragmentArgs by navArgs()
-
-    // ----------------------------------------------------------------------------
-
-    companion object {
-        private const val KEY_ID = "KEY_ID"
-        private const val KEY_SCREEN = "KEY_SCREEN"
-
-        fun bundle(id: Int, userComesFromStarredScreen: Boolean)
-                = bundleOf(KEY_ID to id, KEY_SCREEN to userComesFromStarredScreen)
-    }
 
     // ----------------------------------------------------------------------------
 
