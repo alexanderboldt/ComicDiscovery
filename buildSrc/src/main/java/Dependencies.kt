@@ -34,6 +34,7 @@ object Deps {
         private val navVersion = "2.3.0"
         val navigationFragment = "androidx.navigation:navigation-fragment-ktx:$navVersion"
         val navigationUi = "androidx.navigation:navigation-ui-ktx:$navVersion"
+        val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
 
         // room
         private val roomVersion = "2.2.5"

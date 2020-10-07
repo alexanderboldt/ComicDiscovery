@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.alex.comicdiscovery.databinding.FragmentCharacterDetailBinding
 import com.alex.comicdiscovery.feature.base.BaseFragment
 import com.alex.comicdiscovery.feature.character.detail.models.ContentState
@@ -21,6 +22,8 @@ class CharacterDetailFragment : BaseFragment() {
     private val viewModel: CharacterDetailViewModel by viewModel()
 
     private lateinit var binding: FragmentCharacterDetailBinding
+
+    private val arguments: CharacterDetailFragmentArgs by navArgs()
 
     // ----------------------------------------------------------------------------
 
@@ -89,6 +92,6 @@ class CharacterDetailFragment : BaseFragment() {
             binding.imageViewStar.setImageResource(state)
         }
 
-        requireArguments().apply { viewModel.init(getInt(KEY_ID), getBoolean(KEY_SCREEN)) }
+        viewModel.init(arguments.id, arguments.userComesFromStarredScreen)
     }
 }

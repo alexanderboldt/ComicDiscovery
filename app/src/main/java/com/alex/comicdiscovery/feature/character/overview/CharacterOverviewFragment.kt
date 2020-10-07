@@ -12,10 +12,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.databinding.FragmentCharacterOverviewBinding
 import com.alex.comicdiscovery.feature.base.BaseFragment
-import com.alex.comicdiscovery.feature.character.detail.CharacterDetailFragment
 import com.alex.comicdiscovery.feature.character.overview.models.RecyclerViewState
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -86,9 +84,11 @@ class CharacterOverviewFragment : BaseFragment() {
         }
 
         viewModel.detailState.observe { state ->
-            findNavController().navigate(
-                R.id.action_characterOverviewFragment_to_characterDetailFragment,
-                CharacterDetailFragment.bundle(state, false))
+            CharacterOverviewFragmentDirections
+                .actionToCharacterDetailFragment(state, false)
+                .also { directions ->
+                    findNavController().navigate(directions)
+                }
         }
 
         viewModel.hideKeyboardState.observe {

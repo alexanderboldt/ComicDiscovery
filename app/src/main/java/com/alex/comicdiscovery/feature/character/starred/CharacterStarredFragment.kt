@@ -9,10 +9,8 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.databinding.FragmentCharacterStarredBinding
 import com.alex.comicdiscovery.feature.base.BaseFragment
-import com.alex.comicdiscovery.feature.character.detail.CharacterDetailFragment
 import com.alex.comicdiscovery.feature.character.starred.models.RecyclerViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -72,9 +70,11 @@ class CharacterStarredFragment : BaseFragment() {
         }
 
         viewModel.detailState.observe { state ->
-            findNavController().navigate(
-                R.id.action_characterStarredFragment_to_characterDetailFragment,
-                CharacterDetailFragment.bundle(state, false))
+            CharacterStarredFragmentDirections
+                .actionToCharacterDetailFragment(state, false)
+                .also { directions ->
+                    findNavController().navigate(directions)
+                }
         }
     }
 }

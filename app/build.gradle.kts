@@ -8,6 +8,7 @@ plugins {
 }
 apply {
     plugin("kotlin-android")
+    plugin("androidx.navigation.safeargs.kotlin")
 }
 
 fun getCommitCount(): Int {

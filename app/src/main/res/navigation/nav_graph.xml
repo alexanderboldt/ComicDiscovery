@@ -7,28 +7,44 @@
         android:id="@+id/characterOverviewFragment"
         android:name="com.alex.comicdiscovery.feature.character.overview.CharacterOverviewFragment"
         android:label="CharacterOverviewFragment">
+
         <action
-            android:id="@+id/action_characterOverviewFragment_to_characterDetailFragment"
+            android:id="@+id/action_to_characterDetailFragment"
             app:destination="@id/characterDetailFragment"
             app:enterAnim="@anim/slide_from_end_to_center"
             app:exitAnim="@anim/slide_from_center_to_start"
             app:popEnterAnim="@anim/slide_from_start_to_center"
             app:popExitAnim="@anim/slide_from_center_to_end"/>
+
     </fragment>
-    <fragment
-        android:id="@+id/characterDetailFragment"
-        android:name="com.alex.comicdiscovery.feature.character.detail.CharacterDetailFragment"
-        android:label="CharacterDetailFragment" />
+
     <fragment
         android:id="@+id/characterStarredFragment"
         android:name="com.alex.comicdiscovery.feature.character.starred.CharacterStarredFragment"
         android:label="CharacterStarredFragment" >
+
         <action
-            android:id="@+id/action_characterStarredFragment_to_characterDetailFragment"
+            android:id="@+id/action_to_characterDetailFragment"
             app:destination="@id/characterDetailFragment"
             app:enterAnim="@anim/slide_from_end_to_center"
             app:exitAnim="@anim/slide_from_center_to_start"
             app:popEnterAnim="@anim/slide_from_start_to_center"
             app:popExitAnim="@anim/slide_from_center_to_end" />
     </fragment>
+
+    <fragment
+        android:id="@+id/characterDetailFragment"
+        android:name="com.alex.comicdiscovery.feature.character.detail.CharacterDetailFragment"
+        android:label="CharacterDetailFragment" >
+
+        <argument
+            android:name="id"
+            app:argType="integer" />
+
+        <argument
+            android:name="userComesFromStarredScreen"
+            app:argType="boolean" />
+
+    </fragment>
+
 </navigation>
