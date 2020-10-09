@@ -8,7 +8,6 @@ import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.overview.models.UiModelCharacter
 import com.alex.comicdiscovery.feature.character.overview.models.RecyclerViewState
-import com.alex.comicdiscovery.repository.models.RpModelResult
 import com.alex.comicdiscovery.repository.search.SearchRepository
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -65,26 +64,22 @@ class CharacterOverviewViewModel(
 
             searchRepository
                 .getSearch(query)
+                .catch { throwable ->
+                    _loadingState.postValue(false)
+                    _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_error)))
+                }
                 .collect { result ->
                     _loadingState.postValue(false)
 
-                    when (result) {
-                        is RpModelResult.Success -> {
-                            result
-                                .data
-                                .result
-                                .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.image.smallUrl) }
-                                .let { characters ->
-                                    when (characters.isEmpty()) {
-                                        true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))
-                                        false -> RecyclerViewState.CharacterState(characters)
-                                    }
-                                }.also { state -> _recyclerViewState.postValue(state) }
-                        }
-                        is RpModelResult.Failure -> {
-                            _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_error)))
-                        }
-                    }
+                    result
+                        .result
+                        .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.image.smallUrl) }
+                        .let { characters ->
+                            when (characters.isEmpty()) {
+                                true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))
+                                false -> RecyclerViewState.CharacterState(characters)
+                            }
+                        }.also { state -> _recyclerViewState.postValue(state) }
                 }
         }
     }

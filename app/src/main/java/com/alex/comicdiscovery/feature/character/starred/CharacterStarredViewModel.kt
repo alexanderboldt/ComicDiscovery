@@ -9,9 +9,9 @@ import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.starred.models.UiModelCharacter
 import com.alex.comicdiscovery.feature.character.starred.models.RecyclerViewState
 import com.alex.comicdiscovery.repository.character.CharacterRepository
-import com.alex.comicdiscovery.repository.models.RpModelResult
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -53,39 +53,30 @@ class CharacterStarredViewModel(
 
             characterRepository
                 .getStarredCharacters()
+                .catch { throwable ->
+                    _loadingState.postValue(false)
+                    _recyclerViewState.postValue(RecyclerViewState.MessageState(
+                            resourceProvider.getString(R.string.character_starred_message_error)))
+                }
                 .collect { result ->
                     _loadingState.postValue(false)
 
-                    when (result) {
-                        is RpModelResult.Success -> {
-                            result
-                                .data
-                                .result
-                                .map { character ->
-                                    UiModelCharacter(
-                                        character.id,
-                                        character.name,
-                                        character.realName,
-                                        character.image.smallUrl
-                                    )
-                                }
-                                .let { characters ->
-                                    when (characters.isEmpty()) {
-                                        true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_starred_message_no_entries))
-                                        false -> RecyclerViewState.CharacterState(characters)
-                                    }
-                                }.also { state -> _recyclerViewState.postValue(state) }
-                        }
-                        is RpModelResult.Failure -> {
-                            _recyclerViewState.postValue(
-                                RecyclerViewState.MessageState(
-                                    resourceProvider.getString(
-                                        R.string.character_starred_message_error
-                                    )
-                                )
+                    result
+                        .result
+                        .map { character ->
+                            UiModelCharacter(
+                                character.id,
+                                character.name,
+                                character.realName,
+                                character.image.smallUrl
                             )
                         }
-                    }
+                        .let { characters ->
+                            when (characters.isEmpty()) {
+                                true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_starred_message_no_entries))
+                                false -> RecyclerViewState.CharacterState(characters)
+                            }
+                        }.also { state -> _recyclerViewState.postValue(state) }
                 }
         }
     }

@@ -9,8 +9,8 @@ import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.detail.models.UiModelCharacter
 import com.alex.comicdiscovery.feature.character.detail.models.ContentState
 import com.alex.comicdiscovery.repository.character.CharacterRepository
-import com.alex.comicdiscovery.repository.models.RpModelResult
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -43,38 +43,31 @@ class CharacterDetailViewModel(
             when (userComesFromStarredScreen) {
                 true -> characterRepository.getStarredCharacter(id)
                 false -> characterRepository.getCharacter(id)
+            }.catch { throwable ->
+                _loadingState.postValue(false)
+                _contentState.postValue(
+                    ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error)))
             }.collect { result ->
-                when (result) {
-                    is RpModelResult.Success -> {
-                        _loadingState.postValue(false)
+                _loadingState.postValue(false)
 
-                        val character = result.data.result
-                        isStarred = character.isStarred
+                val character = result.result
+                isStarred = character.isStarred
 
-                        _loadingState.postValue(false)
-                        _contentState.postValue(
-                            ContentState.CharacterState(
-                                UiModelCharacter(
-                                    character.image.smallUrl,
-                                    "Name\n ${character.name}",
-                                    "Real Name\n ${character.realName}",
-                                    "Aliases\n ${character.aliases}",
-                                    "Gender\n ${character.gender}",
-                                    "Birth\n ${character.birth}",
-                                    "Powers\n ${character.powers}",
-                                    "Origin\n ${character.origin}"
-                                )
-                            )
+                _contentState.postValue(
+                    ContentState.CharacterState(
+                        UiModelCharacter(
+                            character.image.smallUrl,
+                            "Name\n ${character.name}",
+                            "Real Name\n ${character.realName}",
+                            "Aliases\n ${character.aliases}",
+                            "Gender\n ${character.gender}",
+                            "Birth\n ${character.birth}",
+                            "Powers\n ${character.powers}",
+                            "Origin\n ${character.origin}"
                         )
-                        _starState.postValue(getStarIcon())
-                    }
-                    is RpModelResult.Failure -> {
-                        _loadingState.postValue(false)
-                        _contentState.postValue(
-                            ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error))
-                        )
-                    }
-                }
+                    )
+                )
+                _starState.postValue(getStarIcon())
             }
         }
     }

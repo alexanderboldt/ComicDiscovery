@@ -6,93 +6,84 @@ import com.alex.comicdiscovery.repository.models.*
 import com.alex.comicdiscovery.util.mapping.CharacterMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class CharacterRepository {
 
-    suspend fun getCharacter(id: Int): Flow<RpModelResult<RpModelResponse<RpModelCharacterDetail>>> {
-        return flowOf(withContext(Dispatchers.IO) {
-            try {
-                ApiClient
-                    .routes
-                    .getCharacter(
-                        "4005-$id",
-                        mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin")
-                    )
-                    .let { response ->
-                        RpModelResponse(
-                            response.numberOfPageResults,
-                            response.numberOfTotalResults,
-                            CharacterMapper.mapApiModelDetailToRpModelDetail(
-                                response.results,
-                                ComicDiscoveryDatabase.database.characterDao()
-                                    .getCharacter(id) != null
-                            )
+    suspend fun getCharacter(id: Int): Flow<RpModelResponse<RpModelCharacterDetail>> {
+        return flow {
+            ApiClient
+                .routes
+                .getCharacter(
+                    "4005-$id",
+                    mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin")
+                )
+                .let { response ->
+                    RpModelResponse(
+                        response.numberOfPageResults,
+                        response.numberOfTotalResults,
+                        CharacterMapper.mapApiModelDetailToRpModelDetail(
+                            response.results,
+                            ComicDiscoveryDatabase.database.characterDao()
+                                .getCharacter(id) != null
                         )
-                    }.let { response -> RpModelResult.Success(response) }
-            } catch (throwable: Throwable) {
-                RpModelResult.Failure<RpModelResponse<RpModelCharacterDetail>>(throwable)
-            }
-        })
+                    )
+                }.also { emit(it) }
+        }.flowOn(Dispatchers.IO)
     }
 
     // ----------------------------------------------------------------------------
 
-    suspend fun getStarredCharacters(): Flow<RpModelResult<RpModelResponse<List<RpModelCharacterOverview>>>> {
-        return flowOf(withContext(Dispatchers.IO) {
+    suspend fun getStarredCharacters(): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
+        return flow {
             ComicDiscoveryDatabase
                 .database
                 .characterDao()
                 .getAll()
                 .let { characters -> CharacterMapper.mapDbModelToRpModelOverview(characters) }
                 .let { characters -> RpModelResponse(characters.size, characters.size, characters) }
-                .let { response -> RpModelResult.Success(response) }
-        })
+                .also { emit(it) }
+        }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getStarredCharacter(id: Int): Flow<RpModelResult<RpModelResponse<RpModelCharacterDetail>>> {
-        return flowOf(withContext(Dispatchers.IO) {
+    suspend fun getStarredCharacter(id: Int): Flow<RpModelResponse<RpModelCharacterDetail>> {
+        return flow {
             ComicDiscoveryDatabase
                 .database
                 .characterDao()
                 .getCharacter(id)!!
                 .let { character -> CharacterMapper.mapDbModelToRpModelDetail(character, true) }
                 .let { character -> RpModelResponse(1, 1, character) }
-                .let { response -> RpModelResult.Success(response) }
-        })
+                .also { emit(it) }
+        }.flowOn(Dispatchers.IO)
     }
 
     // ----------------------------------------------------------------------------
 
     suspend fun starCharacter(id: Int): Flow<Boolean> {
-        return flowOf(withContext(Dispatchers.IO) {
-            try {
-                ApiClient
-                    .routes
-                    .getCharacter(
-                        "4005-$id",
-                        mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin")
-                    )
-                    .results
-                    .let { character -> CharacterMapper.mapApiModelDetailToDbModel(character) }
-                    .also { dbCharacter ->
-                        ComicDiscoveryDatabase.database.characterDao().insert(dbCharacter)
-                    }
-                true
-            } catch (throwable: Throwable) {
-                false
-            }
-        })
+        return flow {
+            ApiClient
+                .routes
+                .getCharacter(
+                    "4005-$id",
+                    mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin")
+                )
+                .results
+                .let { character -> CharacterMapper.mapApiModelDetailToDbModel(character) }
+                .also { dbCharacter -> ComicDiscoveryDatabase.database.characterDao().insert(dbCharacter) }
+            emit(true)
+        }.flowOn(Dispatchers.IO)
     }
 
     suspend fun unstarCharacter(id: Int): Flow<Boolean> {
-        return flowOf(withContext(Dispatchers.IO) {
+        return flow {
             ComicDiscoveryDatabase
                 .database
                 .characterDao()
                 .delete(id)
                 .let { numberOfAffectedRows -> numberOfAffectedRows > 0 }
-        })
+                .also { emit(it) }
+        }.flowOn(Dispatchers.IO)
     }
 }
