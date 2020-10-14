@@ -120,20 +120,12 @@ dependencies {
 
     // testing
     testImplementation(Deps.Test.junit)
-    testImplementation(Deps.Test.testRunner)
     testImplementation(Deps.Test.mockitoCore)
-    testImplementation(Deps.Test.coreTesting)
-    testImplementation(Deps.Libs.coroutinesCore)
+    testImplementation(Deps.Test.archCoreTesting)
     testImplementation(Deps.Test.coroutinesTest)
 
     // android-testing
     androidTestImplementation(Deps.Test.junit)
-    androidTestImplementation(Deps.Test.mockitoCore)
-    androidTestImplementation(Deps.Test.mockitoAndroid)
-    androidTestImplementation(Deps.Test.coreTesting)
-    androidTestImplementation(Deps.Test.testRunner)
-    androidTestImplementation(Deps.Test.activityTestRule)
-    androidTestImplementation(Deps.Test.espressoCore)
 
     // kotlin-std-lib
     implementation(Deps.Libs.kotlinStdLib)

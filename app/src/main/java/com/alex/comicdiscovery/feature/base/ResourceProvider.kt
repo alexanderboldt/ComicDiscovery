@@ -3,6 +3,6 @@ package com.alex.comicdiscovery.feature.base
 import android.content.Context
 import androidx.annotation.StringRes
 
-class ResourceProvider(private val context: Context) {
-    fun getString(@StringRes resource: Int) = context.getString(resource)
+open class ResourceProvider(private val context: Context) {
+    open fun getString(@StringRes resource: Int) = context.getString(resource)
 }
