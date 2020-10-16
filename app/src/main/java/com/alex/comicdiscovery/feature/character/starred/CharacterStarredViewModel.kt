@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class CharacterStarredViewModel(
     private val characterRepository: CharacterRepository,
@@ -57,6 +58,8 @@ class CharacterStarredViewModel(
                     _loadingState.postValue(false)
                     _recyclerViewState.postValue(RecyclerViewState.MessageState(
                             resourceProvider.getString(R.string.character_starred_message_error)))
+
+                    Timber.w(throwable)
                 }
                 .collect { result ->
                     _loadingState.postValue(false)

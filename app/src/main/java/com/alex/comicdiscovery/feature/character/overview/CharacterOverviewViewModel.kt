@@ -13,6 +13,7 @@ import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class CharacterOverviewViewModel(
     private val searchRepository: SearchRepository,
@@ -67,6 +68,8 @@ class CharacterOverviewViewModel(
                 .catch { throwable ->
                     _loadingState.postValue(false)
                     _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_error)))
+
+                    Timber.w(throwable)
                 }
                 .collect { result ->
                     _loadingState.postValue(false)

@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class CharacterDetailViewModel(
     private val characterRepository: CharacterRepository,
@@ -45,8 +46,9 @@ class CharacterDetailViewModel(
                 false -> characterRepository.getCharacter(id)
             }.catch { throwable ->
                 _loadingState.postValue(false)
-                _contentState.postValue(
-                    ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error)))
+                _contentState.postValue(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error)))
+
+                Timber.w(throwable)
             }.collect { result ->
                 _loadingState.postValue(false)
 
