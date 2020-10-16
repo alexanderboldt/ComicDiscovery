@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-open class SearchRepository {
+class SearchRepository {
 
-    open suspend fun getSearch(query: String): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
+    suspend fun getSearch(query: String): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
         return flow {
 
             ApiClient
