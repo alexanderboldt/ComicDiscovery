@@ -44,17 +44,19 @@ object Deps {
     }
 
     object Test {
-        val junit = "androidx.test.ext:junit:1.0.0"
+        val junit = "androidx.test.ext:junit:1.1.2"
         val testRunner = "androidx.test:runner:1.1.0"
-        val mockitoCore = "org.mockito:mockito-core:3.0.0"
-        val mockitoAndroid = "org.mockito:mockito-android:3.0.0"
 
-        val coreTesting = "androidx.arch.core:core-testing:2.0.0-rc01"
+        // testing with mocked instances
+        val mockitoCore = "org.mockito:mockito-core:3.5.13"
 
-        val activityTestRule = "androidx.test:rules:1.1.0"
-        val espressoCore = "androidx.test.espresso:espresso-core:3.1.0"
+        // testing LiveData
+        val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
 
+        // testing with coroutines
         val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9"
+
+        val activityTestRule = "androidx.test:rules:1.3.0"
     }
 
     object Libs {
