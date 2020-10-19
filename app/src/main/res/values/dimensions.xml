@@ -2,6 +2,7 @@
 <resources>
 
     <!-- TextView -->
+    <dimen name="textAppearanceHeadline5">24sp</dimen>
     <dimen name="textAppearanceHeadline6">20sp</dimen>
     <dimen name="textAppearanceBody1">16sp</dimen>
 </resources>

@@ -12,13 +12,7 @@ class SettingsViewModel : ViewModel() {
 
     // ----------------------------------------------------------------------------
 
-    init {
-        _themeState.postValue(UiModelThemes.LIGHT)
-    }
-
-    // ----------------------------------------------------------------------------
-
     fun onSelectTheme(theme: UiModelThemes) {
-
+        _themeState.postValue(theme)
     }
 }

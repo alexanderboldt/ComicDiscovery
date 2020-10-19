@@ -1,7 +1,6 @@
 package com.alex.comicdiscovery
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
 import com.alex.comicdiscovery.feature.base.di.resourceProviderModule
 import com.alex.comicdiscovery.feature.character.detail.di.characterDetailModule
 import com.alex.comicdiscovery.feature.character.overview.di.characterOverviewModule
@@ -20,8 +19,6 @@ class ComicDiscoveryApplication : Application() {
 
         setupDatabase()
         setupKoin()
-
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 
     // ----------------------------------------------------------------------------

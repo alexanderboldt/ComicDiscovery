@@ -17,9 +17,8 @@
     <string name="character_detail_message_error">Could not load character</string>
 
     <!-- Screen Settings -->
-    <string-array name="settings_theme">
-        <item>System Settings</item>
-        <item>Light</item>
-        <item>Dark</item>
-    </string-array>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
 </resources>
