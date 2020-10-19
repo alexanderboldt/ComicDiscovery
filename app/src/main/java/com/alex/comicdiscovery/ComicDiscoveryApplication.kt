@@ -1,10 +1,12 @@
 package com.alex.comicdiscovery
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import com.alex.comicdiscovery.feature.base.di.resourceProviderModule
 import com.alex.comicdiscovery.feature.character.detail.di.characterDetailModule
 import com.alex.comicdiscovery.feature.character.overview.di.characterOverviewModule
 import com.alex.comicdiscovery.feature.character.starred.di.characterStarredModule
+import com.alex.comicdiscovery.feature.settings.di.settingsModule
 import com.alex.comicdiscovery.repository.character.di.characterRepositoryModule
 import com.alex.comicdiscovery.repository.database.ComicDiscoveryDatabase
 import com.alex.comicdiscovery.repository.search.di.searchRepositoryModule
@@ -18,6 +20,8 @@ class ComicDiscoveryApplication : Application() {
 
         setupDatabase()
         setupKoin()
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 
     // ----------------------------------------------------------------------------
@@ -31,10 +35,14 @@ class ComicDiscoveryApplication : Application() {
             androidContext(this@ComicDiscoveryApplication)
             modules(
                 listOf(
+                    // features
                     characterOverviewModule,
                     characterStarredModule,
                     characterDetailModule,
+                    settingsModule,
+                    // resource
                     resourceProviderModule,
+                    // repository
                     searchRepositoryModule,
                     characterRepositoryModule))
         }

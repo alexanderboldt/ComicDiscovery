@@ -1,13 +1,25 @@
 <resources>
+    <!-- MainActivity -->
     <string name="bottom_navigation_page_search">Search</string>
     <string name="bottom_navigation_page_starred">Starred</string>
+    <string name="bottom_navigation_page_settings">Settings</string>
 
+    <!-- Screen Character Overview -->
     <string name="character_overview_message_no_search">Make a search for some characters</string>
     <string name="character_overview_message_no_entries">No characters found</string>
     <string name="character_overview_message_error">Could not load characters</string>
 
+    <!-- Screen Character Starred -->
     <string name="character_starred_message_no_entries">No characters starred</string>
     <string name="character_starred_message_error">Could not load starred characters</string>
 
+    <!-- Screen Character Detail -->
     <string name="character_detail_message_error">Could not load character</string>
+
+    <!-- Screen Settings -->
+    <string-array name="settings_theme">
+        <item>System Settings</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
 </resources>

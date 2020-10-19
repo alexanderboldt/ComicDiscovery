@@ -13,4 +13,10 @@
         android:icon="@android:drawable/btn_star_big_on"
         android:title="@string/bottom_navigation_page_starred"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="@string/bottom_navigation_page_settings"
+        app:showAsAction="ifRoom"/>
 </menu>

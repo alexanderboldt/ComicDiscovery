@@ -33,6 +33,11 @@
     </fragment>
 
     <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.alex.comicdiscovery.feature.settings.SettingsFragment"
+        android:label="SettingsFragment" />
+
+    <fragment
         android:id="@+id/characterDetailFragment"
         android:name="com.alex.comicdiscovery.feature.character.detail.CharacterDetailFragment"
         android:label="CharacterDetailFragment" >
