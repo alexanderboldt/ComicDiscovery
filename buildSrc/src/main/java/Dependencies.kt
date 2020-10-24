@@ -41,6 +41,9 @@ object Deps {
         val room = "androidx.room:room-runtime:$roomVersion"
         val roomKtx = "androidx.room:room-ktx:$roomVersion"
         val roomCompiler = "androidx.room:room-compiler:$roomVersion"
+
+        // DataStore
+        val dataStorePreferences = "androidx.datastore:datastore-preferences:1.0.0-alpha02"
     }
 
     object Test {
