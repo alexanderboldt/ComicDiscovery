@@ -150,6 +150,8 @@ dependencies {
     implementation(Deps.AndroidX.roomKtx)
     kapt(Deps.AndroidX.roomCompiler)
 
+    implementation(Deps.AndroidX.dataStorePreferences)
+
     // 3rd-party libraries
 
     // coroutines

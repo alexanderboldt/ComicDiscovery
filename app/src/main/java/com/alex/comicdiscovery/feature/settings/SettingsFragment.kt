@@ -23,7 +23,6 @@ class SettingsFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
-        setupView()
         setupViewBinding()
         setupViewModel()
 
@@ -31,9 +30,6 @@ class SettingsFragment : BaseFragment() {
     }
 
     // ----------------------------------------------------------------------------
-
-    private fun setupView() {
-    }
 
     private fun setupViewBinding() {
         lifecycleScope.launch {
