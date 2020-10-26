@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.alex.comicdiscovery.databinding.ItemCharacterOverviewBinding
 import com.alex.comicdiscovery.feature.character.starred.models.UiModelCharacter
-import com.bumptech.glide.request.RequestOptions
 
 class CharacterStarredAdapter(val characterClick: (Int) -> Unit) : RecyclerView.Adapter<CharacterStarredAdapter.ViewHolder>() {
 
@@ -35,7 +35,7 @@ class CharacterStarredAdapter(val characterClick: (Int) -> Unit) : RecyclerView.
             textViewName.text = character.name
             textViewRealName.isGone = character.realName == null
             textViewRealName.text = character.realName
-            imageViewIcon.load(character.iconUrl, RequestOptions.centerCropTransform())
+            imageViewIcon.load(character.iconUrl)
         }
     }
 

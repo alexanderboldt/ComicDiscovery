@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.alex.comicdiscovery.ui.GlideImageView
-            android:id="@+id/glideImageView"
+        <ImageView
+            android:id="@+id/imageView_avatar"
             android:layout_width="0dp"
             android:layout_height="300dp"
             app:layout_constraintVertical_bias="0"
@@ -28,7 +28,7 @@
             android:id="@+id/imageView_star"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/glideImageView"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_avatar"
             app:layout_constraintEnd_toEndOf="parent"
             tools:src="@android:drawable/btn_star_big_on" />
 
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/glideImageView"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_avatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/textView_real_name"
             tools:text="Name"/>
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="glideImageView,imageView_star,textView_name,textView_real_name,textView_birth,textView_aliases,textView_gender,textView_origin,textView_powers" />
+            app:constraint_referenced_ids="imageView_avatar,imageView_star,textView_name,textView_real_name,textView_birth,textView_aliases,textView_gender,textView_origin,textView_powers" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             style="?android:attr/progressBarStyleLarge"

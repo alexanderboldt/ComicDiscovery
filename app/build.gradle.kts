@@ -168,9 +168,7 @@ dependencies {
     kapt(Deps.Libs.moshiCodeGen)
 
     // image
-    implementation(Deps.Libs.glide)
-    kapt(Deps.Libs.glideCompiler)
-    implementation(Deps.Libs.glideOkHttpIntegration)
+    implementation(Deps.Libs.coil)
 
     implementation(Deps.Libs.liveEvent)
 

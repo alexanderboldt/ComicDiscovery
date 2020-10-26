@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.request.RequestOptions
+import coil.load
 import com.alex.comicdiscovery.databinding.ItemCharacterOverviewBinding
 import com.alex.comicdiscovery.feature.character.overview.models.UiModelCharacter
 
@@ -35,7 +35,7 @@ class CharacterOverviewAdapter(val characterClick: (Int) -> Unit) : RecyclerView
             textViewName.text = character.name
             textViewRealName.isGone = character.realName == null
             textViewRealName.text = character.realName
-            imageViewIcon.load(character.iconUrl, RequestOptions.centerCropTransform())
+            imageViewIcon.load(character.iconUrl)
         }
     }
 

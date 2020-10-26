@@ -85,6 +85,9 @@ object Deps {
         val glideOkHttpIntegration = "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
         val glideTransformations = "jp.wasabeef:glide-transformations:4.0.0"
 
+        private val coilVersion = "1.0.0"
+        val coil = "io.coil-kt:coil:$coilVersion"
+
         val liveEvent = "com.github.hadilq.liveevent:liveevent:1.2.0"
 
         val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
