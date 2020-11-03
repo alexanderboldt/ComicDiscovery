@@ -97,7 +97,7 @@ object Deps {
         val koinViewModel = "org.koin:koin-androidx-viewmodel:$koinVersion"
 
         private val flowBindingVersion = "1.4.0"
-        val flowBinding = "ru.ldralighieri.corbind:corbind:$flowBindingVersion"
+        val flowBinding = "ru.ldralighieri.corbind:corbind-core:$flowBindingVersion"
         val flowBindingAppCompat = "ru.ldralighieri.corbind:corbind-appcompat:$flowBindingVersion"
     }
 }

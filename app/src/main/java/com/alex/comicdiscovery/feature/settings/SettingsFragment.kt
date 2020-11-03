@@ -11,6 +11,7 @@ import com.alex.comicdiscovery.feature.base.BaseFragment
 import com.alex.comicdiscovery.feature.settings.models.UiModelThemes
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.ldralighieri.corbind.view.clicks
 
 class SettingsFragment : BaseFragment() {
 
@@ -33,9 +34,13 @@ class SettingsFragment : BaseFragment() {
 
     private fun setupViewBinding() {
         lifecycleScope.launch {
-            binding.textViewThemeSystem.setOnClickListener { viewModel.onSelectTheme(UiModelThemes.SYSTEM) }
-            binding.textViewThemeLight.setOnClickListener { viewModel.onSelectTheme(UiModelThemes.LIGHT) }
-            binding.textViewThemeDark.setOnClickListener { viewModel.onSelectTheme(UiModelThemes.DARK) }
+            binding.textViewThemeSystem.clicks { viewModel.onSelectTheme(UiModelThemes.SYSTEM) }
+        }
+        lifecycleScope.launch {
+            binding.textViewThemeLight.clicks { viewModel.onSelectTheme(UiModelThemes.LIGHT) }
+        }
+        lifecycleScope.launch {
+            binding.textViewThemeDark.clicks { viewModel.onSelectTheme(UiModelThemes.DARK) }
         }
     }
 
