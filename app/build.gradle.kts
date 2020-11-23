@@ -38,11 +38,11 @@ fun getTag(): String? {
 }
 
 android {
-    compileSdkVersion(Deps.Config.sdk)
+    compileSdkVersion(Config.sdk)
     defaultConfig {
-        applicationId = Deps.Config.applicationId
-        minSdkVersion(Deps.Config.minSdk)
-        targetSdkVersion(Deps.Config.sdk)
+        applicationId = Config.applicationId
+        minSdkVersion(Config.minSdk)
+        targetSdkVersion(Config.sdk)
         versionCode = getCommitCount()
         versionName = getTag()
 
@@ -128,7 +128,7 @@ dependencies {
     androidTestImplementation(Deps.Test.junit)
 
     // kotlin-std-lib
-    implementation(Deps.Libs.kotlinStdLib)
+    implementation(Deps.Kotlin.stdLib)
 
     // androidx
     implementation(Deps.AndroidX.core)
@@ -137,35 +137,36 @@ dependencies {
     implementation(Deps.AndroidX.recyclerView)
     implementation(Deps.AndroidX.constraintLayout)
 
-    implementation(Deps.AndroidX.lifecycleRuntimeKtx)
-    kapt(Deps.AndroidX.lifecycleCompiler)
-    implementation(Deps.AndroidX.lifecycleViewModelKtx)
+    implementation(Deps.AndroidX.LifeCycle.runtimeKtx)
+    kapt(Deps.AndroidX.LifeCycle.compiler)
+    implementation(Deps.AndroidX.LifeCycle.viewModelKtx)
 
-    implementation(Deps.AndroidX.fragmentsExt)
+    implementation(Deps.AndroidX.fragmentsKtx)
 
-    implementation(Deps.AndroidX.navigationFragment)
-    implementation(Deps.AndroidX.navigationUi)
+    implementation(Deps.AndroidX.Navigation.fragmentKtx)
+    implementation(Deps.AndroidX.Navigation.uiKtx)
 
-    implementation(Deps.AndroidX.room)
-    implementation(Deps.AndroidX.roomKtx)
-    kapt(Deps.AndroidX.roomCompiler)
+    implementation(Deps.AndroidX.Room.room)
+    implementation(Deps.AndroidX.Room.ktx)
+    kapt(Deps.AndroidX.Room.compiler)
 
-    implementation(Deps.AndroidX.dataStorePreferences)
+    implementation(Deps.AndroidX.DataStore.preferences)
 
     // 3rd-party libraries
 
     // coroutines
-    implementation(Deps.Libs.coroutinesCore)
+    implementation(Deps.Libs.Coroutines.core)
+    implementation(Deps.Libs.Coroutines.android)
 
     // logging
     implementation(Deps.Libs.timber)
 
     // network
-    implementation(Deps.Libs.retrofit)
-    implementation(Deps.Libs.retrofitMoshiConverter)
-    implementation(Deps.Libs.okHttpLogging)
-    implementation(Deps.Libs.moshi)
-    kapt(Deps.Libs.moshiCodeGen)
+    implementation(Deps.Libs.Retrofit.retrofit)
+    implementation(Deps.Libs.Retrofit.moshiConverter)
+    implementation(Deps.Libs.Retrofit.okHttpLogging)
+    implementation(Deps.Libs.Moshi.moshi)
+    kapt(Deps.Libs.Moshi.codeGen)
 
     // image
     implementation(Deps.Libs.coil)
@@ -176,10 +177,10 @@ dependencies {
     debugImplementation(Deps.Libs.leakCanary)
 
     // dependency injection
-    implementation(Deps.Libs.koin)
-    implementation(Deps.Libs.koinViewModel)
+    implementation(Deps.Libs.Koin.koin)
+    implementation(Deps.Libs.Koin.viewModel)
 
     // view-binding with flow/coroutines
-    implementation(Deps.Libs.flowBinding)
-    implementation(Deps.Libs.flowBindingAppCompat)
+    implementation(Deps.Libs.Corbind.corbind)
+    implementation(Deps.Libs.Corbind.appCompat)
 }
