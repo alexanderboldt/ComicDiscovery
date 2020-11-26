@@ -18,7 +18,6 @@ object Deps {
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.1"
         const val fragmentsKtx = "androidx.fragment:fragment-ktx:1.2.5"
 
-        // lifecycle
         object LifeCycle {
             private const val version = "2.2.0"
 
@@ -46,7 +45,6 @@ object Deps {
             const val compiler = "androidx.room:room-compiler:$version"
         }
 
-        // DataStore
         object DataStore {
             private const val version = "1.0.0-alpha02"
             const val preferences = "androidx.datastore:datastore-preferences:$version"
