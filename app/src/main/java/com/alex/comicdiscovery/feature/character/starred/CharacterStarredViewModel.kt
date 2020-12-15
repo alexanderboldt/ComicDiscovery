@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.starred.models.UiModelCharacter
-import com.alex.comicdiscovery.feature.character.starred.models.RecyclerViewState
+import com.alex.comicdiscovery.feature.character.starred.model.UiModelCharacter
+import com.alex.comicdiscovery.feature.character.starred.model.RecyclerViewState
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -23,10 +23,6 @@ class CharacterStarredViewModel(
     private val _recyclerViewState = MutableLiveData<RecyclerViewState>()
     val recyclerViewState: LiveData<RecyclerViewState> = _recyclerViewState
 
-    // true -> visible / false -> gone
-    private val _loadingState = MutableLiveData<Boolean>()
-    val loadingState: LiveData<Boolean> = _loadingState
-
     // the detail-id as an Int
     private val _detailState = LiveEvent<Int>()
     val detailState: LiveData<Int> = _detailState
@@ -34,13 +30,10 @@ class CharacterStarredViewModel(
     // ----------------------------------------------------------------------------
 
     init {
-        _loadingState.postValue(false)
-
         getCharacters()
     }
 
     // ----------------------------------------------------------------------------
-
 
     fun onClickCharacter(id: Int) {
         _detailState.postValue(id)
@@ -50,20 +43,16 @@ class CharacterStarredViewModel(
 
     private fun getCharacters() {
         viewModelScope.launch(Dispatchers.Main) {
-            _loadingState.postValue(true)
+            _recyclerViewState.postValue(RecyclerViewState.LoadingState(resourceProvider.getString(R.string.character_starred_message_loading)))
 
             characterRepository
                 .getStarredCharacters()
                 .catch { throwable ->
-                    _loadingState.postValue(false)
-                    _recyclerViewState.postValue(RecyclerViewState.MessageState(
-                            resourceProvider.getString(R.string.character_starred_message_error)))
+                    _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_starred_message_error)))
 
                     Timber.w(throwable)
                 }
                 .collect { result ->
-                    _loadingState.postValue(false)
-
                     result
                         .result
                         .map { character ->
@@ -73,8 +62,7 @@ class CharacterStarredViewModel(
                                 character.realName,
                                 character.image.smallUrl
                             )
-                        }
-                        .let { characters ->
+                        }.let { characters ->
                             when (characters.isEmpty()) {
                                 true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_starred_message_no_entries))
                                 false -> RecyclerViewState.CharacterState(characters)

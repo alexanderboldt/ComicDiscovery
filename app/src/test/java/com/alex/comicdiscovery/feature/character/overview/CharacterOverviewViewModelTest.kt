@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.overview.models.RecyclerViewState
-import com.alex.comicdiscovery.feature.character.overview.models.UiModelCharacter
+import com.alex.comicdiscovery.feature.character.overview.model.RecyclerViewState
+import com.alex.comicdiscovery.feature.character.overview.model.UiModelCharacter
 import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
 import com.alex.comicdiscovery.repository.models.RpModelImage
 import com.alex.comicdiscovery.repository.models.RpModelResponse

@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.overview.models.UiModelCharacter
-import com.alex.comicdiscovery.feature.character.overview.models.RecyclerViewState
+import com.alex.comicdiscovery.feature.character.overview.model.UiModelCharacter
+import com.alex.comicdiscovery.feature.character.overview.model.RecyclerViewState
 import com.alex.comicdiscovery.repository.search.SearchRepository
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -22,10 +22,6 @@ class CharacterOverviewViewModel(
     private val _recyclerViewState = MutableLiveData<RecyclerViewState>()
     val recyclerViewState: LiveData<RecyclerViewState> = _recyclerViewState
 
-    // true -> visible / false -> gone
-    private val _loadingState = MutableLiveData<Boolean>()
-    val loadingState: LiveData<Boolean> = _loadingState
-
     // the detail-id as an Int
     private val _detailState = LiveEvent<Int>()
     val detailState: LiveData<Int> = _detailState
@@ -36,7 +32,6 @@ class CharacterOverviewViewModel(
     // ----------------------------------------------------------------------------
 
     init {
-        _loadingState.postValue(false)
         _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
     }
 
@@ -61,19 +56,16 @@ class CharacterOverviewViewModel(
     private fun search(query: String) {
         viewModelScope.launch(Dispatchers.Main) {
 
-            _loadingState.postValue(true)
+            _recyclerViewState.postValue(RecyclerViewState.LoadingState(resourceProvider.getString(R.string.character_overview_message_loading)))
 
             searchRepository
                 .getSearch(query)
                 .catch { throwable ->
-                    _loadingState.postValue(false)
                     _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_error)))
 
                     Timber.w(throwable)
                 }
                 .collect { result ->
-                    _loadingState.postValue(false)
-
                     result
                         .result
                         .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.image.smallUrl) }

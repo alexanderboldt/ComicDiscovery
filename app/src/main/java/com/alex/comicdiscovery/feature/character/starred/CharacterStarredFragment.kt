@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isGone
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alex.comicdiscovery.databinding.FragmentCharacterStarredBinding
 import com.alex.comicdiscovery.feature.base.BaseFragment
-import com.alex.comicdiscovery.feature.character.starred.models.RecyclerViewState
+import com.alex.comicdiscovery.feature.character.starred.model.RecyclerViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CharacterStarredFragment : BaseFragment() {
@@ -38,7 +35,7 @@ class CharacterStarredFragment : BaseFragment() {
     private fun setupView() {
         adapter = CharacterStarredAdapter(viewModel::onClickCharacter)
 
-        binding.recyclerView.also {
+        binding.customRecyclerView.getRecyclerView().also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
             it.setHasFixedSize(true)
@@ -46,25 +43,17 @@ class CharacterStarredFragment : BaseFragment() {
     }
 
     private fun setupViewModel() {
-        viewModel.loadingState.observe { state ->
-            binding.contentLoadingProgressBar.apply { if (state) show() else hide() }
-        }
-
         viewModel.recyclerViewState.observe { state ->
             when (state) {
                 is RecyclerViewState.CharacterState -> {
-                    binding.apply {
-                        recyclerView.isVisible = true
-                        textViewMessage.isGone = true
-                    }
+                    binding.customRecyclerView.showItems()
                     adapter.setCharacters(state.characters)
                 }
+                is RecyclerViewState.LoadingState -> {
+                    binding.customRecyclerView.showLoading(state.message)
+                }
                 is RecyclerViewState.MessageState -> {
-                    binding.apply {
-                        recyclerView.isInvisible = true
-                        textViewMessage.isVisible = true
-                        textViewMessage.text = state.message
-                    }
+                    binding.customRecyclerView.showMessage(state.message)
                 }
             }
         }

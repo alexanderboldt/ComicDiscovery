@@ -6,7 +6,7 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.alex.comicdiscovery.databinding.ItemCharacterOverviewBinding
-import com.alex.comicdiscovery.feature.character.starred.models.UiModelCharacter
+import com.alex.comicdiscovery.feature.character.starred.model.UiModelCharacter
 
 class CharacterStarredAdapter(val characterClick: (Int) -> Unit) : RecyclerView.Adapter<CharacterStarredAdapter.ViewHolder>() {
 
