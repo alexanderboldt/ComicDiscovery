@@ -1,11 +1,9 @@
 package com.alex.comicdiscovery.feature.character.overview
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -92,10 +90,7 @@ class CharacterOverviewFragment : BaseFragment() {
         }
 
         viewModel.hideKeyboardState.observe {
-            activity
-                ?.getSystemService(Context.INPUT_METHOD_SERVICE)
-                .run { this as InputMethodManager }
-                .run { hideSoftInputFromWindow(view?.windowToken, 0) }
+            hideKeyboard()
         }
     }
 }
