@@ -57,7 +57,9 @@ class CharacterDetailFragment : BaseFragment() {
                         groupContent.isVisible = true
                         textViewMessage.isGone = true
 
-                        imageViewAvatar.load(state.character.imageUrl)
+                        imageViewAvatar.load(state.character.imageUrl) {
+                            crossfade(500)
+                        }
                         textViewName.text = state.character.name
                         textViewRealName.text = state.character.realName
                         textViewAliases.text = state.character.aliases
