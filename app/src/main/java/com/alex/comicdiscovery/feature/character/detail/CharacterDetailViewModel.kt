@@ -25,10 +25,6 @@ class CharacterDetailViewModel(
     private val _starState = MutableLiveData<Int>()
     val starState: LiveData<Int> = _starState
 
-    // true -> visible / false -> gone
-    private val _loadingState = MutableLiveData<Boolean>()
-    val loadingState: LiveData<Boolean> = _loadingState
-
     private var currentId: Int = 0
     private var isStarred = false
 
@@ -37,7 +33,7 @@ class CharacterDetailViewModel(
     fun init(id: Int, userComesFromStarredScreen: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
 
-            _loadingState.postValue(true)
+            _contentState.postValue(ContentState.LoadingState(resourceProvider.getString(R.string.character_detail_message_loading)))
 
             currentId = id
 
@@ -45,13 +41,10 @@ class CharacterDetailViewModel(
                 true -> characterRepository.getStarredCharacter(id)
                 false -> characterRepository.getCharacter(id)
             }.catch { throwable ->
-                _loadingState.postValue(false)
                 _contentState.postValue(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error)))
 
                 Timber.w(throwable)
             }.collect { result ->
-                _loadingState.postValue(false)
-
                 val character = result.result
                 isStarred = character.isStarred
 

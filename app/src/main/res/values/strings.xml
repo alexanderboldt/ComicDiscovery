@@ -16,6 +16,7 @@
     <string name="character_starred_message_error">Could not load starred characters</string>
 
     <!-- Screen Character Detail -->
+    <string name="character_detail_message_loading">Loading character …</string>
     <string name="character_detail_message_error">Could not load character</string>
 
     <!-- Screen Settings -->

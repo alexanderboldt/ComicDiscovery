@@ -46,16 +46,11 @@ class CharacterDetailFragment : BaseFragment() {
     }
 
     private fun setupViewModel() {
-        viewModel.loadingState.observe { state ->
-            binding.contentLoadingProgressBar.apply { if (state) show() else hide() }
-        }
-
         viewModel.contentState.observe { state ->
             when (state) {
                 is ContentState.CharacterState -> {
                     binding.apply {
-                        groupContent.isVisible = true
-                        textViewMessage.isGone = true
+                        viewSwitcher.displayedChild = 0
 
                         imageViewAvatar.load(state.character.imageUrl) {
                             crossfade(500)
@@ -69,10 +64,19 @@ class CharacterDetailFragment : BaseFragment() {
                         textViewOrigin.text = state.character.origin
                     }
                 }
+                is ContentState.LoadingState -> {
+                    binding.apply {
+                        viewSwitcher.displayedChild = 1
+                        contentLoadingProgressBar.isVisible = true
+                        contentLoadingProgressBar.show()
+                        textViewMessage.text = state.message
+                    }
+                }
                 is ContentState.MessageState -> {
                     binding.apply {
-                        groupContent.isGone = true
-                        textViewMessage.isVisible = true
+                        viewSwitcher.displayedChild = 1
+                        contentLoadingProgressBar.isGone = true
+                        contentLoadingProgressBar.hide()
                         textViewMessage.text = state.message
                     }
                 }
