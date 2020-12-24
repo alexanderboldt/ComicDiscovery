@@ -51,6 +51,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
+
+        // only use the following resources
+        resConfigs("en", "de")
     }
     buildTypes {
         getByName("debug") {
@@ -59,6 +62,9 @@ android {
             isShrinkResources = false
 
             applicationIdSuffix = ".development"
+
+            // disable png-optimization for faster builds
+            isCrunchPngs = false
 
             buildConfigField("String", "BASE_URL", "\"${LocalProperties.BASE_URL}\"")
             buildConfigField("String", "API_KEY", "\"${LocalProperties.API_KEY}\"")
