@@ -9,6 +9,7 @@ import com.alex.comicdiscovery.feature.main.di.mainModule
 import com.alex.comicdiscovery.feature.settings.di.settingsModule
 import com.alex.comicdiscovery.repository.character.di.characterRepositoryModule
 import com.alex.comicdiscovery.repository.database.ComicDiscoveryDatabase
+import com.alex.comicdiscovery.repository.datastore.di.settingsDataStoreModule
 import com.alex.comicdiscovery.repository.search.di.searchRepositoryModule
 import com.alex.comicdiscovery.repository.settings.di.settingsRepositoryModule
 import org.koin.android.ext.koin.androidContext
@@ -47,7 +48,8 @@ class ComicDiscoveryApplication : Application() {
                     // repository
                     searchRepositoryModule,
                     characterRepositoryModule,
-                    settingsRepositoryModule))
+                    settingsRepositoryModule,
+                    settingsDataStoreModule))
         }
     }
 

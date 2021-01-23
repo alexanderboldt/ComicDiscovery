@@ -8,10 +8,7 @@ import com.alex.comicdiscovery.feature.settings.models.UiModelThemes
 import com.alex.comicdiscovery.repository.models.RpModelTheme
 import com.alex.comicdiscovery.repository.settings.SettingsRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class SettingsViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
 
@@ -22,13 +19,7 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
 
     fun onSelectTheme(theme: UiModelThemes) {
         viewModelScope.launch(Dispatchers.Main) {
-            settingsRepository
-                .setTheme(RpModelTheme.values()[theme.ordinal])
-                .catch { throwable ->
-                    Timber.w(throwable)
-                }.collect { result ->
-                    if (result) _themeState.postValue(theme)
-                }
+            settingsRepository.setTheme(RpModelTheme.values()[theme.ordinal])
         }
     }
 }

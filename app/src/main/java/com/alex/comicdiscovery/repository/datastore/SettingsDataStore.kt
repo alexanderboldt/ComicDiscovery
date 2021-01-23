@@ -5,8 +5,6 @@ import androidx.datastore.preferences.createDataStore
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.preferencesKey
 import com.alex.comicdiscovery.repository.models.RpModelTheme
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class SettingsDataStore(context: Context) {
@@ -17,19 +15,12 @@ class SettingsDataStore(context: Context) {
 
     // ----------------------------------------------------------------------------
 
-    suspend fun getTheme(): Flow<RpModelTheme> {
-        return dataStore
-            .data
-            .map { it[keyTheme] ?: 0 }
-            .map { RpModelTheme.values()[it] }
-    }
+    fun getTheme() = dataStore
+        .data
+        .map { it[keyTheme] ?: 0 }
+        .map { RpModelTheme.values()[it] }
 
-    suspend fun setTheme(theme: RpModelTheme): Flow<Boolean> {
-        return flow {
-            dataStore.edit { settings ->
-                settings[keyTheme] = theme.ordinal
-            }
-            emit(true)
-        }
+    suspend fun setTheme(theme: RpModelTheme) {
+        dataStore.edit { it[keyTheme] = theme.ordinal }
     }
 }
