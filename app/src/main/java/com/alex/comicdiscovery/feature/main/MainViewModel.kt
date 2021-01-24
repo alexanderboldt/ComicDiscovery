@@ -3,30 +3,26 @@ package com.alex.comicdiscovery.feature.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alex.comicdiscovery.feature.main.models.UiModelThemes
-import com.alex.comicdiscovery.repository.settings.SettingsRepository
+import com.alex.comicdiscovery.R
+import com.alex.comicdiscovery.repository.session.SessionRepository
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
-class MainViewModel(settingsRepository: SettingsRepository) : ViewModel() {
+class MainViewModel(private val sessionRepository: SessionRepository) : ViewModel() {
 
-    private val _themeState = LiveEvent<UiModelThemes>()
-    val themeState: LiveData<UiModelThemes> = _themeState
+    private val _startFragmentState = LiveEvent<Int>()
+    val startFragmentState: LiveData<Int> = _startFragmentState
 
     // ----------------------------------------------------------------------------
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            settingsRepository
-                .getTheme()
-                .catch { throwable ->
-                    Timber.w(throwable)
-                }.collect { result ->
-                    _themeState.postValue(UiModelThemes.values()[result.ordinal])
+            sessionRepository
+                .isUserLoggedIn()
+                .collect { isUserLoggedIn ->
+                    _startFragmentState.postValue(if (isUserLoggedIn) R.id.homeFragment else R.id.loginFragment)
                 }
         }
     }

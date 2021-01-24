@@ -4,24 +4,31 @@
     <string name="bottom_navigation_page_starred">Starred</string>
     <string name="bottom_navigation_page_settings">Settings</string>
 
-    <!-- Screen Character Overview -->
+    <!-- screen login -->
+    <string name="login_input_username">Username</string>
+    <string name="login_input_password">Password</string>
+    <string name="login_button_login">Login</string>
+
+    <!-- screen character overview -->
     <string name="character_overview_message_no_search">Make a search for some characters</string>
     <string name="character_overview_message_loading">Loading characters …</string>
     <string name="character_overview_message_no_entries">No characters found</string>
     <string name="character_overview_message_error">Could not load characters</string>
 
-    <!-- Screen Character Starred -->
+    <!-- screen character starred -->
     <string name="character_starred_message_loading">Loading characters …</string>
     <string name="character_starred_message_no_entries">No characters starred</string>
     <string name="character_starred_message_error">Could not load starred characters</string>
 
-    <!-- Screen Character Detail -->
+    <!-- screen character detail -->
     <string name="character_detail_message_loading">Loading character …</string>
     <string name="character_detail_message_error">Could not load character</string>
 
-    <!-- Screen Settings -->
+    <!-- screen settings -->
+    <string name="settings_user_title">User</string>
     <string name="settings_theme_title">Theme</string>
     <string name="settings_theme_system">System</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
+    <string name="settings_logout">Logout</string>
 </resources>

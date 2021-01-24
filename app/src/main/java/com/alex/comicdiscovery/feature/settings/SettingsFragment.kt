@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.alex.comicdiscovery.databinding.FragmentSettingsBinding
 import com.alex.comicdiscovery.feature.base.BaseFragment
 import com.alex.comicdiscovery.feature.settings.models.UiModelThemes
@@ -42,15 +43,28 @@ class SettingsFragment : BaseFragment() {
         lifecycleScope.launch {
             binding.textViewThemeDark.clicks { viewModel.onSelectTheme(UiModelThemes.DARK) }
         }
+        lifecycleScope.launch {
+            binding.buttonLogout.clicks { viewModel.onClickLogout() }
+        }
     }
 
     private fun setupViewModel() {
+        viewModel.userState.observe { state ->
+            binding.textViewUser.text = state
+        }
+
         viewModel.themeState.observe { state ->
             when (state) {
                 UiModelThemes.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 UiModelThemes.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
                 UiModelThemes.DARK -> AppCompatDelegate.MODE_NIGHT_YES
             }.also { AppCompatDelegate.setDefaultNightMode(it) }
+        }
+
+        viewModel.loginScreenState.observe {
+            SettingsFragmentDirections
+                .actionToNavGraphLogin()
+                .also { findNavController().navigate(it) }
         }
     }
 }
