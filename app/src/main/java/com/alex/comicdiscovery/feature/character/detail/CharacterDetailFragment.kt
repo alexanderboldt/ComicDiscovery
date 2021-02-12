@@ -14,11 +14,14 @@ import com.alex.comicdiscovery.feature.base.BaseFragment
 import com.alex.comicdiscovery.feature.character.detail.models.ContentState
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.ldralighieri.corbind.view.clicks
 
 class CharacterDetailFragment : BaseFragment() {
 
-    private val viewModel: CharacterDetailViewModel by viewModel()
+    private val viewModel: CharacterDetailViewModel by viewModel {
+        parametersOf(arguments.id, arguments.userComesFromStarredScreen)
+    }
 
     private lateinit var binding: FragmentCharacterDetailBinding
 
@@ -86,7 +89,5 @@ class CharacterDetailFragment : BaseFragment() {
         viewModel.starState.observe { state ->
             binding.imageViewStar.setImageResource(state)
         }
-
-        viewModel.init(arguments.id, arguments.userComesFromStarredScreen)
     }
 }

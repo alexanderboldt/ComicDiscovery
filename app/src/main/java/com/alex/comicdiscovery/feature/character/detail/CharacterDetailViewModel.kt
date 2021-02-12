@@ -12,10 +12,13 @@ import com.alex.comicdiscovery.repository.character.CharacterRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class CharacterDetailViewModel(
+    private val characterId: Int,
+    private val userComesFromStarredScreen: Boolean,
     private val characterRepository: CharacterRepository,
     private val resourceProvider: ResourceProvider) : ViewModel() {
 
@@ -25,21 +28,19 @@ class CharacterDetailViewModel(
     private val _starState = MutableLiveData<Int>()
     val starState: LiveData<Int> = _starState
 
-    private var currentId: Int = 0
+    // ----------------------------------------------------------------------------
+
     private var isStarred = false
 
     // ----------------------------------------------------------------------------
 
-    fun init(id: Int, userComesFromStarredScreen: Boolean) {
+    init {
         viewModelScope.launch(Dispatchers.Main) {
-
-            _contentState.postValue(ContentState.LoadingState(resourceProvider.getString(R.string.character_detail_message_loading)))
-
-            currentId = id
-
             when (userComesFromStarredScreen) {
-                true -> characterRepository.getStarredCharacter(id)
-                false -> characterRepository.getCharacter(id)
+                true -> characterRepository.getStarredCharacter(characterId)
+                false -> characterRepository.getCharacter(characterId)
+            }.onStart {
+                _contentState.postValue(ContentState.LoadingState(resourceProvider.getString(R.string.character_detail_message_loading)))
             }.catch { throwable ->
                 _contentState.postValue(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error)))
 
@@ -72,8 +73,8 @@ class CharacterDetailViewModel(
     fun onClickStar() {
         viewModelScope.launch(Dispatchers.Main) {
             when (isStarred) {
-                true -> characterRepository.unstarCharacter(currentId)
-                false -> characterRepository.starCharacter(currentId)
+                true -> characterRepository.unstarCharacter(characterId)
+                false -> characterRepository.starCharacter(characterId)
             }.collect { wasSuccessful ->
                 if (wasSuccessful) {
                     isStarred = !isStarred
