@@ -1,6 +1,6 @@
 package com.alex.comicdiscovery.repository.search
 
-import com.alex.comicdiscovery.repository.datasource.api.ApiClient
+import com.alex.comicdiscovery.repository.datasource.api.ApiRoutes
 import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
 import com.alex.comicdiscovery.repository.models.RpModelResponse
 import com.alex.comicdiscovery.util.mapping.CharacterMapper
@@ -9,13 +9,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class SearchRepository {
+class SearchRepository(private val apiRoutes: ApiRoutes) {
 
     suspend fun getSearch(query: String): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
         return flow {
 
-            ApiClient
-                .routes
+            apiRoutes
                 .getSearch(
                     mapOf(
                         "query" to query,

@@ -1,6 +1,6 @@
 package com.alex.comicdiscovery.repository.character
 
-import com.alex.comicdiscovery.repository.datasource.api.ApiClient
+import com.alex.comicdiscovery.repository.datasource.api.ApiRoutes
 import com.alex.comicdiscovery.repository.datasource.database.ComicDiscoveryDatabase
 import com.alex.comicdiscovery.repository.models.*
 import com.alex.comicdiscovery.util.mapping.CharacterMapper
@@ -9,12 +9,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class CharacterRepository {
+class CharacterRepository(private val apiRoutes: ApiRoutes, private val database: ComicDiscoveryDatabase) {
 
     suspend fun getCharacter(id: Int): Flow<RpModelResponse<RpModelCharacterDetail>> {
         return flow {
-            ApiClient
-                .routes
+            apiRoutes
                 .getCharacter(
                     "4005-$id",
                     mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin")
@@ -25,7 +24,7 @@ class CharacterRepository {
                         response.numberOfTotalResults,
                         CharacterMapper.mapApiModelDetailToRpModelDetail(
                             response.results,
-                            ComicDiscoveryDatabase.database.characterDao()
+                            database.characterDao()
                                 .getCharacter(id) != null
                         )
                     )
@@ -37,8 +36,7 @@ class CharacterRepository {
 
     suspend fun getStarredCharacters(): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
         return flow {
-            ComicDiscoveryDatabase
-                .database
+            database
                 .characterDao()
                 .getAll()
                 .let { characters -> CharacterMapper.mapDbModelToRpModelOverview(characters) }
@@ -49,8 +47,7 @@ class CharacterRepository {
 
     suspend fun getStarredCharacter(id: Int): Flow<RpModelResponse<RpModelCharacterDetail>> {
         return flow {
-            ComicDiscoveryDatabase
-                .database
+            database
                 .characterDao()
                 .getCharacter(id)!!
                 .let { character -> CharacterMapper.mapDbModelToRpModelDetail(character, true) }
@@ -63,23 +60,21 @@ class CharacterRepository {
 
     suspend fun starCharacter(id: Int): Flow<Boolean> {
         return flow {
-            ApiClient
-                .routes
+            apiRoutes
                 .getCharacter(
                     "4005-$id",
                     mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin")
                 )
                 .results
                 .let { character -> CharacterMapper.mapApiModelDetailToDbModel(character) }
-                .also { dbCharacter -> ComicDiscoveryDatabase.database.characterDao().insert(dbCharacter) }
+                .also { dbCharacter -> database.characterDao().insert(dbCharacter) }
             emit(true)
         }.flowOn(Dispatchers.IO)
     }
 
     suspend fun unstarCharacter(id: Int): Flow<Boolean> {
         return flow {
-            ComicDiscoveryDatabase
-                .database
+            database
                 .characterDao()
                 .delete(id)
                 .let { numberOfAffectedRows -> numberOfAffectedRows > 0 }

@@ -4,5 +4,5 @@ import com.alex.comicdiscovery.repository.character.CharacterRepository
 import org.koin.dsl.module
 
 val characterRepositoryModule = module {
-    factory { CharacterRepository() }
+    factory { CharacterRepository(get(), get()) }
 }

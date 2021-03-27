@@ -8,7 +8,9 @@ import com.alex.comicdiscovery.feature.character.starred.di.characterStarredModu
 import com.alex.comicdiscovery.feature.main.di.mainModule
 import com.alex.comicdiscovery.feature.settings.di.settingsModule
 import com.alex.comicdiscovery.repository.character.di.characterRepositoryModule
+import com.alex.comicdiscovery.repository.datasource.api.di.apiRoutesModule
 import com.alex.comicdiscovery.repository.datasource.database.ComicDiscoveryDatabase
+import com.alex.comicdiscovery.repository.datasource.database.di.comicDiscoveryDatabaseModule
 import com.alex.comicdiscovery.repository.datasource.datastore.di.settingsDataStoreModule
 import com.alex.comicdiscovery.repository.search.di.searchRepositoryModule
 import com.alex.comicdiscovery.repository.settings.di.settingsRepositoryModule
@@ -35,8 +37,7 @@ class ComicDiscoveryApplication : Application() {
     private fun setupKoin() {
         startKoin {
             androidContext(this@ComicDiscoveryApplication)
-            modules(
-                listOf(
+            modules(listOf(
                     // features
                     mainModule,
                     characterOverviewModule,
@@ -49,7 +50,9 @@ class ComicDiscoveryApplication : Application() {
                     searchRepositoryModule,
                     characterRepositoryModule,
                     settingsRepositoryModule,
-                    settingsDataStoreModule))
+                    settingsDataStoreModule,
+                    apiRoutesModule,
+                    comicDiscoveryDatabaseModule))
         }
     }
 
