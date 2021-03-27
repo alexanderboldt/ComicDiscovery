@@ -6,7 +6,7 @@ import com.alex.comicdiscovery.repository.datasource.database.character.DbModelC
 import com.alex.comicdiscovery.repository.datasource.database.character.CharacterDao
 import com.alex.comicdiscovery.repository.datasource.database.converter.ListTypeConverter
 
-@Database(entities = arrayOf(DbModelCharacter::class), version = 2)
+@Database(entities = [DbModelCharacter::class], version = 3)
 @TypeConverters(ListTypeConverter::class)
 abstract class ComicDiscoveryDatabase : RoomDatabase() {
 
