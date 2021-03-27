@@ -1,8 +1,8 @@
-package com.alex.comicdiscovery.repository.api
+package com.alex.comicdiscovery.repository.datasource.api
 
-import com.alex.comicdiscovery.repository.api.models.ApiModelCharacterDetail
-import com.alex.comicdiscovery.repository.api.models.ApiModelCharacterOverview
-import com.alex.comicdiscovery.repository.api.models.ApiModelResponse
+import com.alex.comicdiscovery.repository.datasource.api.models.ApiModelCharacterDetail
+import com.alex.comicdiscovery.repository.datasource.api.models.ApiModelCharacterOverview
+import com.alex.comicdiscovery.repository.datasource.api.models.ApiModelResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap

@@ -1,4 +1,4 @@
-package com.alex.comicdiscovery.repository.database.character
+package com.alex.comicdiscovery.repository.datasource.database.character
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,6 +13,6 @@ data class DbModelCharacter(
     val gender: Int,
     val aliases: String?,
     val birth: String?,
-    val powers: String,
+    val powers: List<String>,
     val origin: String
 )

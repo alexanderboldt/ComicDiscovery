@@ -1,4 +1,4 @@
-package com.alex.comicdiscovery.repository.api
+package com.alex.comicdiscovery.repository.datasource.api
 
 import com.alex.comicdiscovery.BuildConfig
 import com.ihsanbal.logging.Level

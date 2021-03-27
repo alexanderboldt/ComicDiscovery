@@ -1,4 +1,4 @@
-package com.alex.comicdiscovery.repository.api.models
+package com.alex.comicdiscovery.repository.datasource.api.models
 
 import com.squareup.moshi.JsonClass
 

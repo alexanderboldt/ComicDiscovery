@@ -1,12 +1,27 @@
 package com.alex.comicdiscovery.util.mapping
 
-import com.alex.comicdiscovery.repository.api.models.ApiModelCharacterDetail
-import com.alex.comicdiscovery.repository.api.models.ApiModelCharacterOverview
-import com.alex.comicdiscovery.repository.database.character.DbModelCharacter
+import com.alex.comicdiscovery.repository.datasource.api.models.ApiModelCharacterDetail
+import com.alex.comicdiscovery.repository.datasource.api.models.ApiModelCharacterOverview
+import com.alex.comicdiscovery.repository.datasource.database.character.DbModelCharacter
 import com.alex.comicdiscovery.repository.models.RpModelCharacterDetail
 import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
 
 object CharacterMapper {
+
+    // from api to database
+
+    fun mapApiModelDetailToDbModel(input: ApiModelCharacterDetail): DbModelCharacter {
+        return DbModelCharacter(
+                input.id,
+                input.name,
+                input.realName,
+                input.image.smallUrl,
+                input.gender,
+                input.aliases,
+                input.birth,
+                input.powers.map { it.name },
+                input.origin.name)
+    }
 
     // from api to repository
 
@@ -67,24 +82,9 @@ object CharacterMapper {
             input.gender,
             input.aliases,
             input.birth,
-            input.powers.split(";"),
+            input.powers,
             input.origin,
             isStarred
         )
-    }
-    
-    // from api to database
-    
-    fun mapApiModelDetailToDbModel(input: ApiModelCharacterDetail): DbModelCharacter {
-        return DbModelCharacter(
-            input.id,
-            input.name,
-            input.realName,
-            input.image.smallUrl,
-            input.gender,
-            input.aliases,
-            input.birth,
-            input.powers.joinToString(";"),
-            input.origin.name)
     }
 }

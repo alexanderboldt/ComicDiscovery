@@ -1,6 +1,6 @@
 package com.alex.comicdiscovery.repository.search
 
-import com.alex.comicdiscovery.repository.api.ApiClient
+import com.alex.comicdiscovery.repository.datasource.api.ApiClient
 import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
 import com.alex.comicdiscovery.repository.models.RpModelResponse
 import com.alex.comicdiscovery.util.mapping.CharacterMapper

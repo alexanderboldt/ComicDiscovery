@@ -1,13 +1,13 @@
-package com.alex.comicdiscovery.repository.database
+package com.alex.comicdiscovery.repository.datasource.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.alex.comicdiscovery.repository.database.character.DbModelCharacter
-import com.alex.comicdiscovery.repository.database.character.CharacterDao
+import androidx.room.*
+import com.alex.comicdiscovery.repository.datasource.database.character.DbModelCharacter
+import com.alex.comicdiscovery.repository.datasource.database.character.CharacterDao
+import com.alex.comicdiscovery.repository.datasource.database.converter.ListTypeConverter
 
 @Database(entities = arrayOf(DbModelCharacter::class), version = 2)
+@TypeConverters(ListTypeConverter::class)
 abstract class ComicDiscoveryDatabase : RoomDatabase() {
 
     abstract fun characterDao(): CharacterDao

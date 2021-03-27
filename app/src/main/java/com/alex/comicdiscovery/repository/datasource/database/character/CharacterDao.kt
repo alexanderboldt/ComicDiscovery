@@ -1,4 +1,4 @@
-package com.alex.comicdiscovery.repository.database.character
+package com.alex.comicdiscovery.repository.datasource.database.character
 
 import androidx.room.*
 

@@ -1,6 +1,6 @@
 package com.alex.comicdiscovery.util.mapping
 
-import com.alex.comicdiscovery.repository.api.models.ApiModelImage
+import com.alex.comicdiscovery.repository.datasource.api.models.ApiModelImage
 import com.alex.comicdiscovery.repository.models.RpModelImage
 
 object ImageMapper {

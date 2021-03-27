@@ -1,4 +1,4 @@
-package com.alex.comicdiscovery.repository.datastore
+package com.alex.comicdiscovery.repository.datasource.datastore
 
 import android.content.Context
 import androidx.datastore.preferences.createDataStore

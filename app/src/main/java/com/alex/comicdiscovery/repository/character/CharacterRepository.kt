@@ -1,7 +1,7 @@
 package com.alex.comicdiscovery.repository.character
 
-import com.alex.comicdiscovery.repository.api.ApiClient
-import com.alex.comicdiscovery.repository.database.ComicDiscoveryDatabase
+import com.alex.comicdiscovery.repository.datasource.api.ApiClient
+import com.alex.comicdiscovery.repository.datasource.database.ComicDiscoveryDatabase
 import com.alex.comicdiscovery.repository.models.*
 import com.alex.comicdiscovery.util.mapping.CharacterMapper
 import kotlinx.coroutines.Dispatchers
