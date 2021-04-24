@@ -11,15 +11,15 @@ object Deps {
     }
 
     object AndroidX {
-        const val core = "androidx.core:core-ktx:1.3.1"
+        const val core = "androidx.core:core-ktx:1.3.2"
         const val appCompat = "androidx.appcompat:appcompat:1.2.0"
-        const val material = "com.google.android.material:material:1.2.1"
-        const val recyclerView = "androidx.recyclerview:recyclerview:1.1.0"
-        const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.1"
-        const val fragmentsKtx = "androidx.fragment:fragment-ktx:1.2.5"
+        const val material = "com.google.android.material:material:1.3.0"
+        const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
+        const val fragmentsKtx = "androidx.fragment:fragment-ktx:1.3.3"
 
         object LifeCycle {
-            private const val version = "2.3.0"
+            private const val version = "2.3.1"
 
             // coroutineScope() on Lifecycle, lifecycleScope on LifecycleOwner
             const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
@@ -32,14 +32,14 @@ object Deps {
         }
 
         object Navigation {
-            private const val version = "2.3.0"
+            private const val version = "2.3.5"
             const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:$version"
             const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
             const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
         }
 
         object Room {
-            private const val version = "2.2.5"
+            private const val version = "2.3.0"
             const val room = "androidx.room:room-runtime:$version"
             const val ktx = "androidx.room:room-ktx:$version"
             const val compiler = "androidx.room:room-compiler:$version"
