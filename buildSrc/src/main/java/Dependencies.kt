@@ -69,7 +69,7 @@ object Deps {
 
     object Libs {
         object Coroutines {
-            private const val version = "1.3.9"
+            private const val version = "1.4.3"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         }
@@ -84,25 +84,24 @@ object Deps {
         }
 
         object Moshi {
-            private const val version = "1.10.0"
+            private const val version = "1.12.0"
             const val moshi = "com.squareup.moshi:moshi:$version"
             const val codeGen = "com.squareup.moshi:moshi-kotlin-codegen:$version"
         }
 
-        const val coil = "io.coil-kt:coil:1.0.0"
+        const val coil = "io.coil-kt:coil:1.2.0"
 
-        const val liveEvent = "com.github.hadilq.liveevent:liveevent:1.2.0"
+        const val liveEvent = "com.github.hadilq:live-event:1.2.3"
 
         const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
 
         object Koin {
-            private const val version = "2.1.6"
-            const val koin = "org.koin:koin-android:$version"
-            const val viewModel = "org.koin:koin-androidx-viewmodel:$version"
+            private const val version = "3.0.1"
+            const val koin = "io.insert-koin:koin-android:$version"
         }
 
         object Corbind {
-            private const val version = "1.4.0"
+            private const val version = "1.5.0"
             const val corbind = "ru.ldralighieri.corbind:corbind-core:$version"
             const val appCompat = "ru.ldralighieri.corbind:corbind-appcompat:$version"
         }

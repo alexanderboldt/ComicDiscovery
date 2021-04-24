@@ -118,7 +118,7 @@ android {
 
 repositories {
     google()
-    jcenter()
+    mavenCentral()
     maven { setUrl("https://www.jitpack.io") }
 }
 
@@ -184,7 +184,6 @@ dependencies {
 
     // dependency injection
     implementation(Deps.Libs.Koin.koin)
-    implementation(Deps.Libs.Koin.viewModel)
 
     // view-binding with flow/coroutines
     implementation(Deps.Libs.Corbind.corbind)
