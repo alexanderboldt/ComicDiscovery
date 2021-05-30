@@ -6,7 +6,7 @@ object Config {
 
 object Deps {
     object Kotlin {
-        const val version = "1.4.32"
+        const val version = "1.5.10"
         const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
     }
 
@@ -69,7 +69,7 @@ object Deps {
 
     object Libs {
         object Coroutines {
-            private const val version = "1.4.3"
+            private const val version = "1.5.0"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         }
@@ -80,7 +80,7 @@ object Deps {
             private const val version = "2.9.0"
             const val retrofit = "com.squareup.retrofit2:retrofit:$version"
             const val moshiConverter = "com.squareup.retrofit2:converter-moshi:$version"
-            const val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.0.0"
+            const val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.1.0"
         }
 
         object Moshi {

@@ -12,9 +12,9 @@ abstract class BaseFragment : Fragment() {
      * Convenient observe-function.
      */
     fun <T> LiveData<T>.observe(observer: (t: T) -> Unit) {
-        this.observe(viewLifecycleOwner, Observer { data ->
+        this.observe(viewLifecycleOwner) { data ->
             observer(data)
-        })
+        }
     }
 
     /**

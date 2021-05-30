@@ -25,7 +25,7 @@ object ApiClient {
                 val request = chain.request()
 
                 val url = request
-                        .url()
+                        .url
                         .newBuilder()
                         .addQueryParameter("api_key", BuildConfig.API_KEY)
                         .addQueryParameter("format", "json")
@@ -40,8 +40,7 @@ object ApiClient {
                 chain.proceed(requestBuilder)
             }
             .addInterceptor(LoggingInterceptor.Builder()
-                    .loggable(BuildConfig.DEBUG)
-                    .setLevel(Level.BODY)
+                    .setLevel(if (BuildConfig.DEBUG) Level.BASIC else Level.NONE)
                     .log(Platform.INFO)
                     .build())
             .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
