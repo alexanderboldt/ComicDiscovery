@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.overview.model.RecyclerViewState
+import com.alex.comicdiscovery.feature.character.overview.model.ListState
 import com.alex.comicdiscovery.feature.character.overview.model.UiModelCharacter
 import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
 import com.alex.comicdiscovery.repository.models.RpModelImage
@@ -40,7 +40,7 @@ class CharacterOverviewViewModelTest {
     @Mock private lateinit var resourceProvider: ResourceProvider
 
     // mocking observers
-    @Mock private lateinit var recyclerViewStateMock: Observer<RecyclerViewState>
+    @Mock private lateinit var recyclerViewStateMock: Observer<ListState>
     @Mock private lateinit var loadingStateMock: Observer<Boolean>
     @Mock private lateinit var detailStateMock: Observer<Int>
     @Mock private lateinit var hideKeyboardStateMock: Observer<Unit>
@@ -74,8 +74,8 @@ class CharacterOverviewViewModelTest {
             verify(loadingStateMock, never()).onChanged(true)
             verify(loadingStateMock, times(1)).onChanged(false)
 
-            verify(recyclerViewStateMock, never()).onChanged(RecyclerViewState.CharacterState(anyList()))
-            verify(recyclerViewStateMock, times(1)).onChanged(RecyclerViewState.MessageState("Make a search for some characters"))
+            verify(recyclerViewStateMock, never()).onChanged(ListState.CharacterState(anyList()))
+            verify(recyclerViewStateMock, times(1)).onChanged(ListState.MessageState("Make a search for some characters"))
 
             verify(detailStateMock, never()).onChanged(anyInt())
 
@@ -93,8 +93,8 @@ class CharacterOverviewViewModelTest {
 
             verify(loadingStateMock, never()).onChanged(anyBoolean())
 
-            verify(recyclerViewStateMock, never()).onChanged(RecyclerViewState.CharacterState(anyList()))
-            verify(recyclerViewStateMock, times(1)).onChanged(RecyclerViewState.MessageState("Make a search for some characters"))
+            verify(recyclerViewStateMock, never()).onChanged(ListState.CharacterState(anyList()))
+            verify(recyclerViewStateMock, times(1)).onChanged(ListState.MessageState("Make a search for some characters"))
 
             verify(detailStateMock, never()).onChanged(anyInt())
 
@@ -112,8 +112,8 @@ class CharacterOverviewViewModelTest {
 
             verify(loadingStateMock, never()).onChanged(anyBoolean())
 
-            verify(recyclerViewStateMock, never()).onChanged(RecyclerViewState.CharacterState(anyList()))
-            verify(recyclerViewStateMock, times(1)).onChanged(RecyclerViewState.MessageState("Make a search for some characters"))
+            verify(recyclerViewStateMock, never()).onChanged(ListState.CharacterState(anyList()))
+            verify(recyclerViewStateMock, times(1)).onChanged(ListState.MessageState("Make a search for some characters"))
 
             verify(detailStateMock, never()).onChanged(anyInt())
 
@@ -146,8 +146,8 @@ class CharacterOverviewViewModelTest {
 
             val uiUharacters = listOf(UiModelCharacter(0, "The flash", "Barry Allen", "urlToImage"))
 
-            verify(recyclerViewStateMock, times(1)).onChanged(RecyclerViewState.CharacterState(uiUharacters))
-            verify(recyclerViewStateMock, never()).onChanged(RecyclerViewState.MessageState(anyString()))
+            verify(recyclerViewStateMock, times(1)).onChanged(ListState.CharacterState(uiUharacters))
+            verify(recyclerViewStateMock, never()).onChanged(ListState.MessageState(anyString()))
 
             verify(detailStateMock, never()).onChanged(anyInt())
 
@@ -179,8 +179,8 @@ class CharacterOverviewViewModelTest {
             verify(loadingStateMock, times(1)).onChanged(true)
             verify(loadingStateMock, times(1)).onChanged(false)
 
-            verify(recyclerViewStateMock, never()).onChanged(RecyclerViewState.CharacterState(anyList()))
-            verify(recyclerViewStateMock, times(1)).onChanged(RecyclerViewState.MessageState("No characters found"))
+            verify(recyclerViewStateMock, never()).onChanged(ListState.CharacterState(anyList()))
+            verify(recyclerViewStateMock, times(1)).onChanged(ListState.MessageState("No characters found"))
 
             verify(detailStateMock, never()).onChanged(anyInt())
 
@@ -205,8 +205,8 @@ class CharacterOverviewViewModelTest {
 
             verify(loadingStateMock, never()).onChanged(anyBoolean())
 
-            verify(recyclerViewStateMock, never()).onChanged(RecyclerViewState.CharacterState(anyList()))
-            verify(recyclerViewStateMock, never()).onChanged(RecyclerViewState.MessageState(anyString()))
+            verify(recyclerViewStateMock, never()).onChanged(ListState.CharacterState(anyList()))
+            verify(recyclerViewStateMock, never()).onChanged(ListState.MessageState(anyString()))
 
             verify(detailStateMock, times(1)).onChanged(detailId)
 

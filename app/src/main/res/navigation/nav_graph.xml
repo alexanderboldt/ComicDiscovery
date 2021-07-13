@@ -9,13 +9,6 @@
         android:name="com.alex.comicdiscovery.feature.character.overview.CharacterOverviewFragment"
         android:label="CharacterOverviewFragment">
 
-        <action
-            android:id="@+id/action_to_characterDetailFragment"
-            app:destination="@id/characterDetailFragment"
-            app:enterAnim="@anim/slide_from_end_to_center"
-            app:exitAnim="@anim/slide_from_center_to_start"
-            app:popEnterAnim="@anim/slide_from_start_to_center"
-            app:popExitAnim="@anim/slide_from_center_to_end"/>
 
     </fragment>
 
@@ -24,13 +17,6 @@
         android:name="com.alex.comicdiscovery.feature.character.starred.CharacterStarredFragment"
         android:label="CharacterStarredFragment" >
 
-        <action
-            android:id="@+id/action_to_characterDetailFragment"
-            app:destination="@id/characterDetailFragment"
-            app:enterAnim="@anim/slide_from_end_to_center"
-            app:exitAnim="@anim/slide_from_center_to_start"
-            app:popEnterAnim="@anim/slide_from_start_to_center"
-            app:popExitAnim="@anim/slide_from_center_to_end" />
     </fragment>
 
     <fragment

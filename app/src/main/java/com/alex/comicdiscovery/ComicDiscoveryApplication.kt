@@ -38,21 +38,21 @@ class ComicDiscoveryApplication : Application() {
         startKoin {
             androidContext(this@ComicDiscoveryApplication)
             modules(listOf(
-                    // features
-                    mainModule,
-                    characterOverviewModule,
-                    characterStarredModule,
-                    characterDetailModule,
-                    settingsModule,
-                    // resource
-                    resourceProviderModule,
-                    // repository
-                    searchRepositoryModule,
-                    characterRepositoryModule,
-                    settingsRepositoryModule,
-                    settingsDataStoreModule,
-                    apiRoutesModule,
-                    comicDiscoveryDatabaseModule))
+                // features
+                mainModule,
+                characterOverviewModule,
+                characterStarredModule,
+                characterDetailModule,
+                settingsModule,
+                // resource
+                resourceProviderModule,
+                // repository
+                searchRepositoryModule,
+                characterRepositoryModule,
+                settingsRepositoryModule,
+                settingsDataStoreModule,
+                apiRoutesModule,
+                comicDiscoveryDatabaseModule))
         }
     }
 

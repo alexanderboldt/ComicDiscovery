@@ -11,9 +11,9 @@ object Deps {
     }
 
     object AndroidX {
-        const val core = "androidx.core:core-ktx:1.3.2"
-        const val appCompat = "androidx.appcompat:appcompat:1.2.0"
-        const val material = "com.google.android.material:material:1.3.0"
+        const val core = "androidx.core:core-ktx:1.6.0"
+        const val appCompat = "androidx.appcompat:appcompat:1.3.0"
+        const val material = "com.google.android.material:material:1.4.0"
         const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
         const val fragmentsKtx = "androidx.fragment:fragment-ktx:1.3.3"
@@ -48,6 +48,10 @@ object Deps {
         object DataStore {
             private const val version = "1.0.0-alpha02"
             const val preferences = "androidx.datastore:datastore-preferences:$version"
+        }
+
+        object Compose {
+            const val version = "1.0.0-rc01"
         }
     }
 
@@ -96,8 +100,9 @@ object Deps {
         const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
 
         object Koin {
-            private const val version = "3.0.1"
+            private const val version = "3.1.2"
             const val koin = "io.insert-koin:koin-android:$version"
+            const val compose = "io.insert-koin:koin-androidx-compose:$version"
         }
 
         object Corbind {

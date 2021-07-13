@@ -37,22 +37,25 @@ fun getTag(): String? {
 }
 
 android {
-    compileSdkVersion(Config.sdk)
+    compileSdk = Config.sdk
+
     defaultConfig {
         applicationId = Config.applicationId
-        minSdkVersion(Config.minSdk)
-        targetSdkVersion(Config.sdk)
+
+        minSdk = Config.minSdk
+        targetSdk = Config.sdk
+
         versionCode = getCommitCount()
         versionName = getTag()
 
-        ndk?.abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+        //ndk?.abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
 
         // only use the following resources
-        resConfigs("en", "de")
+        //resConfigs("en", "de")
     }
     buildTypes {
         getByName("debug") {
@@ -95,14 +98,10 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         disable("ContentDescription")
 
         isAbortOnError = false
-    }
-
-    buildFeatures {
-        viewBinding = true
     }
 
     compileOptions {
@@ -112,6 +111,15 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    
+    buildFeatures {
+        compose = true
+        viewBinding = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Deps.AndroidX.Compose.version
     }
 }
 
@@ -157,6 +165,25 @@ dependencies {
 
     implementation(Deps.AndroidX.DataStore.preferences)
 
+    implementation("androidx.compose.ui:ui:${Deps.AndroidX.Compose.version}")
+    // Tooling support (Previews, etc.)
+    implementation("androidx.compose.ui:ui-tooling:${Deps.AndroidX.Compose.version}")
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    implementation("androidx.compose.foundation:foundation:${Deps.AndroidX.Compose.version}")
+    // Material Design
+    implementation("androidx.compose.material:material:${Deps.AndroidX.Compose.version}")
+    // Material design icons
+    implementation("androidx.compose.material:material-icons-core:${Deps.AndroidX.Compose.version}")
+    implementation("androidx.compose.material:material-icons-extended:${Deps.AndroidX.Compose.version}")
+
+    // Integration with activities
+    implementation("androidx.activity:activity-compose:1.3.0-rc01")
+    // Integration with ViewModels
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
+
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha04")
+    implementation("com.google.accompanist:accompanist-coil:0.13.0")
+
     // 3rd-party libraries
 
     // coroutines
@@ -183,6 +210,7 @@ dependencies {
 
     // dependency injection
     implementation(Deps.Libs.Koin.koin)
+    implementation(Deps.Libs.Koin.compose)
 
     // view-binding with flow/coroutines
     implementation(Deps.Libs.Corbind.corbind)

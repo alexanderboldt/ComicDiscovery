@@ -1,15 +1,15 @@
 package com.alex.comicdiscovery.feature.character.overview
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.overview.model.UiModelCharacter
-import com.alex.comicdiscovery.feature.character.overview.model.RecyclerViewState
+import com.alex.comicdiscovery.feature.character.overview.model.ListState
 import com.alex.comicdiscovery.repository.search.SearchRepository
-import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -19,62 +19,55 @@ class CharacterOverviewViewModel(
     private val searchRepository: SearchRepository,
     private val resourceProvider: ResourceProvider) : ViewModel() {
 
-    private val _recyclerViewState = MutableLiveData<RecyclerViewState>()
-    val recyclerViewState: LiveData<RecyclerViewState> = _recyclerViewState
+    var query: String by mutableStateOf("")
+        private set
 
-    // the detail-id as an Int
-    private val _detailState = LiveEvent<Int>()
-    val detailState: LiveData<Int> = _detailState
+    var listState: ListState by mutableStateOf(ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
+        private set
 
-    private val _hideKeyboardState = MutableLiveData<Unit>()
-    val hideKeyboardState: LiveData<Unit> = _hideKeyboardState
+    var detailScreen: Int by mutableStateOf(-1)
+        private set
 
     // ----------------------------------------------------------------------------
 
-    init {
-        _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
+    fun onQueryChange(query: String) {
+        this.query = query
     }
 
-    // ----------------------------------------------------------------------------
-
-    fun onSubmitSearch(query: String?) {
-        when (query.isNullOrBlank()) {
-            true -> _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
-            false -> {
-                search(query)
-                _hideKeyboardState.postValue(Unit)
-            }
+    fun onQuerySubmit() {
+        when (query.isBlank()) {
+            true -> listState = ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search))
+            false -> search(query)
         }
     }
 
     fun onClickCharacter(id: Int) {
-        _detailState.postValue(id)
+        detailScreen = id
     }
 
     // ----------------------------------------------------------------------------
 
     private fun search(query: String) {
-        viewModelScope.launch(Dispatchers.Main) {
-
-            _recyclerViewState.postValue(RecyclerViewState.LoadingState(resourceProvider.getString(R.string.character_overview_message_loading)))
+        viewModelScope.launch(Dispatchers.IO) {
 
             searchRepository
                 .getSearch(query)
-                .catch { throwable ->
-                    _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_error)))
+                .onStart {
+                    listState = ListState.MessageState("Loading characters ...")
+                }.catch { throwable ->
+                    listState = ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_error))
 
                     Timber.w(throwable)
-                }
-                .collect { result ->
+                }.collect { result ->
                     result
                         .result
                         .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.image.smallUrl) }
                         .let { characters ->
                             when (characters.isEmpty()) {
-                                true -> RecyclerViewState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))
-                                false -> RecyclerViewState.CharacterState(characters)
+                                true -> ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))
+                                false -> ListState.CharacterState(characters)
                             }
-                        }.also { state -> _recyclerViewState.postValue(state) }
+                        }.also { listState = it }
                 }
         }
     }

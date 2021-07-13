@@ -13,5 +13,5 @@ interface ApiRoutes {
     suspend fun getSearch(@QueryMap options: Map<String, String>): ApiModelResponse<List<ApiModelCharacterOverview>>
 
     @GET("character/{id}")
-    suspend fun getCharacter(@Path("id") id: String, @QueryMap options: Map<String, String>): ApiModelResponse<ApiModelCharacterDetail>
+    suspend fun getCharacter(@Path("id") id: String): ApiModelResponse<ApiModelCharacterDetail>
 }

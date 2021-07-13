@@ -15,9 +15,7 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
         return flow {
             apiRoutes
                 .getCharacter(
-                    "4005-$id",
-                    mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin")
-                )
+                    "4005-$id")
                 .let { response ->
                     RpModelResponse(
                         response.numberOfPageResults,
@@ -62,9 +60,7 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
         return flow {
             apiRoutes
                 .getCharacter(
-                    "4005-$id",
-                    mapOf("field_list" to "id,name,real_name,image,aliases,birth,gender,powers,origin")
-                )
+                    "4005-$id")
                 .results
                 .let { character -> CharacterMapper.mapApiModelDetailToDbModel(character) }
                 .also { dbCharacter -> database.characterDao().insert(dbCharacter) }
