@@ -53,7 +53,7 @@ class CharacterOverviewViewModel(
             searchRepository
                 .getSearch(query)
                 .onStart {
-                    listState = ListState.MessageState("Loading characters ...")
+                    listState = ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_loading))
                 }.catch { throwable ->
                     listState = ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_error))
 
@@ -62,12 +62,12 @@ class CharacterOverviewViewModel(
                     result
                         .result
                         .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.image.smallUrl) }
-                        .let { characters ->
-                            when (characters.isEmpty()) {
+                        .also { characters ->
+                            listState = when (characters.isEmpty()) {
                                 true -> ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))
                                 false -> ListState.CharacterState(characters)
                             }
-                        }.also { listState = it }
+                        }
                 }
         }
     }

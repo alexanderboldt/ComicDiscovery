@@ -1,11 +1,12 @@
 package com.alex.comicdiscovery.feature.main
 
-import androidx.lifecycle.LiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.feature.main.models.UiModelThemes
 import com.alex.comicdiscovery.repository.settings.SettingsRepository
-import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -14,8 +15,8 @@ import timber.log.Timber
 
 class MainViewModel(settingsRepository: SettingsRepository) : ViewModel() {
 
-    private val _themeState = LiveEvent<UiModelThemes>()
-    val themeState: LiveData<UiModelThemes> = _themeState
+    var theme: UiModelThemes by mutableStateOf(UiModelThemes.SYSTEM)
+        private set
 
     // ----------------------------------------------------------------------------
 
@@ -26,7 +27,7 @@ class MainViewModel(settingsRepository: SettingsRepository) : ViewModel() {
                 .catch { throwable ->
                     Timber.w(throwable)
                 }.collect { result ->
-                    _themeState.postValue(UiModelThemes.values()[result.ordinal])
+                    theme = UiModelThemes.values()[result.ordinal]
                 }
         }
     }

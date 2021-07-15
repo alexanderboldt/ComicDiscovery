@@ -16,7 +16,6 @@ object Deps {
         const val material = "com.google.android.material:material:1.4.0"
         const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
-        const val fragmentsKtx = "androidx.fragment:fragment-ktx:1.3.3"
 
         object LifeCycle {
             private const val version = "2.3.1"
@@ -24,18 +23,12 @@ object Deps {
             // coroutineScope() on Lifecycle, lifecycleScope on LifecycleOwner
             const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
 
-            // Annotation processor
-            const val compiler = "androidx.lifecycle:lifecycle-compiler:$version"
-
             // viewModelScope for coroutines
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         }
 
         object Navigation {
-            private const val version = "2.3.5"
-            const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:$version"
-            const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
-            const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
+            const val compose = "androidx.navigation:navigation-compose:2.4.0-alpha04"
         }
 
         object Room {
@@ -52,6 +45,10 @@ object Deps {
 
         object Compose {
             const val version = "1.0.0-rc01"
+            const val ui = "androidx.compose.ui:ui:$version"
+            const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
+            const val foundation = "androidx.compose.foundation:foundation:$version"
+            const val material = "androidx.compose.material:material:$version"
         }
     }
 
@@ -72,6 +69,10 @@ object Deps {
     }
 
     object Libs {
+        object Accompanist {
+            const val coil = "com.google.accompanist:accompanist-coil:0.13.0"
+        }
+
         object Coroutines {
             private const val version = "1.5.0"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
@@ -95,20 +96,12 @@ object Deps {
 
         const val coil = "io.coil-kt:coil:1.2.0"
 
-        const val liveEvent = "com.github.hadilq:live-event:1.2.3"
-
         const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
 
         object Koin {
             private const val version = "3.1.2"
             const val koin = "io.insert-koin:koin-android:$version"
             const val compose = "io.insert-koin:koin-androidx-compose:$version"
-        }
-
-        object Corbind {
-            private const val version = "1.5.0"
-            const val corbind = "ru.ldralighieri.corbind:corbind-core:$version"
-            const val appCompat = "ru.ldralighieri.corbind:corbind-appcompat:$version"
         }
     }
 }

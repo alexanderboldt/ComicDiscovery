@@ -5,10 +5,6 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
 }
-apply {
-    plugin("kotlin-android")
-    plugin("androidx.navigation.safeargs.kotlin")
-}
 
 fun getCommitCount(): Int {
     return try {
@@ -145,19 +141,11 @@ dependencies {
 
     // androidx
     implementation(Deps.AndroidX.core)
-    implementation(Deps.AndroidX.appCompat)
     implementation(Deps.AndroidX.material)
     implementation(Deps.AndroidX.recyclerView)
     implementation(Deps.AndroidX.constraintLayout)
 
-    implementation(Deps.AndroidX.LifeCycle.runtimeKtx)
-    kapt(Deps.AndroidX.LifeCycle.compiler)
     implementation(Deps.AndroidX.LifeCycle.viewModelKtx)
-
-    implementation(Deps.AndroidX.fragmentsKtx)
-
-    implementation(Deps.AndroidX.Navigation.fragmentKtx)
-    implementation(Deps.AndroidX.Navigation.uiKtx)
 
     implementation(Deps.AndroidX.Room.room)
     implementation(Deps.AndroidX.Room.ktx)
@@ -165,24 +153,13 @@ dependencies {
 
     implementation(Deps.AndroidX.DataStore.preferences)
 
-    implementation("androidx.compose.ui:ui:${Deps.AndroidX.Compose.version}")
-    // Tooling support (Previews, etc.)
-    implementation("androidx.compose.ui:ui-tooling:${Deps.AndroidX.Compose.version}")
-    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation("androidx.compose.foundation:foundation:${Deps.AndroidX.Compose.version}")
-    // Material Design
-    implementation("androidx.compose.material:material:${Deps.AndroidX.Compose.version}")
-    // Material design icons
-    implementation("androidx.compose.material:material-icons-core:${Deps.AndroidX.Compose.version}")
-    implementation("androidx.compose.material:material-icons-extended:${Deps.AndroidX.Compose.version}")
+    implementation(Deps.AndroidX.Compose.ui)
+    implementation(Deps.AndroidX.Compose.uiTooling)
+    implementation(Deps.AndroidX.Compose.foundation)
+    implementation(Deps.AndroidX.Compose.material)
 
-    // Integration with activities
-    implementation("androidx.activity:activity-compose:1.3.0-rc01")
-    // Integration with ViewModels
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
-
-    implementation("androidx.navigation:navigation-compose:2.4.0-alpha04")
-    implementation("com.google.accompanist:accompanist-coil:0.13.0")
+    implementation(Deps.AndroidX.Navigation.compose)
+    implementation(Deps.Libs.Accompanist.coil)
 
     // 3rd-party libraries
 
@@ -203,16 +180,10 @@ dependencies {
     // image
     implementation(Deps.Libs.coil)
 
-    implementation(Deps.Libs.liveEvent)
-
     // leak-detection
     debugImplementation(Deps.Libs.leakCanary)
 
     // dependency injection
     implementation(Deps.Libs.Koin.koin)
     implementation(Deps.Libs.Koin.compose)
-
-    // view-binding with flow/coroutines
-    implementation(Deps.Libs.Corbind.corbind)
-    implementation(Deps.Libs.Corbind.appCompat)
 }

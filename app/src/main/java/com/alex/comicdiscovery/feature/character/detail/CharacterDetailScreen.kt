@@ -1,31 +1,18 @@
 package com.alex.comicdiscovery.feature.character.detail
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
-import coil.load
-import com.alex.comicdiscovery.databinding.FragmentCharacterDetailBinding
-import com.alex.comicdiscovery.feature.base.BaseFragment
-import com.alex.comicdiscovery.feature.character.detail.models.ContentState
-import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
-import ru.ldralighieri.corbind.view.clicks
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import org.koin.androidx.compose.getViewModel
 
-class CharacterDetailFragment : BaseFragment() {
+@Composable
+fun CharacterDetailScreen(id: Int) { //, viewModel: CharacterDetailViewModel = getViewModel()) {
+    Text(text = "detaiiiiiiiiiiiiiiiiiiiiiiiill with the id $id")
+    /*
+    private val viewModel: CharacterDetailViewModel by viewModel()
+        //parametersOf(arguments.id, arguments.userComesFromStarredScreen)
 
-    private val viewModel: CharacterDetailViewModel by viewModel {
-        parametersOf(arguments.id, arguments.userComesFromStarredScreen)
-    }
 
     private lateinit var binding: FragmentCharacterDetailBinding
-
-    private val arguments: CharacterDetailFragmentArgs by navArgs()
 
     // ----------------------------------------------------------------------------
 
@@ -90,4 +77,5 @@ class CharacterDetailFragment : BaseFragment() {
             binding.imageViewStar.setImageResource(state)
         }
     }
+     */
 }
