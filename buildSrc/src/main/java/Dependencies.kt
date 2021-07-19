@@ -12,7 +12,6 @@ object Deps {
 
     object AndroidX {
         const val core = "androidx.core:core-ktx:1.6.0"
-        const val appCompat = "androidx.appcompat:appcompat:1.3.0"
         const val material = "com.google.android.material:material:1.4.0"
         const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
@@ -44,7 +43,7 @@ object Deps {
         }
 
         object Compose {
-            const val version = "1.0.0-rc01"
+            const val version = "1.0.0-rc02"
             const val ui = "androidx.compose.ui:ui:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"

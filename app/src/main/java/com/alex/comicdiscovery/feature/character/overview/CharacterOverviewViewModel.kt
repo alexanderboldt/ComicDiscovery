@@ -53,7 +53,7 @@ class CharacterOverviewViewModel(
             searchRepository
                 .getSearch(query)
                 .onStart {
-                    listState = ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_loading))
+                    listState = ListState.LoadingState(resourceProvider.getString(R.string.character_overview_message_loading))
                 }.catch { throwable ->
                     listState = ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_error))
 

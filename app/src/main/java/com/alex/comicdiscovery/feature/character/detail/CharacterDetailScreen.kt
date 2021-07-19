@@ -1,32 +1,63 @@
 package com.alex.comicdiscovery.feature.character.detail
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
+import com.alex.comicdiscovery.feature.character.detail.models.ContentState
+import com.alex.comicdiscovery.ui.theme.AlmostWhite
+import com.google.accompanist.coil.rememberCoilPainter
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun CharacterDetailScreen(id: Int) { //, viewModel: CharacterDetailViewModel = getViewModel()) {
-    Text(text = "detaiiiiiiiiiiiiiiiiiiiiiiiill with the id $id")
-    /*
-    private val viewModel: CharacterDetailViewModel by viewModel()
-        //parametersOf(arguments.id, arguments.userComesFromStarredScreen)
+fun CharacterDetailScreen(id: Int, viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, false) })) {
+    when (val state = viewModel.contentState) {
+        is ContentState.CharacterState -> {
+            Column(modifier = Modifier
+                .background(AlmostWhite)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())) {
+                Image(
+                    painter = rememberCoilPainter(request = state.character.imageUrl),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth(), contentScale = ContentScale.FillWidth
+                )
 
-
-    private lateinit var binding: FragmentCharacterDetailBinding
-
-    // ----------------------------------------------------------------------------
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentCharacterDetailBinding.inflate(inflater, container, false)
-
-        setupViewBinding()
-        setupViewModel()
-
-        return binding.root
+                Text(text = state.character.name)
+                Text(text = state.character.realName ?: "")
+                Text(text = state.character.birth)
+                Text(text = state.character.aliases)
+                Text(text = state.character.gender)
+                Text(text = state.character.origin)
+                Text(text = state.character.powers)
+            }
+        }
+        is ContentState.LoadingState -> {
+            Column(
+                modifier = Modifier.background(AlmostWhite).fillMaxSize().padding(16.dp),
+                verticalArrangement = Arrangement.Center) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = state.message, modifier = Modifier.align(Alignment.CenterHorizontally))
+            }
+        }
+        is ContentState.MessageState -> {
+            Box(modifier = Modifier.background(AlmostWhite).fillMaxSize()) {
+                Text(text = state.message, modifier = Modifier.align(Alignment.Center))
+            }
+        }
     }
 
-    // ----------------------------------------------------------------------------
-
+    /*
     private fun setupViewBinding() {
         lifecycleScope.launch {
             binding.imageViewStar.clicks {

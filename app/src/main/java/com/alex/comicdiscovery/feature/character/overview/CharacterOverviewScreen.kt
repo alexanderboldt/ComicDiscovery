@@ -3,11 +3,13 @@ package com.alex.comicdiscovery.feature.character.overview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -30,7 +32,9 @@ import org.koin.androidx.compose.getViewModel
 @ExperimentalComposeUiApi
 @Composable
 fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit, viewModel: CharacterOverviewViewModel = getViewModel()) {
-    Column(modifier = Modifier.background(AlmostWhite).fillMaxSize()) {
+    Column(modifier = Modifier
+        .background(AlmostWhite)
+        .fillMaxSize()) {
         Searchbar(viewModel)
 
         when (val state = viewModel.listState) {
@@ -40,7 +44,14 @@ fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit, view
                 }
 
                 LazyColumn {
-                    items(state.characters) { CharacterItem(it, viewModel) }
+                    items(state.characters) { CharacterItem(it, navigateToCharacterDetailScreen, viewModel) }
+                }
+            }
+            is ListState.LoadingState -> {
+                Column(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.Center) {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(text = state.message, modifier = Modifier.align(Alignment.CenterHorizontally))
                 }
             }
             is ListState.MessageState -> {
@@ -50,6 +61,7 @@ fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit, view
             }
         }
     }
+    //navigateToCharacterDetailScreen(119923)
 }
 
 @ExperimentalComposeUiApi
@@ -76,10 +88,14 @@ fun Searchbar(viewModel: CharacterOverviewViewModel) {
 }
 
 @Composable
-fun CharacterItem(character: UiModelCharacter, viewModel: CharacterOverviewViewModel) {
+fun CharacterItem(character: UiModelCharacter, navigateToCharacterDetailScreen: (Int) -> Unit, viewModel: CharacterOverviewViewModel) {
     Column(
         modifier = Modifier
-            .clickable { viewModel.onClickCharacter(character.id) }
+            .clickable {
+                navigateToCharacterDetailScreen(character.id)
+                // todo: figure out how to create single-shots from ViewModel
+                // viewModel.onClickCharacter(character.id)
+            }
             .padding(16.dp)
             .background(AlmostWhite)) {
         Image(

@@ -1,5 +1,8 @@
 package com.alex.comicdiscovery.feature.character.detail
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,8 +25,10 @@ class CharacterDetailViewModel(
     private val characterRepository: CharacterRepository,
     private val resourceProvider: ResourceProvider) : ViewModel() {
 
-    private val _contentState = MutableLiveData<ContentState>()
-    val contentState: LiveData<ContentState> = _contentState
+    var contentState: ContentState by mutableStateOf(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_loading)))
+        private set
+
+
 
     private val _starState = MutableLiveData<Int>()
     val starState: LiveData<Int> = _starState
@@ -40,29 +45,27 @@ class CharacterDetailViewModel(
                 true -> characterRepository.getStarredCharacter(characterId)
                 false -> characterRepository.getCharacter(characterId)
             }.onStart {
-                _contentState.postValue(ContentState.LoadingState(resourceProvider.getString(R.string.character_detail_message_loading)))
+                contentState = ContentState.LoadingState(resourceProvider.getString(R.string.character_detail_message_loading))
             }.catch { throwable ->
-                _contentState.postValue(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error)))
+                contentState = ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error))
 
                 Timber.w(throwable)
             }.collect { result ->
                 val character = result.result
                 isStarred = character.isStarred
 
-                _contentState.postValue(
-                    ContentState.CharacterState(
-                        UiModelCharacter(
-                            character.image.smallUrl,
-                            "Name\n ${character.name}",
-                            "Real Name\n ${character.realName}",
-                            "Aliases\n ${character.aliases}",
-                            "Gender\n ${character.gender}",
-                            "Birth\n ${character.birth}",
-                            "Powers\n ${character.powers}",
-                            "Origin\n ${character.origin}"
-                        )
-                    )
-                )
+                contentState = ContentState.CharacterState(
+                    UiModelCharacter(
+                        character.image.smallUrl,
+                        "Name\n ${character.name}",
+                        "Real Name\n ${character.realName}",
+                        "Aliases\n ${character.aliases}",
+                        "Gender\n ${character.gender}",
+                        "Birth\n ${character.birth}",
+                        "Powers\n ${character.powers}",
+                        "Origin\n ${character.origin}"
+                    ))
+
                 _starState.postValue(getStarIcon())
             }
         }
