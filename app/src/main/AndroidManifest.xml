@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme"
         android:name=".ComicDiscoveryApplication">
         <activity
-            android:name=".feature.main.MainActivity">
+            android:name=".feature.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

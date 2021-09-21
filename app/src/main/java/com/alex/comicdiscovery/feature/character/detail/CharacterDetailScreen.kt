@@ -12,12 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.alex.comicdiscovery.feature.character.detail.models.ContentState
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
-import com.google.accompanist.coil.rememberCoilPainter
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
+@ExperimentalCoilApi
 @Composable
 fun CharacterDetailScreen(id: Int, viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, false) })) {
     when (val state = viewModel.contentState) {
@@ -27,7 +29,7 @@ fun CharacterDetailScreen(id: Int, viewModel: CharacterDetailViewModel = getView
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())) {
                 Image(
-                    painter = rememberCoilPainter(request = state.character.imageUrl),
+                    painter = rememberImagePainter(state.character.imageUrl),
                     contentDescription = null,
                     modifier = Modifier.fillMaxWidth(), contentScale = ContentScale.FillWidth
                 )

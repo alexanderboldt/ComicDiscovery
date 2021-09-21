@@ -16,13 +16,13 @@ val Grey700 = Color(0xff333333)
 val AlmostBlack = Color(0xff102027)
 
 val DarkColorPalette = darkColors(
-    primary = Blue300,
+    primary = Blue500,
     primaryVariant = Blue700,
     secondary = Grey300
 )
 
 val LightColorPalette = lightColors(
-    primary = Blue300,
+    primary = Blue500,
     primaryVariant = Blue700,
     secondary = Grey300
 

@@ -44,14 +44,14 @@ android {
         versionCode = getCommitCount()
         versionName = getTag()
 
-        //ndk?.abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+        ndk.abiFilters.addAll(mutableSetOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
 
         // only use the following resources
-        //resConfigs("en", "de")
+        resourceConfigurations.addAll(listOf("en", "de"))
     }
     buildTypes {
         getByName("debug") {
@@ -127,62 +127,74 @@ repositories {
 dependencies {
 
     // testing
-    testImplementation(Deps.Test.junit)
-    testImplementation(Deps.Test.mockitoCore)
-    testImplementation(Deps.Test.archCoreTesting)
-    testImplementation(Deps.Test.coroutinesTest)
+    Deps.Test.apply {
+        testImplementation(junit)
+        testImplementation(mockitoCore)
+        testImplementation(archCoreTesting)
+        testImplementation(coroutinesTest)
 
-    // android-testing
-    androidTestImplementation(Deps.Test.junit)
+        androidTestImplementation(junit)
+    }
 
     // kotlin-std-lib
     implementation(Deps.Kotlin.stdLib)
 
     // androidx
-    implementation(Deps.AndroidX.core)
-    implementation(Deps.AndroidX.material)
-    implementation(Deps.AndroidX.recyclerView)
-    implementation(Deps.AndroidX.constraintLayout)
+    Deps.AndroidX.apply {
+        implementation(core)
+        implementation(material)
+    }
 
     implementation(Deps.AndroidX.LifeCycle.viewModelKtx)
 
-    implementation(Deps.AndroidX.Room.room)
-    implementation(Deps.AndroidX.Room.ktx)
-    kapt(Deps.AndroidX.Room.compiler)
+    Deps.AndroidX.Room.apply {
+        implementation(room)
+        implementation(ktx)
+        kapt(compiler)
+    }
 
     implementation(Deps.AndroidX.DataStore.preferences)
 
-    implementation(Deps.AndroidX.Compose.ui)
-    implementation(Deps.AndroidX.Compose.uiTooling)
-    implementation(Deps.AndroidX.Compose.foundation)
-    implementation(Deps.AndroidX.Compose.material)
+    Deps.AndroidX.Compose.apply {
+        implementation(ui)
+        implementation(uiTooling)
+        implementation(foundation)
+        implementation(material)
+    }
 
     implementation(Deps.AndroidX.Navigation.compose)
-    implementation(Deps.Libs.Accompanist.coil)
 
     // 3rd-party libraries
 
+    // image
+    implementation(Deps.Libs.Coil.compose)
+
     // coroutines
-    implementation(Deps.Libs.Coroutines.core)
-    implementation(Deps.Libs.Coroutines.android)
+    Deps.Libs.Coroutines.apply {
+        implementation(core)
+        implementation(android)
+    }
 
     // logging
     implementation(Deps.Libs.timber)
 
     // network
-    implementation(Deps.Libs.Retrofit.retrofit)
-    implementation(Deps.Libs.Retrofit.moshiConverter)
-    implementation(Deps.Libs.Retrofit.okHttpLogging)
-    implementation(Deps.Libs.Moshi.moshi)
-    kapt(Deps.Libs.Moshi.codeGen)
-
-    // image
-    implementation(Deps.Libs.coil)
+    Deps.Libs.Retrofit.apply {
+        implementation(retrofit)
+        implementation(moshiConverter)
+        implementation(okHttpLogging)
+    }
+    Deps.Libs.Moshi.apply {
+        implementation(moshi)
+        kapt(codeGen)
+    }
 
     // leak-detection
     debugImplementation(Deps.Libs.leakCanary)
 
     // dependency injection
-    implementation(Deps.Libs.Koin.koin)
-    implementation(Deps.Libs.Koin.compose)
+    Deps.Libs.Koin.apply {
+        implementation(koin)
+        implementation(compose)
+    }
 }

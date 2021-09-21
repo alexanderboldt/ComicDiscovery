@@ -3,7 +3,6 @@ package com.alex.comicdiscovery.feature.character.overview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,10 +22,11 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.alex.comicdiscovery.feature.character.overview.model.ListState
 import com.alex.comicdiscovery.feature.character.overview.model.UiModelCharacter
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
-import com.google.accompanist.coil.rememberCoilPainter
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalComposeUiApi
@@ -61,7 +61,6 @@ fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit, view
             }
         }
     }
-    //navigateToCharacterDetailScreen(119923)
 }
 
 @ExperimentalComposeUiApi
@@ -87,6 +86,7 @@ fun Searchbar(viewModel: CharacterOverviewViewModel) {
     )
 }
 
+@ExperimentalCoilApi
 @Composable
 fun CharacterItem(character: UiModelCharacter, navigateToCharacterDetailScreen: (Int) -> Unit, viewModel: CharacterOverviewViewModel) {
     Column(
@@ -99,7 +99,7 @@ fun CharacterItem(character: UiModelCharacter, navigateToCharacterDetailScreen: 
             .padding(16.dp)
             .background(AlmostWhite)) {
         Image(
-            painter = rememberCoilPainter(request = character.iconUrl),
+            painter = rememberImagePainter(character.iconUrl),
             contentDescription = null,
             modifier = Modifier
                 .height(200.dp)
