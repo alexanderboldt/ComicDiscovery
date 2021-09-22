@@ -22,8 +22,8 @@ object Deps {
         const val core = "androidx.core:core-ktx:1.6.0"
 
         object DataStore {
-            private const val version = "1.0.0-alpha06"
-            const val preferences = "androidx.datastore:datastore-preferences:$version"
+            private const val version = "1.0.0"
+            const val datastore = "androidx.datastore:datastore:$version"
         }
 
         object LifeCycle {
@@ -83,6 +83,12 @@ object Deps {
             private const val version = "1.12.0"
             const val moshi = "com.squareup.moshi:moshi:$version"
             const val codeGen = "com.squareup.moshi:moshi-kotlin-codegen:$version"
+        }
+
+        object ProtoBuf {
+            private const val version = "3.18.0"
+            const val protoc = "com.google.protobuf:protoc:$version"
+            const val javaLite = "com.google.protobuf:protobuf-javalite:$version"
         }
 
         object Retrofit {

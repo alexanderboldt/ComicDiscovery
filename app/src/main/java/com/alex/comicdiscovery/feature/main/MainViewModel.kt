@@ -8,10 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.feature.main.models.UiModelThemes
 import com.alex.comicdiscovery.repository.settings.SettingsRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MainViewModel(settingsRepository: SettingsRepository) : ViewModel() {
 
@@ -21,12 +19,10 @@ class MainViewModel(settingsRepository: SettingsRepository) : ViewModel() {
     // ----------------------------------------------------------------------------
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             settingsRepository
                 .getTheme()
-                .catch { throwable ->
-                    Timber.w(throwable)
-                }.collect { result ->
+                .collect { result ->
                     theme = UiModelThemes.values()[result.ordinal]
                 }
         }

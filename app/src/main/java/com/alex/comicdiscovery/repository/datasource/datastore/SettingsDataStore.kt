@@ -1,26 +1,22 @@
 package com.alex.comicdiscovery.repository.datasource.datastore
 
 import android.content.Context
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.createDataStore
-import com.alex.comicdiscovery.repository.models.RpModelTheme
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
+import com.alex.comicdiscovery.DsModelTheme
+import com.alex.comicdiscovery.Settings
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class SettingsDataStore(context: Context) {
+val Context.settingsDataStore: DataStore<Settings> by dataStore("settings.proto", SettingsSerializer)
 
-    private val dataStore = context.createDataStore("user_settings")
+class SettingsDataStore(private val context: Context) {
 
-    private val keyTheme = intPreferencesKey("APP_THEME")
+    fun getTheme(): Flow<DsModelTheme> = context.settingsDataStore.data.map { it.theme }
 
-    // ----------------------------------------------------------------------------
-
-    fun getTheme() = dataStore
-        .data
-        .map { it[keyTheme] ?: 0 }
-        .map { RpModelTheme.values()[it] }
-
-    suspend fun setTheme(theme: RpModelTheme) {
-        dataStore.edit { it[keyTheme] = theme.ordinal }
+    suspend fun setTheme(theme: DsModelTheme) {
+        context.settingsDataStore.updateData {
+            it.toBuilder().setTheme(theme).build()
+        }
     }
 }

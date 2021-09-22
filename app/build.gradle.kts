@@ -1,9 +1,13 @@
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.protoc
 import org.apache.commons.io.output.ByteArrayOutputStream
 
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("com.google.protobuf")
 }
 
 fun getCommitCount(): Int {
@@ -118,6 +122,25 @@ android {
     }
 }
 
+protobuf {
+    protobuf.protoc {
+        artifact = Deps.Libs.ProtoBuf.protoc
+    }
+
+    // Generates the java Protobuf-lite code for the Protobufs in this project. See
+    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
+    // for more information.
+    protobuf.generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                id("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
+}
+
 repositories {
     google()
     mavenCentral()
@@ -153,7 +176,7 @@ dependencies {
         kapt(compiler)
     }
 
-    implementation(Deps.AndroidX.DataStore.preferences)
+    implementation(Deps.AndroidX.DataStore.datastore)
 
     Deps.AndroidX.Compose.apply {
         implementation(ui)
@@ -177,6 +200,9 @@ dependencies {
 
     // logging
     implementation(Deps.Libs.timber)
+
+    // protocol-buffer
+    implementation(Deps.Libs.ProtoBuf.javaLite)
 
     // network
     Deps.Libs.Retrofit.apply {

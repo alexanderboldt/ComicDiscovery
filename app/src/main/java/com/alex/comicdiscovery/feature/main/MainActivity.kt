@@ -3,9 +3,12 @@ package com.alex.comicdiscovery.feature.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.alex.comicdiscovery.feature.home.HomeScreen
+import com.alex.comicdiscovery.feature.main.models.UiModelThemes
 import com.alex.comicdiscovery.ui.theme.ComicDiscoveryTheme
+import org.koin.androidx.compose.getViewModel
 
 @ExperimentalComposeUiApi
 class MainActivity : AppCompatActivity() {
@@ -14,7 +17,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            ComicDiscoveryTheme {
+            val viewModel: MainViewModel = getViewModel()
+
+            val isDarkTheme = when(viewModel.theme) {
+                UiModelThemes.LIGHT -> false
+                UiModelThemes.DARK -> true
+                UiModelThemes.SYSTEM -> isSystemInDarkTheme()
+            }
+
+            ComicDiscoveryTheme(isDarkTheme) {
                 HomeScreen()
             }
         }

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "com.alex.comicdiscovery";
+option java_multiple_files = true;
+
+message Settings {
+  DsModelTheme theme = 1;
+}
+
+enum DsModelTheme {
+  SYSTEM = 0;
+  LIGHT = 1;
+  DARK = 2;
+}
