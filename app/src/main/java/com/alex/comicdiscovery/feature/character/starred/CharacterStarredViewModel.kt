@@ -8,12 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.starred.model.ListState
-import com.alex.comicdiscovery.feature.character.starred.model.UiModelCharacter
 import com.alex.comicdiscovery.repository.character.CharacterRepository
+import com.alex.comicdiscovery.ui.components.UiModelCharacter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -24,8 +26,8 @@ class CharacterStarredViewModel(
     var listState: ListState by mutableStateOf(ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
         private set
 
-    var detailScreen: Int by mutableStateOf(-1)
-        private set
+    private var _detailScreen = Channel<Int>(Channel.RENDEZVOUS)
+    val detailScreen = _detailScreen.receiveAsFlow()
 
     // ----------------------------------------------------------------------------
 
@@ -36,7 +38,9 @@ class CharacterStarredViewModel(
     // ----------------------------------------------------------------------------
 
     fun onClickCharacter(id: Int) {
-
+        viewModelScope.launch(Dispatchers.IO) {
+            _detailScreen.send(id)
+        }
     }
 
     // ----------------------------------------------------------------------------

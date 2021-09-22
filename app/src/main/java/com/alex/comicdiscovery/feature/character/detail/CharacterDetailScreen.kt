@@ -14,7 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.alex.comicdiscovery.feature.character.detail.models.ContentState
+import com.alex.comicdiscovery.feature.character.detail.model.ContentState
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf

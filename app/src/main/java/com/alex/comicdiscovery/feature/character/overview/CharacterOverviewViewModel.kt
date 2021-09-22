@@ -7,10 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.overview.model.UiModelCharacter
 import com.alex.comicdiscovery.feature.character.overview.model.ListState
 import com.alex.comicdiscovery.repository.search.SearchRepository
+import com.alex.comicdiscovery.ui.components.UiModelCharacter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -25,13 +26,13 @@ class CharacterOverviewViewModel(
     var listState: ListState by mutableStateOf(ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
         private set
 
-    var detailScreen: Int by mutableStateOf(-1)
-        private set
+    private var _detailScreen = Channel<Int>(Channel.RENDEZVOUS)
+    val detailScreen = _detailScreen.receiveAsFlow()
 
     // ----------------------------------------------------------------------------
 
-    fun onQueryChange(query: String) {
-        this.query = query
+    fun onQueryChange(newQuery: String) {
+        query = newQuery
     }
 
     fun onQuerySubmit() {
@@ -42,7 +43,9 @@ class CharacterOverviewViewModel(
     }
 
     fun onClickCharacter(id: Int) {
-        detailScreen = id
+        viewModelScope.launch(Dispatchers.IO) {
+            _detailScreen.send(id)
+        }
     }
 
     // ----------------------------------------------------------------------------

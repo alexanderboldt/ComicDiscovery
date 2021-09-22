@@ -1,4 +1,4 @@
-package com.alex.comicdiscovery.feature.main.models
+package com.alex.comicdiscovery.feature.main.model
 
 enum class UiModelThemes {
     SYSTEM,

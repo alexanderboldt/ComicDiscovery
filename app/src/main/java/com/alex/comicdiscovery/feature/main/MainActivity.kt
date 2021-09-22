@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.alex.comicdiscovery.feature.home.HomeScreen
-import com.alex.comicdiscovery.feature.main.models.UiModelThemes
+import com.alex.comicdiscovery.feature.main.model.UiModelThemes
 import com.alex.comicdiscovery.ui.theme.ComicDiscoveryTheme
 import org.koin.androidx.compose.getViewModel
 

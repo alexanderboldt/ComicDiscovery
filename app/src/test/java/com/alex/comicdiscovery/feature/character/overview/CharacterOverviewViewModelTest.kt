@@ -5,7 +5,6 @@ import androidx.lifecycle.Observer
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.overview.model.ListState
-import com.alex.comicdiscovery.feature.character.overview.model.UiModelCharacter
 import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
 import com.alex.comicdiscovery.repository.models.RpModelImage
 import com.alex.comicdiscovery.repository.models.RpModelResponse

@@ -1,4 +1,4 @@
-package com.alex.comicdiscovery.feature.character.detail.models
+package com.alex.comicdiscovery.feature.character.detail.model
 
 data class UiModelCharacter(
     val imageUrl: String,

@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.detail.models.UiModelCharacter
-import com.alex.comicdiscovery.feature.character.detail.models.ContentState
+import com.alex.comicdiscovery.feature.character.detail.model.UiModelCharacter
+import com.alex.comicdiscovery.feature.character.detail.model.ContentState
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -27,8 +27,6 @@ class CharacterDetailViewModel(
 
     var contentState: ContentState by mutableStateOf(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_loading)))
         private set
-
-
 
     private val _starState = MutableLiveData<Int>()
     val starState: LiveData<Int> = _starState

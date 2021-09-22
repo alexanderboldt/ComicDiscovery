@@ -1,4 +1,4 @@
-package com.alex.comicdiscovery.feature.character.overview.model
+package com.alex.comicdiscovery.ui.components
 
 data class UiModelCharacter(
     val id: Int,

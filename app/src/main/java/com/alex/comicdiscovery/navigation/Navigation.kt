@@ -9,12 +9,14 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.character.detail.CharacterDetailScreen
 import com.alex.comicdiscovery.feature.character.overview.CharacterOverviewScreen
 import com.alex.comicdiscovery.feature.character.starred.CharacterStarredScreen
 import com.alex.comicdiscovery.feature.settings.SettingsScreen
 
 @ExperimentalComposeUiApi
+@ExperimentalCoilApi
 sealed class Screen(val route: String) {
 
     sealed class BottomScreen(
@@ -30,7 +32,9 @@ sealed class Screen(val route: String) {
         })
 
         object CharacterStarred : BottomScreen("character_starred", "Starred", Icons.Filled.Face, { navController, backStackEntry ->
-            CharacterStarredScreen()
+            CharacterStarredScreen(navigateToCharacterDetailScreen = { id ->
+                navController.navigate(CharacterDetail.createRoute(id))
+            })
         })
 
         object Settings : BottomScreen("settings", "Settings", Icons.Filled.Face, { navController, backStackEntry ->
@@ -43,6 +47,7 @@ sealed class Screen(val route: String) {
     }
 }
 
+@ExperimentalCoilApi
 @ExperimentalComposeUiApi
 val bottomScreens = listOf(
     Screen.BottomScreen.CharacterOverview,
@@ -50,6 +55,7 @@ val bottomScreens = listOf(
     Screen.BottomScreen.Settings
 )
 
+@ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @Composable
 fun ComicDiscoveryNavigation(navController: NavHostController) {
