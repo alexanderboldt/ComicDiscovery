@@ -3,8 +3,6 @@ package com.alex.comicdiscovery.feature.character.detail
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
@@ -28,8 +26,8 @@ class CharacterDetailViewModel(
     var contentState: ContentState by mutableStateOf(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_loading)))
         private set
 
-    private val _starState = MutableLiveData<Int>()
-    val starState: LiveData<Int> = _starState
+    var starState: Int by mutableStateOf(getStarIcon())
+        private set
 
     // ----------------------------------------------------------------------------
 
@@ -64,7 +62,7 @@ class CharacterDetailViewModel(
                         "Origin\n ${character.origin}"
                     ))
 
-                _starState.postValue(getStarIcon())
+                starState = getStarIcon()
             }
         }
     }
@@ -79,7 +77,7 @@ class CharacterDetailViewModel(
             }.collect { wasSuccessful ->
                 if (wasSuccessful) {
                     isStarred = !isStarred
-                    _starState.postValue(getStarIcon())
+                    starState = getStarIcon()
                 }
             }
         }
