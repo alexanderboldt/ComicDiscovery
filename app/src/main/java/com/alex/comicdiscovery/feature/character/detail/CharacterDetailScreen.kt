@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -16,10 +17,12 @@ import com.alex.comicdiscovery.feature.character.detail.model.ContentState
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @ExperimentalCoilApi
 @Composable
-fun CharacterDetailScreen(id: Int) {
+fun CharacterDetailScreen(id: Int, navigateToImageScreen: (String) -> Unit) {
     val viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, false) })
 
     when (val state = viewModel.contentState) {
@@ -33,14 +36,17 @@ fun CharacterDetailScreen(id: Int) {
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(300.dp),
+                        .height(300.dp)
+                        .clickable { navigateToImageScreen(URLEncoder.encode(state.character.imageUrl, StandardCharsets.UTF_8.toString())) },
                     contentScale = ContentScale.Crop
                 )
 
                 Image(
                     painterResource(id = viewModel.starState),
                     null,
-                    Modifier.size(75.dp).clickable { viewModel.onClickStar() })
+                    Modifier
+                        .size(75.dp)
+                        .clickable { viewModel.onClickStar() })
 
                 Text(text = state.character.name)
                 Text(text = state.character.realName ?: "")

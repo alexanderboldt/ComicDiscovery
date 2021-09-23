@@ -13,6 +13,7 @@ import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.character.detail.CharacterDetailScreen
 import com.alex.comicdiscovery.feature.character.overview.CharacterOverviewScreen
 import com.alex.comicdiscovery.feature.character.starred.CharacterStarredScreen
+import com.alex.comicdiscovery.feature.image.ImageScreen
 import com.alex.comicdiscovery.feature.settings.SettingsScreen
 
 @ExperimentalComposeUiApi
@@ -26,15 +27,15 @@ sealed class Screen(val route: String) {
         val content: @Composable (NavHostController, NavBackStackEntry) -> Unit) : Screen(route) {
 
         object CharacterOverview : BottomScreen("character_overview", "Search", Icons.Filled.Face, { navController, backStackEntry ->
-            CharacterOverviewScreen(navigateToCharacterDetailScreen = { id ->
+            CharacterOverviewScreen { id ->
                 navController.navigate(CharacterDetail.createRoute(id))
-            })
+            }
         })
 
         object CharacterStarred : BottomScreen("character_starred", "Starred", Icons.Filled.Face, { navController, backStackEntry ->
-            CharacterStarredScreen(navigateToCharacterDetailScreen = { id ->
+            CharacterStarredScreen { id ->
                 navController.navigate(CharacterDetail.createRoute(id))
-            })
+            }
         })
 
         object Settings : BottomScreen("settings", "Settings", Icons.Filled.Face, { navController, backStackEntry ->
@@ -44,6 +45,10 @@ sealed class Screen(val route: String) {
 
     object CharacterDetail : Screen("character_detail/{id}") {
         fun createRoute(id: Int) = "character_detail/$id"
+    }
+
+    object Image : Screen("image/{url}") {
+        fun createRoute(url: String) = "image/$url"
     }
 }
 
@@ -65,9 +70,13 @@ fun ComicDiscoveryNavigation(navController: NavHostController) {
         }
 
         composable(Screen.CharacterDetail.route) {
-            CharacterDetailScreen(
-                it.arguments!!.getString("id")!!.toInt()
-            )
+            CharacterDetailScreen(it.arguments!!.getString("id")!!.toInt() ) { url ->
+                navController.navigate(Screen.Image.createRoute(url))
+            }
+        }
+
+        composable(Screen.Image.route) {
+            ImageScreen(it.arguments!!.getString("url")!!)
         }
     }
 }

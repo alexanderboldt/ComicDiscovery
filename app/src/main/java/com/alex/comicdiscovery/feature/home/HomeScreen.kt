@@ -9,9 +9,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.navigation.ComicDiscoveryNavigation
 import com.alex.comicdiscovery.navigation.bottomScreens
 
+@ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @Composable
 fun HomeScreen() {
