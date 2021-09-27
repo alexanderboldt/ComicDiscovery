@@ -19,8 +19,9 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     // ----------------------------------------------------------------------------
 
     fun onSelectTheme(theme: UiModelThemes) {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.IO) {
             settingsRepository.setTheme(RpModelTheme.values()[theme.ordinal])
+            this@SettingsViewModel.theme = theme
         }
     }
 }

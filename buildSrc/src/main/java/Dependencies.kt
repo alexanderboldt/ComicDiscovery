@@ -47,16 +47,12 @@ object Deps {
 
     object Test {
         const val junit = "androidx.test.ext:junit:1.1.2"
-        const val testRunner = "androidx.test:runner:1.1.0"
 
         // testing with mocked instances
-        const val mockitoCore = "org.mockito:mockito-core:3.5.13"
-
-        // testing LiveData
-        const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
+        const val mockitoCore = "org.mockito:mockito-core:3.12.4"
 
         // testing with coroutines
-        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9"
+        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
     }
 
     object Libs {

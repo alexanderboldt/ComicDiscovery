@@ -1,6 +1,5 @@
 package com.alex.comicdiscovery.feature.character.overview
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.ResourceProvider
@@ -28,6 +27,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class CharacterOverviewViewModelTest {
 
+    /*
     @get:Rule val rule: TestRule = InstantTaskExecutorRule()
 
     private val testDispatcher = TestCoroutineDispatcher()
@@ -212,4 +212,6 @@ class CharacterOverviewViewModelTest {
             verify(hideKeyboardStateMock, never()).onChanged(Unit)
         }
     }
+
+     */
 }

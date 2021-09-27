@@ -153,7 +153,6 @@ dependencies {
     Deps.Test.apply {
         testImplementation(junit)
         testImplementation(mockitoCore)
-        testImplementation(archCoreTesting)
         testImplementation(coroutinesTest)
 
         androidTestImplementation(junit)
