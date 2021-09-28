@@ -10,8 +10,9 @@ import com.alex.comicdiscovery.repository.settings.SettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MainViewModel(settingsRepository: SettingsRepository) : ViewModel() {
+class MainViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
 
     var theme: UiModelThemes by mutableStateOf(UiModelThemes.SYSTEM)
         private set
@@ -19,11 +20,13 @@ class MainViewModel(settingsRepository: SettingsRepository) : ViewModel() {
     // ----------------------------------------------------------------------------
 
     init {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.IO) {
             settingsRepository
                 .getTheme()
                 .collect { result ->
-                    theme = UiModelThemes.values()[result.ordinal]
+                    withContext(Dispatchers.Main) {
+                        theme = UiModelThemes.values()[result.ordinal]
+                    }
                 }
         }
     }
