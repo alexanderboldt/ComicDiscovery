@@ -38,7 +38,7 @@ class CharacterStarredViewModel(
     // ----------------------------------------------------------------------------
 
     fun onClickCharacter(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             _detailScreen.send(id)
         }
     }

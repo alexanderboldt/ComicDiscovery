@@ -21,8 +21,8 @@ import java.nio.charset.StandardCharsets
 
 @ExperimentalCoilApi
 @Composable
-fun CharacterDetailScreen(id: Int, navigateToImageScreen: (String) -> Unit) {
-    val viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, false) })
+fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigateToImageScreen: (String) -> Unit) {
+    val viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, userComesFromStarredScreen) })
 
     when (val state = viewModel.contentState) {
         is ContentState.CharacterState -> {

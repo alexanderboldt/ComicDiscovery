@@ -7,8 +7,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.character.detail.CharacterDetailScreen
 import com.alex.comicdiscovery.feature.character.overview.CharacterOverviewScreen
@@ -28,13 +30,13 @@ sealed class Screen(val route: String) {
 
         object CharacterOverview : BottomScreen("character_overview", "Search", Icons.Filled.Face, { navController, backStackEntry ->
             CharacterOverviewScreen { id ->
-                navController.navigate(CharacterDetail.createRoute(id))
+                navController.navigate(CharacterDetail.createRoute(id, false))
             }
         })
 
         object CharacterStarred : BottomScreen("character_starred", "Starred", Icons.Filled.Face, { navController, backStackEntry ->
             CharacterStarredScreen { id ->
-                navController.navigate(CharacterDetail.createRoute(id))
+                navController.navigate(CharacterDetail.createRoute(id, true))
             }
         })
 
@@ -43,8 +45,8 @@ sealed class Screen(val route: String) {
         })
     }
 
-    object CharacterDetail : Screen("character_detail/{id}") {
-        fun createRoute(id: Int) = "character_detail/$id"
+    object CharacterDetail : Screen("character_detail/{id}?starred={starred}") {
+        fun createRoute(id: Int, userComesFromStarredScreen: Boolean) = "character_detail/$id?starred=$userComesFromStarredScreen"
     }
 
     object Image : Screen("image/{url}") {
@@ -69,8 +71,14 @@ fun ComicDiscoveryNavigation(navController: NavHostController) {
             composable(bottomScreen.route) { backStackEntry -> bottomScreen.content(navController, backStackEntry) }
         }
 
-        composable(Screen.CharacterDetail.route) {
-            CharacterDetailScreen(it.arguments!!.getString("id")!!.toInt() ) { url ->
+        composable(
+            Screen.CharacterDetail.route,
+            listOf(
+                navArgument("id") { type = NavType.IntType },
+                navArgument("starred") { type = NavType.BoolType })) {
+            CharacterDetailScreen(
+                it.arguments!!.getInt("id"),
+                it.arguments!!.getBoolean("starred")) { url ->
                 navController.navigate(Screen.Image.createRoute(url))
             }
         }

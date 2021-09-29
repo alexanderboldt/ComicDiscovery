@@ -43,7 +43,7 @@ class CharacterOverviewViewModel(
     }
 
     fun onClickCharacter(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             _detailScreen.send(id)
         }
     }
@@ -51,8 +51,7 @@ class CharacterOverviewViewModel(
     // ----------------------------------------------------------------------------
 
     private fun search(query: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-
+        viewModelScope.launch(Dispatchers.Main) {
             searchRepository
                 .getSearch(query)
                 .onStart {
