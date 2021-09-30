@@ -1,15 +1,11 @@
 package com.alex.comicdiscovery.feature.settings
 
+import com.alex.comicdiscovery.feature.BaseViewModelTest
 import com.alex.comicdiscovery.feature.settings.model.UiModelThemes
 import com.alex.comicdiscovery.repository.settings.SettingsRepository
 import org.junit.Assert.assertEquals
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,9 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class SettingsViewModelTest {
-
-    private val testDispatcher = TestCoroutineDispatcher()
+class SettingsViewModelTest : BaseViewModelTest() {
 
     private lateinit var viewModel: SettingsViewModel
 
@@ -31,14 +25,7 @@ class SettingsViewModelTest {
 
     @Before
     fun before() {
-        Dispatchers.setMain(testDispatcher)
-
         viewModel = SettingsViewModel(settingsRepository)
-    }
-
-    @After
-    fun after() {
-        Dispatchers.resetMain()
     }
 
     // ----------------------------------------------------------------------------
