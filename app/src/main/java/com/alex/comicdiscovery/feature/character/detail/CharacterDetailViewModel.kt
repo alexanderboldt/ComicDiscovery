@@ -53,13 +53,17 @@ class CharacterDetailViewModel(
                 contentState = ContentState.CharacterState(
                     UiModelCharacter(
                         character.image.smallUrl,
-                        "Name\n ${character.name}",
-                        "Real Name\n ${character.realName}",
-                        "Aliases\n ${character.aliases}",
-                        "Gender\n ${character.gender}",
-                        "Birth\n ${character.birth}",
-                        "Powers\n ${character.powers}",
-                        "Origin\n ${character.origin}"
+                        character.name,
+                        character.realName ?: "-",
+                        character.aliases ?: "-",
+                        when (character.gender) {
+                            1 -> resourceProvider.getString(R.string.character_detail_gender_male)
+                            2 -> resourceProvider.getString(R.string.character_detail_gender_female)
+                            else -> resourceProvider.getString(R.string.character_detail_gender_other)
+                        },
+                        character.birth ?: "-",
+                        character.origin,
+                        character.powers.joinToString("\n")
                     ))
 
                 starState = getStarIcon()

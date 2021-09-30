@@ -18,6 +18,16 @@
     <!-- Screen Character Detail -->
     <string name="character_detail_message_loading">Loading character …</string>
     <string name="character_detail_message_error">Could not load character</string>
+    <string name="character_detail_name">Name</string>
+    <string name="character_detail_real_name">Real Name</string>
+    <string name="character_detail_aliases">Aliases</string>
+    <string name="character_detail_gender">Gender</string>
+    <string name="character_detail_gender_male">Male</string>
+    <string name="character_detail_gender_female">Female</string>
+    <string name="character_detail_gender_other">Other</string>
+    <string name="character_detail_birth">Birthday</string>
+    <string name="character_detail_origin">Character Type</string>
+    <string name="character_detail_powers">Powers</string>
 
     <!-- Screen Settings -->
     <string name="settings_theme_title">Theme</string>

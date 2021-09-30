@@ -17,6 +17,8 @@ import com.alex.comicdiscovery.feature.character.overview.CharacterOverviewScree
 import com.alex.comicdiscovery.feature.character.starred.CharacterStarredScreen
 import com.alex.comicdiscovery.feature.image.ImageScreen
 import com.alex.comicdiscovery.feature.settings.SettingsScreen
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
@@ -79,7 +81,7 @@ fun ComicDiscoveryNavigation(navController: NavHostController) {
             CharacterDetailScreen(
                 it.arguments!!.getInt("id"),
                 it.arguments!!.getBoolean("starred")) { url ->
-                navController.navigate(Screen.Image.createRoute(url))
+                navController.navigate(Screen.Image.createRoute(URLEncoder.encode(url, StandardCharsets.UTF_8.toString())))
             }
         }
 
