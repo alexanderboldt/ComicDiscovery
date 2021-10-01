@@ -6,13 +6,13 @@ object Config {
 
 object Deps {
     object Kotlin {
-        const val version = "1.5.21"
+        const val version = "1.5.30"
         const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
     }
 
     object AndroidX {
         object Compose {
-            const val version = "1.0.2"
+            const val version = "1.0.3"
             const val ui = "androidx.compose.ui:ui:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
