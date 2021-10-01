@@ -9,8 +9,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
+/**
+ * Manages the data-handling of search-operations.
+ *
+ * @param apiRoutes The api-routes will be automatically injected.
+ */
 class SearchRepository(private val apiRoutes: ApiRoutes) {
 
+    /**
+     * Makes a search for characters from the backend.
+     *
+     * @param query The search-query.
+     * @return Returns a flow with the characters.
+     */
     suspend fun getSearch(query: String): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
         return flow {
 

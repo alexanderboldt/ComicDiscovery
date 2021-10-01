@@ -15,45 +15,39 @@ object ApiClient {
 
     // ----------------------------------------------------------------------------
 
-    val routes: ApiRoutes
+    val routes: ApiRoutes = OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val request = chain.request()
 
-    // ----------------------------------------------------------------------------
-
-    init {
-        routes = OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val request = chain.request()
-
-                val url = request
-                        .url
-                        .newBuilder()
-                        .addQueryParameter("api_key", BuildConfig.API_KEY)
-                        .addQueryParameter("format", "json")
-                        .build()
-
-                val requestBuilder = request.newBuilder()
-                        .addHeader("Accept", "application/json")
-                        .addHeader("Content-Type", "application/json")
-                        .url(url)
-                        .build()
-
-                chain.proceed(requestBuilder)
-            }
-            .addInterceptor(LoggingInterceptor.Builder()
-                    .setLevel(if (BuildConfig.DEBUG) Level.BASIC else Level.NONE)
-                    .log(Platform.INFO)
-                    .build())
-            .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .build()
-            .run {
-                Retrofit.Builder()
-                    .baseUrl(BuildConfig.BASE_URL)
-                    .addConverterFactory(MoshiConverterFactory.create())
-                    .client(this)
+            val url = request
+                    .url
+                    .newBuilder()
+                    .addQueryParameter("api_key", BuildConfig.API_KEY)
+                    .addQueryParameter("format", "json")
                     .build()
-                    .create(ApiRoutes::class.java)
-            }
-    }
+
+            val requestBuilder = request.newBuilder()
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Content-Type", "application/json")
+                    .url(url)
+                    .build()
+
+            chain.proceed(requestBuilder)
+        }
+        .addInterceptor(LoggingInterceptor.Builder()
+                .setLevel(if (BuildConfig.DEBUG) Level.BASIC else Level.NONE)
+                .log(Platform.INFO)
+                .build())
+        .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+        .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
+        .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+        .build()
+        .run {
+            Retrofit.Builder()
+                .baseUrl(BuildConfig.BASE_URL)
+                .addConverterFactory(MoshiConverterFactory.create())
+                .client(this)
+                .build()
+                .create(ApiRoutes::class.java)
+        }
 }

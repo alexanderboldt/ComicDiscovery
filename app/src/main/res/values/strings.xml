@@ -18,6 +18,10 @@
     <!-- Screen Character Detail -->
     <string name="character_detail_message_loading">Loading character …</string>
     <string name="character_detail_message_error">Could not load character</string>
+
+    <string name="character_detail_message_error_star">Could not star character!</string>
+    <string name="character_detail_message_error_unstar">Could not unstar character!</string>
+
     <string name="character_detail_name">Name</string>
     <string name="character_detail_real_name">Real Name</string>
     <string name="character_detail_aliases">Aliases</string>

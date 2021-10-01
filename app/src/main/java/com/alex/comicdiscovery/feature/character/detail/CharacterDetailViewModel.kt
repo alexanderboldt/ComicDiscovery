@@ -11,9 +11,11 @@ import com.alex.comicdiscovery.feature.character.detail.model.UiModelCharacter
 import com.alex.comicdiscovery.feature.character.detail.model.ContentState
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -28,6 +30,9 @@ class CharacterDetailViewModel(
 
     var starState: Int by mutableStateOf(getStarIcon())
         private set
+
+    private var _messageState = Channel<String>(Channel.RENDEZVOUS)
+    val messageState = _messageState.receiveAsFlow()
 
     // ----------------------------------------------------------------------------
 
@@ -78,11 +83,18 @@ class CharacterDetailViewModel(
             when (isStarred) {
                 true -> characterRepository.unstarCharacter(characterId)
                 false -> characterRepository.starCharacter(characterId)
-            }.collect { wasSuccessful ->
-                if (wasSuccessful) {
-                    isStarred = !isStarred
-                    starState = getStarIcon()
+            }.catch { throwable ->
+                when (isStarred) {
+                    true -> R.string.character_detail_message_error_unstar
+                    false -> R.string.character_detail_message_error_star
+                }.also { messageResource ->
+                    _messageState.send(resourceProvider.getString(messageResource))
                 }
+
+                Timber.w(throwable)
+            }.collect {
+                isStarred = !isStarred
+                starState = getStarIcon()
             }
         }
     }

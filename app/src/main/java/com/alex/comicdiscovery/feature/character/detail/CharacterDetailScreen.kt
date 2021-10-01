@@ -1,14 +1,18 @@
 package com.alex.comicdiscovery.feature.character.detail
 
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -18,6 +22,8 @@ import coil.compose.rememberImagePainter
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.character.detail.model.ContentState
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -25,6 +31,17 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigateToImageScreen: (String) -> Unit) {
     val viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, userComesFromStarredScreen) })
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(viewModel.messageState) {
+        scope.launch {
+            viewModel.messageState.collect { message ->
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     when (val state = viewModel.contentState) {
         is ContentState.CharacterState -> CharacterScreen(state, viewModel, navigateToImageScreen)

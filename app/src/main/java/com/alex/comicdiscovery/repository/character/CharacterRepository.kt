@@ -9,13 +9,26 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
+/**
+ * Manages the data-handling of the characters.
+ */
 class CharacterRepository(private val apiRoutes: ApiRoutes, private val database: ComicDiscoveryDatabase) {
 
+    private val idPrefix = "4005-"
+    private val fields = "id,name,real_name,image,gender,aliases,birth,powers,origin"
+
+    // ----------------------------------------------------------------------------
+
+    /**
+     * Gets a character from the backend.
+     *
+     * @param id The id of the character.
+     * @return Returns a flow with the response.
+     */
     suspend fun getCharacter(id: Int): Flow<RpModelResponse<RpModelCharacterDetail>> {
         return flow {
             apiRoutes
-                .getCharacter(
-                    "4005-$id")
+                .getCharacter(getId(id), fields)
                 .let { response ->
                     RpModelResponse(
                         response.numberOfPageResults,
@@ -32,6 +45,11 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
 
     // ----------------------------------------------------------------------------
 
+    /**
+     * Gets all characters from the database.
+     *
+     * @return Returns a flow with a list of characters.
+     */
     suspend fun getStarredCharacters(): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
         return flow {
             database
@@ -43,6 +61,12 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
         }.flowOn(Dispatchers.IO)
     }
 
+    /**
+     * Gets a single character from the database.
+     *
+     * @param id The id of the character.
+     * @return Returns a flow with the character.
+     */
     suspend fun getStarredCharacter(id: Int): Flow<RpModelResponse<RpModelCharacterDetail>> {
         return flow {
             database
@@ -56,25 +80,43 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
 
     // ----------------------------------------------------------------------------
 
-    suspend fun starCharacter(id: Int): Flow<Boolean> {
+    /**
+     * Gets a character from the backend and stores the information in the database.
+     *
+     * @param id The id of the character.
+     * @return Returns a flow with a Unit.
+     */
+    suspend fun starCharacter(id: Int): Flow<Unit> {
         return flow {
             apiRoutes
-                .getCharacter(
-                    "4005-$id")
+                .getCharacter(getId(id), fields)
                 .results
                 .let { character -> CharacterMapper.mapApiModelDetailToDbModel(character) }
                 .also { dbCharacter -> database.characterDao().insert(dbCharacter) }
-            emit(true)
+            emit(Unit)
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun unstarCharacter(id: Int): Flow<Boolean> {
+    /**
+     * Deletes a character from the database.
+     *
+     * @param id The id of the character.
+     * @return Returns a flow with a Unit.
+     */
+    suspend fun unstarCharacter(id: Int): Flow<Unit> {
         return flow {
-            database
-                .characterDao()
-                .delete(id)
-                .let { numberOfAffectedRows -> numberOfAffectedRows > 0 }
-                .also { emit(it) }
+            database.characterDao().delete(id)
+            emit(Unit)
         }.flowOn(Dispatchers.IO)
     }
+
+    // ----------------------------------------------------------------------------
+
+    /**
+     * Assembles the actual id with a prefix.
+     *
+     * @param id The id of the character.
+     * @return Returns the complete id.
+     */
+    private fun getId(id: Int) = idPrefix + id
 }
