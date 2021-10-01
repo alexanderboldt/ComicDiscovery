@@ -2,13 +2,16 @@ package com.alex.comicdiscovery.repository.settings
 
 import com.alex.comicdiscovery.repository.datasource.datastore.SettingsDataStore
 import com.alex.comicdiscovery.repository.models.RpModelTheme
-import com.alex.comicdiscovery.util.mapping.ThemeMapper
+import com.alex.comicdiscovery.util.mapping.toDsModel
+import com.alex.comicdiscovery.util.mapping.toRpModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 /**
  * Manages the settings.
+ *
+ * @param settingsDataStore The SettingsDataStore will be automatically injected.
  */
 class SettingsRepository(private val settingsDataStore: SettingsDataStore) {
 
@@ -19,7 +22,7 @@ class SettingsRepository(private val settingsDataStore: SettingsDataStore) {
      */
     fun getTheme() = settingsDataStore
         .getTheme()
-        .map { ThemeMapper.mapDsModelThemeToRpModelTheme(it) }
+        .map { it.toRpModel() }
         .flowOn(Dispatchers.IO)
 
     /**
@@ -28,5 +31,5 @@ class SettingsRepository(private val settingsDataStore: SettingsDataStore) {
      * @param theme The theme to store.
      */
     suspend fun setTheme(theme: RpModelTheme) = settingsDataStore
-        .setTheme(ThemeMapper.mapRpModelThemeToDsModelTheme(theme))
+        .setTheme(theme.toDsModel())
 }

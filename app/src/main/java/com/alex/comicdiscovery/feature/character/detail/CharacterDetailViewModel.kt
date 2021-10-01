@@ -57,7 +57,7 @@ class CharacterDetailViewModel(
 
                 contentState = ContentState.CharacterState(
                     UiModelCharacter(
-                        character.image.smallUrl,
+                        character.smallImageUrl,
                         character.name,
                         character.realName ?: "-",
                         character.aliases ?: "-",

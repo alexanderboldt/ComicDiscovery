@@ -3,7 +3,7 @@ package com.alex.comicdiscovery.repository.search
 import com.alex.comicdiscovery.repository.datasource.api.ApiRoutes
 import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
 import com.alex.comicdiscovery.repository.models.RpModelResponse
-import com.alex.comicdiscovery.util.mapping.CharacterMapper
+import com.alex.comicdiscovery.util.mapping.toRpModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -38,7 +38,7 @@ class SearchRepository(private val apiRoutes: ApiRoutes) {
                     RpModelResponse(
                         response.numberOfPageResults,
                         response.numberOfTotalResults,
-                        CharacterMapper.mapApiModelOverviewToRpModelOverview(response.results)
+                        response.results.toRpModel()
                     )
                 }.also { emit(it) }
 

@@ -1,27 +1,6 @@
 package com.alex.comicdiscovery.feature.character.overview
 
-import androidx.lifecycle.Observer
-import com.alex.comicdiscovery.R
-import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.overview.model.ListState
-import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
-import com.alex.comicdiscovery.repository.models.RpModelImage
-import com.alex.comicdiscovery.repository.models.RpModelResponse
-import com.alex.comicdiscovery.repository.search.SearchRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)

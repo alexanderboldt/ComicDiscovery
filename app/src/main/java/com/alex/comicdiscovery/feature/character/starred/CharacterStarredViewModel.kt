@@ -63,7 +63,7 @@ class CharacterStarredViewModel(
                                 character.id,
                                 character.name,
                                 character.realName,
-                                character.image.smallUrl)
+                                character.smallImageUrl)
                         }.also { characters ->
                             listState = when (characters.isEmpty()) {
                                 true -> ListState.MessageState(resourceProvider.getString(R.string.character_starred_message_no_entries))

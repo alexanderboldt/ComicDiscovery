@@ -63,7 +63,7 @@ class CharacterOverviewViewModel(
                 }.collect { result ->
                     result
                         .result
-                        .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.image.smallUrl) }
+                        .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.smallImageUrl) }
                         .also { characters ->
                             listState = when (characters.isEmpty()) {
                                 true -> ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))

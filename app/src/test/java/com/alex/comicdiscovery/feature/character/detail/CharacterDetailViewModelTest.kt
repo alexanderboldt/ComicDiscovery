@@ -1,7 +1,5 @@
 package com.alex.comicdiscovery.feature.character.detail
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.BaseViewModelTest
 import com.alex.comicdiscovery.feature.base.ResourceProvider
@@ -9,7 +7,6 @@ import com.alex.comicdiscovery.feature.character.detail.model.ContentState
 import com.alex.comicdiscovery.feature.character.detail.model.UiModelCharacter
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.repository.models.RpModelCharacterDetail
-import com.alex.comicdiscovery.repository.models.RpModelImage
 import com.alex.comicdiscovery.repository.models.RpModelResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -62,7 +59,7 @@ class CharacterDetailViewModelTest : BaseViewModelTest() {
                         1,
                         "Superman",
                         "Clark Kent",
-                        RpModelImage("url_to_image"),
+                        "url_to_image",
                         1,
                         "Kal-El\nClark Kent",
                         "18. June 1971",

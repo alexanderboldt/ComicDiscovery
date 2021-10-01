@@ -3,7 +3,7 @@ package com.alex.comicdiscovery.repository.character
 import com.alex.comicdiscovery.repository.datasource.api.ApiRoutes
 import com.alex.comicdiscovery.repository.datasource.database.ComicDiscoveryDatabase
 import com.alex.comicdiscovery.repository.models.*
-import com.alex.comicdiscovery.util.mapping.CharacterMapper
+import com.alex.comicdiscovery.util.mapping.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.flowOn
 
 /**
  * Manages the data-handling of the characters.
+ *
+ * @param apiRoutes The ApiRoutes will be automatically injected.
+ * @param database The ComicDiscoveryDatabase will be automatically injected.
  */
 class CharacterRepository(private val apiRoutes: ApiRoutes, private val database: ComicDiscoveryDatabase) {
 
@@ -33,12 +36,7 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
                     RpModelResponse(
                         response.numberOfPageResults,
                         response.numberOfTotalResults,
-                        CharacterMapper.mapApiModelDetailToRpModelDetail(
-                            response.results,
-                            database.characterDao()
-                                .getCharacter(id) != null
-                        )
-                    )
+                        response.results.toRpModel(database.characterDao().getCharacter(id) != null))
                 }.also { emit(it) }
         }.flowOn(Dispatchers.IO)
     }
@@ -55,9 +53,12 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
             database
                 .characterDao()
                 .getAll()
-                .let { characters -> CharacterMapper.mapDbModelToRpModelOverview(characters) }
-                .let { characters -> RpModelResponse(characters.size, characters.size, characters) }
-                .also { emit(it) }
+                .let { characters ->
+                    RpModelResponse(
+                        characters.size,
+                        characters.size,
+                        characters.toRpModelOverview())
+                }.also { emit(it) }
         }.flowOn(Dispatchers.IO)
     }
 
@@ -72,8 +73,10 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
             database
                 .characterDao()
                 .getCharacter(id)!!
-                .let { character -> CharacterMapper.mapDbModelToRpModelDetail(character, true) }
-                .let { character -> RpModelResponse(1, 1, character) }
+                .let { character -> RpModelResponse(
+                    1,
+                    1,
+                    character.toRpModelDetail(true)) }
                 .also { emit(it) }
         }.flowOn(Dispatchers.IO)
     }
@@ -91,8 +94,7 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
             apiRoutes
                 .getCharacter(getId(id), fields)
                 .results
-                .let { character -> CharacterMapper.mapApiModelDetailToDbModel(character) }
-                .also { dbCharacter -> database.characterDao().insert(dbCharacter) }
+                .also { character -> database.characterDao().insert(character.toDbModel()) }
             emit(Unit)
         }.flowOn(Dispatchers.IO)
     }

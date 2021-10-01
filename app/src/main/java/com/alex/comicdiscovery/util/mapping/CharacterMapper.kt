@@ -6,85 +6,75 @@ import com.alex.comicdiscovery.repository.datasource.database.character.DbModelC
 import com.alex.comicdiscovery.repository.models.RpModelCharacterDetail
 import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
 
-object CharacterMapper {
+// region - from api to repository
 
-    // from api to database
-
-    fun mapApiModelDetailToDbModel(input: ApiModelCharacterDetail): DbModelCharacter {
-        return DbModelCharacter(
-                input.id,
-                input.name,
-                input.realName,
-                input.image.smallUrl,
-                input.gender,
-                input.aliases,
-                input.birth,
-                input.powers.map { it.name },
-                input.origin.name)
+fun List<ApiModelCharacterOverview>.toRpModel(): List<RpModelCharacterOverview> {
+    return map {
+        RpModelCharacterOverview(it.id, it.name, it.realName, it.image.smallUrl)
     }
+}
 
-    // from api to repository
+fun ApiModelCharacterDetail.toRpModel(isStarred: Boolean): RpModelCharacterDetail {
+    return RpModelCharacterDetail(
+        id,
+        name,
+        realName,
+        image.smallUrl,
+        gender,
+        aliases,
+        birth,
+        powers.map { it.name },
+        origin.name,
+        isStarred
+    )
+}
 
-    fun mapApiModelOverviewToRpModelOverview(input: List<ApiModelCharacterOverview>): List<RpModelCharacterOverview> {
-        return input.map { apiModelCharacterOverview ->
-            mapApiModelOverviewToRpModelOverview(
-                apiModelCharacterOverview
-            )
-        }
-    }
-    
-    fun mapApiModelOverviewToRpModelOverview(input: ApiModelCharacterOverview): RpModelCharacterOverview {
-        return RpModelCharacterOverview(
-            input.id,
-            input.name,
-            input.realName,
-            ImageMapper.mapApiModelToRpModel(input.image)
-        )
-    }
+// endregion
 
-    fun mapApiModelDetailToRpModelDetail(input: ApiModelCharacterDetail, isStarred: Boolean): RpModelCharacterDetail {
-        return RpModelCharacterDetail(
-            input.id,
-            input.name,
-            input.realName,
-            ImageMapper.mapApiModelToRpModel(input.image),
-            input.gender,
-            input.aliases,
-            input.birth,
-            input.powers.map { it.name },
-            input.origin.name,
-            isStarred
-        )
-    }
+// region - from api to database
 
-    // from database to repository
+fun ApiModelCharacterDetail.toDbModel(): DbModelCharacter {
+    return DbModelCharacter(
+        id,
+        name,
+        realName,
+        image.smallUrl,
+        gender,
+        aliases,
+        birth,
+        powers.map { it.name },
+        origin.name
+    )
+}
 
-    fun mapDbModelToRpModelOverview(input: List<DbModelCharacter>): List<RpModelCharacterOverview> {
-        return input.map { bbModelCharacter ->
-            mapDbModelToRpModelOverview(
-                bbModelCharacter
-            )
-        }
-    }
+// endregion
 
-    fun mapDbModelToRpModelOverview(input: DbModelCharacter): RpModelCharacterOverview {
-        return RpModelCharacterOverview(input.id, input.name, input.realName,
-            ImageMapper.mapStringToRpModel(input.smallImageUrl)
-        )
-    }
+// region - from database to repository
 
-    fun mapDbModelToRpModelDetail(input: DbModelCharacter, isStarred: Boolean): RpModelCharacterDetail {
-        return RpModelCharacterDetail(
-            input.id,
-            input.name,
-            input.realName,
-            ImageMapper.mapStringToRpModel(input.smallImageUrl),
-            input.gender,
-            input.aliases,
-            input.birth,
-            input.powers,
-            input.origin,
-            isStarred
+fun List<DbModelCharacter>.toRpModelOverview(): List<RpModelCharacterOverview> {
+    return map {
+        RpModelCharacterOverview(
+            it.id,
+            it.name,
+            it.realName,
+            it.smallImageUrl
         )
     }
 }
+
+fun DbModelCharacter.toRpModelDetail(isStarred: Boolean): RpModelCharacterDetail {
+    return RpModelCharacterDetail(
+        id,
+        name,
+        realName,
+        smallImageUrl,
+        gender,
+        aliases,
+        birth,
+        powers,
+        origin,
+        isStarred
+    )
+}
+
+// endregion
