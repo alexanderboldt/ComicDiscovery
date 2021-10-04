@@ -1,8 +1,13 @@
 package com.alex.comicdiscovery.feature.base
 
-import android.content.Context
+import android.content.res.Resources
 import androidx.annotation.StringRes
 
-class ResourceProvider(private val context: Context) {
-    fun getString(@StringRes resource: Int) = context.getString(resource)
+/**
+ * Provides resources outside of ui-components, like ViewModels.
+ *
+ * @param resources The Resources-instance.
+ */
+class ResourceProvider(private val resources: Resources) {
+    fun getString(@StringRes resource: Int) = resources.getString(resource)
 }
