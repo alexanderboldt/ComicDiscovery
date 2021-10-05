@@ -5,12 +5,14 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.ExperimentalComposeUiApi
+import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.home.HomeScreen
 import com.alex.comicdiscovery.feature.main.model.UiModelThemes
 import com.alex.comicdiscovery.ui.theme.ComicDiscoveryTheme
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalComposeUiApi
+@ExperimentalCoilApi
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

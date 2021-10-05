@@ -32,16 +32,7 @@ import org.koin.core.parameter.parametersOf
 fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigateToImageScreen: (String) -> Unit) {
     val viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, userComesFromStarredScreen) })
 
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-
-    LaunchedEffect(viewModel.messageState) {
-        scope.launch {
-            viewModel.messageState.collect { message ->
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            }
-        }
-    }
+    SideEffects(viewModel)
 
     when (val state = viewModel.contentState) {
         is ContentState.CharacterState -> CharacterScreen(state, viewModel, navigateToImageScreen)
@@ -52,6 +43,21 @@ fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigate
 
 // ----------------------------------------------------------------------------
 
+@Composable
+fun SideEffects(viewModel: CharacterDetailViewModel) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(viewModel.messageState) {
+        scope.launch {
+            viewModel.messageState.collect { message ->
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+}
+
+@ExperimentalCoilApi
 @Composable
 fun CharacterScreen(state: ContentState.CharacterState, viewModel: CharacterDetailViewModel, navigateToImageScreen: (String) -> Unit) {
     Column(modifier = Modifier

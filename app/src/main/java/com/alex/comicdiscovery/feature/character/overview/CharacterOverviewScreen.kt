@@ -36,6 +36,28 @@ import org.koin.androidx.compose.getViewModel
 fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
     val viewModel: CharacterOverviewViewModel = getViewModel()
 
+    SideEffects(navigateToCharacterDetailScreen)
+
+    Column(modifier = Modifier
+        .background(AlmostWhite)
+        .fillMaxSize()) {
+
+        Searchbar()
+
+        when (val state = viewModel.listState) {
+            is ListState.CharacterState -> CharactersScreen(state)
+            is ListState.LoadingState -> LoadingScreen(state.message)
+            is ListState.MessageState -> MessageScreen(state.message)
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------
+
+@Composable
+fun SideEffects(navigateToCharacterDetailScreen: (Int) -> Unit) {
+    val viewModel: CharacterOverviewViewModel = getViewModel()
+
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(viewModel.detailScreen) {
@@ -45,40 +67,9 @@ fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
             }
         }
     }
-
-    Column(modifier = Modifier
-        .background(AlmostWhite)
-        .fillMaxSize()) {
-
-        Searchbar()
-
-        when (val state = viewModel.listState) {
-            is ListState.CharacterState -> {
-                LazyColumn {
-                    items(state.characters) { character ->
-                        CharacterItem(character) {
-                            viewModel.onClickCharacter(character.id)
-                        }
-                    }
-                }
-            }
-            is ListState.LoadingState -> {
-                Column(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp), verticalArrangement = Arrangement.Center) {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = state.message, modifier = Modifier.align(Alignment.CenterHorizontally))
-                }
-            }
-            is ListState.MessageState -> {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Text(text = state.message, modifier = Modifier.align(Alignment.Center))
-                }
-            }
-        }
-    }
 }
+
+// ----------------------------------------------------------------------------
 
 @ExperimentalComposeUiApi
 @Composable
@@ -102,4 +93,42 @@ fun Searchbar() {
             }
         )
     )
+}
+
+// ----------------------------------------------------------------------------
+
+@ExperimentalCoilApi
+@Composable
+fun CharactersScreen(state: ListState.CharacterState) {
+    val viewModel: CharacterOverviewViewModel = getViewModel()
+
+    LazyColumn {
+        items(state.characters) { character ->
+            CharacterItem(character) {
+                viewModel.onClickCharacter(character.id)
+            }
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------
+
+@Composable
+fun LoadingScreen(message: String) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp), verticalArrangement = Arrangement.Center) {
+        CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = message, modifier = Modifier.align(Alignment.CenterHorizontally))
+    }
+}
+
+// ----------------------------------------------------------------------------
+
+@Composable
+fun MessageScreen(message: String) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(text = message, modifier = Modifier.align(Alignment.Center))
+    }
 }
