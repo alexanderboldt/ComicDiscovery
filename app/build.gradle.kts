@@ -188,6 +188,9 @@ dependencies {
 
     // 3rd-party libraries
 
+    // compose features
+    implementation(Deps.Libs.Accompanist.systemUiController)
+
     // image
     implementation(Deps.Libs.Coil.compose)
 

@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.home.HomeScreen
 import com.alex.comicdiscovery.feature.main.model.UiModelThemes
+import com.alex.comicdiscovery.ui.theme.Blue700
 import com.alex.comicdiscovery.ui.theme.ComicDiscoveryTheme
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalComposeUiApi
@@ -19,6 +22,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            // change the color of the StatusBar and NavigationBar
+            val systemUiController = rememberSystemUiController()
+
+            SideEffect {
+                systemUiController.setSystemBarsColor(Blue700, false)
+            }
+
+            // setup the theme
             val viewModel: MainViewModel = getViewModel()
 
             val isDarkTheme = when(viewModel.theme) {
@@ -27,6 +38,7 @@ class MainActivity : AppCompatActivity() {
                 UiModelThemes.SYSTEM -> isSystemInDarkTheme()
             }
 
+            // the content
             ComicDiscoveryTheme(isDarkTheme) {
                 HomeScreen()
             }
