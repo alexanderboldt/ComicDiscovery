@@ -6,16 +6,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.navArgument
 import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.character.detail.CharacterDetailScreen
 import com.alex.comicdiscovery.feature.character.overview.CharacterOverviewScreen
 import com.alex.comicdiscovery.feature.character.starred.CharacterStarredScreen
+import com.alex.comicdiscovery.feature.home.HomeScreen
 import com.alex.comicdiscovery.feature.image.ImageScreen
 import com.alex.comicdiscovery.feature.settings.SettingsScreen
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+
+@ExperimentalCoilApi
+@ExperimentalComposeUiApi
+object Home : Screen {
+    override val route = "home"
+
+    override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
+        HomeScreen(navControllerTopLevel as NavHostController, navControllerBottomNavigation as NavHostController)
+    }
+}
 
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
@@ -25,9 +37,9 @@ object CharacterOverview : BottomScreen {
     override val title = "Search"
     override val icon = Icons.Filled.Face
 
-    override fun getContent(navController: NavController): @Composable (NavBackStackEntry) -> Unit = {
+    override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         CharacterOverviewScreen { id ->
-            navController.navigate(CharacterDetail.createRoute(id, false))
+            navControllerBottomNavigation.navigate(CharacterDetail.createRoute(id, false))
         }
     }
 }
@@ -40,9 +52,9 @@ object CharacterStarred : BottomScreen {
     override val title = "Starred"
     override val icon = Icons.Filled.Face
 
-    override fun getContent(navController: NavController): @Composable (NavBackStackEntry) -> Unit = {
+    override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         CharacterStarredScreen { id ->
-            navController.navigate(CharacterDetail.createRoute(id, true))
+            navControllerBottomNavigation.navigate(CharacterDetail.createRoute(id, true))
         }
     }
 }
@@ -55,7 +67,7 @@ object Settings : BottomScreen {
     override val title = "Settings"
     override val icon = Icons.Filled.Face
 
-    override fun getContent(navController: NavController): @Composable (NavBackStackEntry) -> Unit = {
+    override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         SettingsScreen()
     }
 }
@@ -70,11 +82,11 @@ object CharacterDetail : Screen {
 
     override val arguments = listOf(id, isStarred)
 
-    override fun getContent(navController: NavController): @Composable (NavBackStackEntry) -> Unit = {
+    override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         CharacterDetailScreen(
             it.arguments!!.getInt(id.name),
             it.arguments!!.getBoolean(isStarred.name)) { url ->
-            navController.navigate(Image.createRoute(URLEncoder.encode(url, StandardCharsets.UTF_8.toString())))
+            navControllerTopLevel.navigate(Image.createRoute(URLEncoder.encode(url, StandardCharsets.UTF_8.toString())))
         }
     }
 }
@@ -88,10 +100,14 @@ object Image : Screen {
 
     override val arguments = listOf(url)
 
-    override fun getContent(navController: NavController): @Composable (NavBackStackEntry) -> Unit = {
+    override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         ImageScreen(it.arguments!!.getString(url.name)!!)
     }
 }
+
+@ExperimentalComposeUiApi
+@ExperimentalCoilApi
+val topLevelScreens: List<Screen> = listOf(Home, Image)
 
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
@@ -99,4 +115,4 @@ val bottomScreens: List<BottomScreen> = listOf(CharacterOverview, CharacterStarr
 
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
-val allScreens: List<Screen> = listOf(CharacterOverview, CharacterStarred, Settings, CharacterDetail, Image)
+val allBottomScreens: List<Screen> = listOf(CharacterOverview, CharacterStarred, Settings, CharacterDetail)

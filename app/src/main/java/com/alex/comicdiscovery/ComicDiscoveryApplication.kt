@@ -5,6 +5,7 @@ import com.alex.comicdiscovery.feature.base.di.resourceProviderModule
 import com.alex.comicdiscovery.feature.character.detail.di.characterDetailModule
 import com.alex.comicdiscovery.feature.character.overview.di.characterOverviewModule
 import com.alex.comicdiscovery.feature.character.starred.di.characterStarredModule
+import com.alex.comicdiscovery.feature.home.di.homeModule
 import com.alex.comicdiscovery.feature.main.di.mainModule
 import com.alex.comicdiscovery.feature.settings.di.settingsModule
 import com.alex.comicdiscovery.repository.character.di.characterRepositoryModule
@@ -40,6 +41,7 @@ class ComicDiscoveryApplication : Application() {
             modules(listOf(
                 // features
                 mainModule,
+                homeModule,
                 characterOverviewModule,
                 characterStarredModule,
                 characterDetailModule,

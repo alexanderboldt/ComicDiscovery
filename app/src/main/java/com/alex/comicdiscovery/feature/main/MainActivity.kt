@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import com.alex.comicdiscovery.feature.home.HomeScreen
 import com.alex.comicdiscovery.feature.main.model.UiModelThemes
+import com.alex.comicdiscovery.navigation.ComicDiscoveryTopLevelNavigation
 import com.alex.comicdiscovery.ui.theme.Blue700
 import com.alex.comicdiscovery.ui.theme.ComicDiscoveryTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -40,7 +43,10 @@ class MainActivity : AppCompatActivity() {
 
             // the content
             ComicDiscoveryTheme(isDarkTheme) {
-                HomeScreen()
+                val navControllerTopLevel = rememberNavController()
+                val navControllerBottomNavigation = rememberNavController()
+
+                ComicDiscoveryTopLevelNavigation(navControllerTopLevel, navControllerBottomNavigation)
             }
         }
     }

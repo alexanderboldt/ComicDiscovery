@@ -11,5 +11,5 @@ sealed interface Screen {
     val arguments: List<NamedNavArgument>
         get() = emptyList()
 
-    fun getContent(navController: NavController): @Composable (NavBackStackEntry) -> Unit
+    fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit
 }
