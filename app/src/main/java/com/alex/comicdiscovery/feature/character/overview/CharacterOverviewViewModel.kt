@@ -3,31 +3,28 @@ package com.alex.comicdiscovery.feature.character.overview
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
+import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.overview.model.ListState
+import com.alex.comicdiscovery.feature.character.overview.model.UiEventCharacterOverview
 import com.alex.comicdiscovery.repository.search.SearchRepository
 import com.alex.comicdiscovery.ui.components.UiModelCharacter
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class CharacterOverviewViewModel(
     private val searchRepository: SearchRepository,
-    private val resourceProvider: ResourceProvider) : ViewModel() {
+    private val resourceProvider: ResourceProvider) : BaseViewModel<UiEventCharacterOverview>() {
 
     var query: String by mutableStateOf("")
         private set
 
     var listState: ListState by mutableStateOf(ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
         private set
-
-    private var _detailScreen = Channel<Int>(Channel.RENDEZVOUS)
-    val detailScreen = _detailScreen.receiveAsFlow()
 
     // ----------------------------------------------------------------------------
 
@@ -44,7 +41,7 @@ class CharacterOverviewViewModel(
 
     fun onClickCharacter(id: Int) {
         viewModelScope.launch(Dispatchers.Main) {
-            _detailScreen.send(id)
+            sendEvent(UiEventCharacterOverview.DetailScreen(id))
         }
     }
 

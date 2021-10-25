@@ -12,9 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.character.starred.model.ListState
+import com.alex.comicdiscovery.feature.character.starred.model.UiEventCharacterStarred
 import com.alex.comicdiscovery.ui.components.CharacterItem
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -41,11 +43,12 @@ fun SideEffects(navigateToCharacterDetailScreen: (Int) -> Unit) {
 
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(viewModel.detailScreen) {
+    LaunchedEffect(Unit) {
         scope.launch {
-            viewModel.detailScreen.collect { id ->
-                navigateToCharacterDetailScreen(id)
-            }
+            viewModel
+                .event
+                .map { it as UiEventCharacterStarred.DetailScreen }
+                .collect { navigateToCharacterDetailScreen(it.id) }
         }
     }
 }

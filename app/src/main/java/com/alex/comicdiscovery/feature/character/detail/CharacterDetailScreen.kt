@@ -21,8 +21,10 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.character.detail.model.ContentState
+import com.alex.comicdiscovery.feature.character.detail.model.UiEventCharacterDetail
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -48,11 +50,12 @@ fun SideEffects(viewModel: CharacterDetailViewModel) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(viewModel.messageState) {
+    LaunchedEffect(Unit) {
         scope.launch {
-            viewModel.messageState.collect { message ->
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            }
+            viewModel
+                .event
+                .map { it as UiEventCharacterDetail.Message }
+                .collect { Toast.makeText(context, it.message, Toast.LENGTH_LONG).show() }
         }
     }
 }

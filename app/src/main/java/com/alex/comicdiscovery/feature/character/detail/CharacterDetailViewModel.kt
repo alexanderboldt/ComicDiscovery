@@ -3,19 +3,18 @@ package com.alex.comicdiscovery.feature.character.detail
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
+import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.detail.model.UiModelCharacter
 import com.alex.comicdiscovery.feature.character.detail.model.ContentState
+import com.alex.comicdiscovery.feature.character.detail.model.UiEventCharacterDetail
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -23,16 +22,13 @@ class CharacterDetailViewModel(
     private val characterId: Int,
     private val userComesFromStarredScreen: Boolean,
     private val characterRepository: CharacterRepository,
-    private val resourceProvider: ResourceProvider) : ViewModel() {
+    private val resourceProvider: ResourceProvider) : BaseViewModel<UiEventCharacterDetail>() {
 
     var contentState: ContentState by mutableStateOf(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_loading)))
         private set
 
     var starState: Int by mutableStateOf(getStarIcon())
         private set
-
-    private var _messageState = Channel<String>(Channel.RENDEZVOUS)
-    val messageState = _messageState.receiveAsFlow()
 
     // ----------------------------------------------------------------------------
 
@@ -88,7 +84,7 @@ class CharacterDetailViewModel(
                     true -> R.string.character_detail_message_error_unstar
                     false -> R.string.character_detail_message_error_star
                 }.also { messageResource ->
-                    _messageState.send(resourceProvider.getString(messageResource))
+                    sendEvent(UiEventCharacterDetail.Message(resourceProvider.getString(messageResource)))
                 }
 
                 Timber.w(throwable)
