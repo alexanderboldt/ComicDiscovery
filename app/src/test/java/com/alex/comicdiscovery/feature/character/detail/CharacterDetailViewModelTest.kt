@@ -3,7 +3,7 @@ package com.alex.comicdiscovery.feature.character.detail
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.BaseViewModelTest
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.detail.model.ContentState
+import com.alex.comicdiscovery.feature.character.detail.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.detail.model.UiModelCharacter
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.repository.models.RpModelCharacterDetail
@@ -79,7 +79,7 @@ class CharacterDetailViewModelTest : BaseViewModelTest() {
                 resourceProvider)
 
             // verify
-            val contentState = ContentState.CharacterState(
+            val contentState = UiStateContent.CharacterStateContent(
                 UiModelCharacter(
                     "url_to_image",
                     "Superman",
@@ -91,7 +91,7 @@ class CharacterDetailViewModelTest : BaseViewModelTest() {
                     "strength"
                 ))
             delay(1_000)
-            assertEquals(ContentState.LoadingState(stringLoading), viewModel.contentState)
+            assertEquals(UiStateContent.LoadingStateContent(stringLoading), viewModel.contentState)
             assertEquals(drawableStarOff, viewModel.starState)
         }
     }

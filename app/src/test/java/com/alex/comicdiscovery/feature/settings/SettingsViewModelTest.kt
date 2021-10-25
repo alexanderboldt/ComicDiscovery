@@ -1,7 +1,7 @@
 package com.alex.comicdiscovery.feature.settings
 
 import com.alex.comicdiscovery.feature.BaseViewModelTest
-import com.alex.comicdiscovery.feature.settings.model.UiModelThemes
+import com.alex.comicdiscovery.feature.settings.model.UiModelTheme
 import com.alex.comicdiscovery.repository.settings.SettingsRepository
 import org.junit.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,7 +34,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
     fun `it should be successful with default-theme`() {
         runBlockingTest {
             // verify
-            assertEquals(UiModelThemes.SYSTEM, viewModel.theme)
+            assertEquals(UiModelTheme.SYSTEM, viewModel.theme)
         }
     }
 
@@ -42,13 +42,13 @@ class SettingsViewModelTest : BaseViewModelTest() {
     fun `it should be successful with theme-change`() {
         runBlockingTest {
             // verify
-            assertEquals(UiModelThemes.SYSTEM, viewModel.theme)
+            assertEquals(UiModelTheme.SYSTEM, viewModel.theme)
 
             // change the theme
-            viewModel.onSelectTheme(UiModelThemes.DARK)
+            viewModel.onSelectTheme(UiModelTheme.DARK)
 
             // verify again
-            assertEquals(UiModelThemes.DARK, viewModel.theme)
+            assertEquals(UiModelTheme.DARK, viewModel.theme)
         }
     }
 }

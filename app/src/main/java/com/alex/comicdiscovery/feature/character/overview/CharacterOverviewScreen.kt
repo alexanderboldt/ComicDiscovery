@@ -23,7 +23,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import com.alex.comicdiscovery.feature.character.overview.model.ListState
+import com.alex.comicdiscovery.feature.character.overview.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.overview.model.UiEventCharacterOverview
 import com.alex.comicdiscovery.ui.components.CharacterItem
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
@@ -47,9 +47,9 @@ fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
         Searchbar()
 
         when (val state = viewModel.listState) {
-            is ListState.CharacterState -> CharactersScreen(state)
-            is ListState.LoadingState -> LoadingScreen(state.message)
-            is ListState.MessageState -> MessageScreen(state.message)
+            is UiStateContent.Characters -> CharactersScreen(state)
+            is UiStateContent.Loading -> LoadingScreen(state.message)
+            is UiStateContent.Message -> MessageScreen(state.message)
         }
     }
 }
@@ -102,7 +102,7 @@ fun Searchbar() {
 
 @ExperimentalCoilApi
 @Composable
-fun CharactersScreen(state: ListState.CharacterState) {
+fun CharactersScreen(state: UiStateContent.Characters) {
     val viewModel: CharacterOverviewViewModel = getViewModel()
 
     LazyColumn {

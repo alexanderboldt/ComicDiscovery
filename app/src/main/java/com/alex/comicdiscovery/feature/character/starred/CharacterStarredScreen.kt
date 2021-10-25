@@ -11,7 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import coil.annotation.ExperimentalCoilApi
-import com.alex.comicdiscovery.feature.character.starred.model.ListState
+import com.alex.comicdiscovery.feature.character.starred.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.starred.model.UiEventCharacterStarred
 import com.alex.comicdiscovery.ui.components.CharacterItem
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
@@ -29,8 +29,8 @@ fun CharacterStarredScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
 
     Column(modifier = Modifier.background(AlmostWhite).fillMaxSize()) {
         when (val state = viewModel.listState) {
-            is ListState.CharacterState -> CharactersScreen(state)
-            is ListState.MessageState -> MessageScreen(state.message)
+            is UiStateContent.Characters -> CharactersScreen(state)
+            is UiStateContent.Message -> MessageScreen(state.message)
         }
     }
 }
@@ -57,7 +57,7 @@ fun SideEffects(navigateToCharacterDetailScreen: (Int) -> Unit) {
 
 @ExperimentalCoilApi
 @Composable
-fun CharactersScreen(state: ListState.CharacterState) {
+fun CharactersScreen(state: UiStateContent.Characters) {
     val viewModel: CharacterStarredViewModel = getViewModel()
 
     LazyColumn {

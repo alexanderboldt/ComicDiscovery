@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.alex.comicdiscovery.R
-import com.alex.comicdiscovery.feature.character.detail.model.ContentState
+import com.alex.comicdiscovery.feature.character.detail.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.detail.model.UiEventCharacterDetail
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
 import kotlinx.coroutines.flow.collect
@@ -37,9 +37,9 @@ fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigate
     SideEffects(viewModel)
 
     when (val state = viewModel.contentState) {
-        is ContentState.CharacterState -> CharacterScreen(state, viewModel, navigateToImageScreen)
-        is ContentState.LoadingState -> LoadingScreen(state.message)
-        is ContentState.MessageState -> MessageScreen(state.message)
+        is UiStateContent.Character -> CharacterScreen(state, viewModel, navigateToImageScreen)
+        is UiStateContent.Loading -> LoadingScreen(state.message)
+        is UiStateContent.Message -> MessageScreen(state.message)
     }
 }
 
@@ -62,7 +62,7 @@ fun SideEffects(viewModel: CharacterDetailViewModel) {
 
 @ExperimentalCoilApi
 @Composable
-fun CharacterScreen(state: ContentState.CharacterState, viewModel: CharacterDetailViewModel, navigateToImageScreen: (String) -> Unit) {
+fun CharacterScreen(state: UiStateContent.Character, viewModel: CharacterDetailViewModel, navigateToImageScreen: (String) -> Unit) {
     Column(modifier = Modifier
         .background(AlmostWhite)
         .fillMaxSize()

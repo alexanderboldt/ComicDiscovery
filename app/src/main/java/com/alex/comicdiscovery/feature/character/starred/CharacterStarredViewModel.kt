@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.starred.model.ListState
+import com.alex.comicdiscovery.feature.character.starred.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.starred.model.UiEventCharacterStarred
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.ui.components.UiModelCharacter
@@ -22,7 +22,7 @@ class CharacterStarredViewModel(
     private val characterRepository: CharacterRepository,
     private val resourceProvider: ResourceProvider) : BaseViewModel<UiEventCharacterStarred>() {
 
-    var listState: ListState by mutableStateOf(ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
+    var listState: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_search)))
         private set
 
     // ----------------------------------------------------------------------------
@@ -46,9 +46,9 @@ class CharacterStarredViewModel(
             characterRepository
                 .getStarredCharacters()
                 .onStart {
-                    listState = ListState.MessageState(resourceProvider.getString(R.string.character_starred_message_loading))
+                    listState = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_loading))
                 }.catch { throwable ->
-                    listState = ListState.MessageState(resourceProvider.getString(R.string.character_starred_message_error))
+                    listState = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_error))
 
                     Timber.w(throwable)
                 }.collect { result ->
@@ -62,8 +62,8 @@ class CharacterStarredViewModel(
                                 character.smallImageUrl)
                         }.also { characters ->
                             listState = when (characters.isEmpty()) {
-                                true -> ListState.MessageState(resourceProvider.getString(R.string.character_starred_message_no_entries))
-                                false -> ListState.CharacterState(characters)
+                                true -> UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_no_entries))
+                                false -> UiStateContent.Characters(characters)
                             }
                         }
                 }

@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alex.comicdiscovery.R
-import com.alex.comicdiscovery.feature.settings.model.UiModelThemes
+import com.alex.comicdiscovery.feature.settings.model.UiModelTheme
 import com.alex.comicdiscovery.ui.theme.AlmostWhite
 import com.alex.comicdiscovery.ui.theme.Blue500
 import com.alex.comicdiscovery.ui.theme.Grey300
@@ -30,15 +30,15 @@ fun SettingsScreen() {
             style = MaterialTheme.typography.h6,
             modifier = Modifier.padding(16.dp))
         Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-            ThemeButton(UiModelThemes.SYSTEM, viewModel.theme, R.string.settings_theme_system)
-            ThemeButton(UiModelThemes.LIGHT, viewModel.theme, R.string.settings_theme_light)
-            ThemeButton(UiModelThemes.DARK, viewModel.theme, R.string.settings_theme_dark)
+            ThemeButton(UiModelTheme.SYSTEM, viewModel.theme, R.string.settings_theme_system)
+            ThemeButton(UiModelTheme.LIGHT, viewModel.theme, R.string.settings_theme_light)
+            ThemeButton(UiModelTheme.DARK, viewModel.theme, R.string.settings_theme_dark)
         }
     }
 }
 
 @Composable
-fun ThemeButton(theme: UiModelThemes, selectedTheme: UiModelThemes, @StringRes text: Int) {
+fun ThemeButton(theme: UiModelTheme, selectedTheme: UiModelTheme, @StringRes text: Int) {
     val viewModel: SettingsViewModel = getViewModel()
 
     OutlinedButton(

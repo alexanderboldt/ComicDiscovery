@@ -1,7 +1,7 @@
 package com.alex.comicdiscovery.feature.main
 
 import com.alex.comicdiscovery.feature.BaseViewModelTest
-import com.alex.comicdiscovery.feature.main.model.UiModelThemes
+import com.alex.comicdiscovery.feature.main.model.UiModelTheme
 import com.alex.comicdiscovery.repository.settings.SettingsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -34,7 +34,7 @@ class MainViewModelTest : BaseViewModelTest() {
     fun `it should be successful with default-theme`() {
         runBlockingTest {
             // verify
-            assertEquals(UiModelThemes.SYSTEM, viewModel.theme)
+            assertEquals(UiModelTheme.SYSTEM, viewModel.theme)
         }
     }
 }

@@ -8,7 +8,7 @@ import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.detail.model.UiModelCharacter
-import com.alex.comicdiscovery.feature.character.detail.model.ContentState
+import com.alex.comicdiscovery.feature.character.detail.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.detail.model.UiEventCharacterDetail
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +24,7 @@ class CharacterDetailViewModel(
     private val characterRepository: CharacterRepository,
     private val resourceProvider: ResourceProvider) : BaseViewModel<UiEventCharacterDetail>() {
 
-    var contentState: ContentState by mutableStateOf(ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_loading)))
+    var contentState: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_loading)))
         private set
 
     var starState: Int by mutableStateOf(getStarIcon())
@@ -42,16 +42,16 @@ class CharacterDetailViewModel(
                 true -> characterRepository.getStarredCharacter(characterId)
                 false -> characterRepository.getCharacter(characterId)
             }.onStart {
-                contentState = ContentState.LoadingState(resourceProvider.getString(R.string.character_detail_message_loading))
+                contentState = UiStateContent.Loading(resourceProvider.getString(R.string.character_detail_message_loading))
             }.catch { throwable ->
-                contentState = ContentState.MessageState(resourceProvider.getString(R.string.character_detail_message_error))
+                contentState = UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_error))
 
                 Timber.w(throwable)
             }.collect { result ->
                 val character = result.result
                 isStarred = character.isStarred
 
-                contentState = ContentState.CharacterState(
+                contentState = UiStateContent.Character(
                     UiModelCharacter(
                         character.smallImageUrl,
                         character.name,

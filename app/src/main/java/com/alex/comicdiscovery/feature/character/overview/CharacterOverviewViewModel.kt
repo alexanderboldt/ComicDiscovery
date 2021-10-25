@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.overview.model.ListState
+import com.alex.comicdiscovery.feature.character.overview.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.overview.model.UiEventCharacterOverview
 import com.alex.comicdiscovery.repository.search.SearchRepository
 import com.alex.comicdiscovery.ui.components.UiModelCharacter
@@ -23,7 +23,7 @@ class CharacterOverviewViewModel(
     var query: String by mutableStateOf("")
         private set
 
-    var listState: ListState by mutableStateOf(ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search)))
+    var listState: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_search)))
         private set
 
     // ----------------------------------------------------------------------------
@@ -34,7 +34,7 @@ class CharacterOverviewViewModel(
 
     fun onQuerySubmit() {
         when (query.isBlank()) {
-            true -> listState = ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_search))
+            true -> listState = UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_search))
             false -> search(query)
         }
     }
@@ -52,9 +52,9 @@ class CharacterOverviewViewModel(
             searchRepository
                 .getSearch(query)
                 .onStart {
-                    listState = ListState.LoadingState(resourceProvider.getString(R.string.character_overview_message_loading))
+                    listState = UiStateContent.Loading(resourceProvider.getString(R.string.character_overview_message_loading))
                 }.catch { throwable ->
-                    listState = ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_error))
+                    listState = UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_error))
 
                     Timber.w(throwable)
                 }.collect { result ->
@@ -63,8 +63,8 @@ class CharacterOverviewViewModel(
                         .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.smallImageUrl) }
                         .also { characters ->
                             listState = when (characters.isEmpty()) {
-                                true -> ListState.MessageState(resourceProvider.getString(R.string.character_overview_message_no_entries))
-                                false -> ListState.CharacterState(characters)
+                                true -> UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_entries))
+                                false -> UiStateContent.Characters(characters)
                             }
                         }
                 }

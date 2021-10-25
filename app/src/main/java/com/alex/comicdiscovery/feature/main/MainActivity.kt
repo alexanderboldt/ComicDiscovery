@@ -8,7 +8,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import com.alex.comicdiscovery.feature.main.model.UiModelThemes
+import com.alex.comicdiscovery.feature.main.model.UiModelTheme
 import com.alex.comicdiscovery.navigation.ComicDiscoveryTopLevelNavigation
 import com.alex.comicdiscovery.ui.theme.Blue700
 import com.alex.comicdiscovery.ui.theme.ComicDiscoveryTheme
@@ -34,9 +34,9 @@ class MainActivity : AppCompatActivity() {
             val viewModel: MainViewModel = getViewModel()
 
             val isDarkTheme = when(viewModel.theme) {
-                UiModelThemes.LIGHT -> false
-                UiModelThemes.DARK -> true
-                UiModelThemes.SYSTEM -> isSystemInDarkTheme()
+                UiModelTheme.LIGHT -> false
+                UiModelTheme.DARK -> true
+                UiModelTheme.SYSTEM -> isSystemInDarkTheme()
             }
 
             // the content

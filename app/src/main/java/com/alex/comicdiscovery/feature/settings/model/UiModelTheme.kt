@@ -1,6 +1,6 @@
 package com.alex.comicdiscovery.feature.settings.model
 
-enum class UiModelThemes {
+enum class UiModelTheme {
     SYSTEM,
     LIGHT,
     DARK
