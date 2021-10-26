@@ -11,12 +11,11 @@ import com.alex.comicdiscovery.feature.character.starred.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.starred.model.UiEventCharacterStarred
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.ui.components.UiModelCharacter
+import com.alex.comicdiscovery.util.timberCatch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class CharacterStarredViewModel(
     private val characterRepository: CharacterRepository,
@@ -45,13 +44,9 @@ class CharacterStarredViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             characterRepository
                 .getStarredCharacters()
-                .onStart {
-                    listState = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_loading))
-                }.catch { throwable ->
-                    listState = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_error))
-
-                    Timber.w(throwable)
-                }.collect { result ->
+                .onStart { listState = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_loading)) }
+                .timberCatch { listState = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_error)) }
+                .collect { result ->
                     result
                         .result
                         .map { character ->

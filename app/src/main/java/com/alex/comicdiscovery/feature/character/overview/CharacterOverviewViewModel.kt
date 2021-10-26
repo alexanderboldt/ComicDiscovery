@@ -11,10 +11,10 @@ import com.alex.comicdiscovery.feature.character.overview.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.overview.model.UiEventCharacterOverview
 import com.alex.comicdiscovery.repository.search.SearchRepository
 import com.alex.comicdiscovery.ui.components.UiModelCharacter
+import com.alex.comicdiscovery.util.timberCatch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class CharacterOverviewViewModel(
     private val searchRepository: SearchRepository,
@@ -51,13 +51,9 @@ class CharacterOverviewViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             searchRepository
                 .getSearch(query)
-                .onStart {
-                    listState = UiStateContent.Loading(resourceProvider.getString(R.string.character_overview_message_loading))
-                }.catch { throwable ->
-                    listState = UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_error))
-
-                    Timber.w(throwable)
-                }.collect { result ->
+                .onStart { listState = UiStateContent.Loading(resourceProvider.getString(R.string.character_overview_message_loading)) }
+                .timberCatch { listState = UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_error)) }
+                .collect { result ->
                     result
                         .result
                         .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.smallImageUrl) }

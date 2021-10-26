@@ -11,12 +11,11 @@ import com.alex.comicdiscovery.feature.character.detail.model.UiModelCharacter
 import com.alex.comicdiscovery.feature.character.detail.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.detail.model.UiEventCharacterDetail
 import com.alex.comicdiscovery.repository.character.CharacterRepository
+import com.alex.comicdiscovery.util.timberCatch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class CharacterDetailViewModel(
     private val characterId: Int,
@@ -43,10 +42,8 @@ class CharacterDetailViewModel(
                 false -> characterRepository.getCharacter(characterId)
             }.onStart {
                 contentState = UiStateContent.Loading(resourceProvider.getString(R.string.character_detail_message_loading))
-            }.catch { throwable ->
+            }.timberCatch {
                 contentState = UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_error))
-
-                Timber.w(throwable)
             }.collect { result ->
                 val character = result.result
                 isStarred = character.isStarred
@@ -79,15 +76,13 @@ class CharacterDetailViewModel(
             when (isStarred) {
                 true -> characterRepository.unstarCharacter(characterId)
                 false -> characterRepository.starCharacter(characterId)
-            }.catch { throwable ->
+            }.timberCatch {
                 when (isStarred) {
                     true -> R.string.character_detail_message_error_unstar
                     false -> R.string.character_detail_message_error_star
                 }.also { messageResource ->
                     sendEvent(UiEventCharacterDetail.Message(resourceProvider.getString(messageResource)))
                 }
-
-                Timber.w(throwable)
             }.collect {
                 isStarred = !isStarred
                 starState = getStarIcon()
