@@ -48,6 +48,8 @@ fun SideEffects(navigateToCharacterDetailScreen: (Int) -> Unit) {
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
+        viewModel.init()
+
         scope.launch {
             viewModel
                 .event

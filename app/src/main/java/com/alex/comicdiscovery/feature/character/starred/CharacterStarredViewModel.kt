@@ -21,12 +21,12 @@ class CharacterStarredViewModel(
     private val characterRepository: CharacterRepository,
     private val resourceProvider: ResourceProvider) : BaseViewModel<UiEventCharacterStarred>() {
 
-    var content: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_search)))
+    var content: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_loading)))
         private set
 
     // ----------------------------------------------------------------------------
 
-    init {
+    fun init() {
         getCharacters()
     }
 
