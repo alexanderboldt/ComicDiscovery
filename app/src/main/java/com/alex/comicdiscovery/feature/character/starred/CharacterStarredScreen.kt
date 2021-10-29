@@ -30,7 +30,7 @@ fun CharacterStarredScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
     SideEffects(navigateToCharacterDetailScreen)
 
     Column(modifier = Modifier
-        .background(getColor(lightColor = BrightGray, darkColor = DarkCharcoal))
+        .background(getColor(BrightGray, DarkCharcoal))
         .fillMaxSize()) {
         when (val state = viewModel.content) {
             is UiStateContent.Characters -> CharactersScreen(state)
@@ -81,6 +81,6 @@ fun MessageScreen(message: String) {
         Text(
             text = message,
             modifier = Modifier.align(Alignment.Center),
-            color = getColor(lightColor = DarkCharcoal, darkColor = BrightGray))
+            color = getColor(DarkCharcoal, BrightGray))
     }
 }

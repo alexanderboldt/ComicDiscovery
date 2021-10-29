@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Star
@@ -24,9 +25,7 @@ import coil.compose.rememberImagePainter
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.character.detail.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.detail.model.UiEventCharacterDetail
-import com.alex.comicdiscovery.ui.theme.BrightGray
-import com.alex.comicdiscovery.ui.theme.DarkCharcoal
-import com.alex.comicdiscovery.ui.theme.DarkElectricBlue
+import com.alex.comicdiscovery.ui.theme.*
 import com.alex.comicdiscovery.ui.theme.UltramarineBlue
 import com.alex.comicdiscovery.util.getColor
 import kotlinx.coroutines.flow.collect
@@ -103,8 +102,10 @@ fun CharacterScreen(state: UiStateContent.Character, viewModel: CharacterDetailV
 
         FloatingActionButton(
             onClick = { viewModel.onClickStar() },
-            modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
-            backgroundColor = getColor(UltramarineBlue, DarkElectricBlue)) {
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp).border(if (viewModel.isStarred) 4.dp else 0.dp, UltramarineBlue, CircleShape),
+            backgroundColor = getColor(CoralRed, DarkElectricBlue)) {
             Image(
                 imageVector = Icons.Rounded.Star,
                 contentDescription = null,

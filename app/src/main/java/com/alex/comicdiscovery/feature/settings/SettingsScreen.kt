@@ -24,11 +24,11 @@ fun SettingsScreen() {
     val viewModel: SettingsViewModel = getViewModel()
 
     Column(modifier = Modifier
-        .background(getColor(lightColor = BrightGray, darkColor = DarkCharcoal))
+        .background(getColor(BrightGray, DarkCharcoal))
         .fillMaxSize()) {
 
         val textStyle = TextStyle(
-            color = getColor(lightColor = DarkElectricBlue, darkColor = BrightGray),
+            color = getColor(DarkElectricBlue, BrightGray),
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium)
 
@@ -50,7 +50,7 @@ fun ThemeButton(theme: UiModelTheme, selectedTheme: UiModelTheme, @StringRes tex
     val viewModel: SettingsViewModel = getViewModel()
 
     val border = if (theme == selectedTheme) {
-        BorderStroke(2.dp, getColor(lightColor = DarkCharcoal, darkColor = BrightGray))
+        BorderStroke(2.dp, getColor(CoralRed, BrightGray))
     } else {
         null
     }

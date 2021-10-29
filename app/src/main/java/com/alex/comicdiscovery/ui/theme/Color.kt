@@ -9,6 +9,8 @@ val DarkElectricBlue = Color(0xff62727b)
 val UltramarineBlue = Color(0xff3d5afe)
 val AbsoluteZero = Color(0xff0031ca)
 
+val CoralRed = Color(0xFFFE3D3D)
+
 val DarkCharcoal = Color(0xff202020)
 val ChineseBlack = Color(0xff101010)
 val Black = Color(0xff000000)

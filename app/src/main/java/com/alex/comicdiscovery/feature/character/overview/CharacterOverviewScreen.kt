@@ -44,7 +44,7 @@ fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
     SideEffects(navigateToCharacterDetailScreen)
 
     Column(modifier = Modifier
-        .background(getColor(lightColor = BrightGray, darkColor = DarkCharcoal))
+        .background(getColor(BrightGray, DarkCharcoal))
         .fillMaxSize()) {
 
         Searchbar()
@@ -148,14 +148,14 @@ fun LoadingScreen(message: String) {
         .padding(16.dp), verticalArrangement = Arrangement.Center) {
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = getColor(lightColor = UltramarineBlue, darkColor = BrightGray))
+            color = getColor(UltramarineBlue, BrightGray))
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = message,
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = getColor(lightColor = DarkCharcoal, darkColor = BrightGray))
+            color = getColor(DarkCharcoal, BrightGray))
     }
 }
 
@@ -167,6 +167,6 @@ fun MessageScreen(message: String) {
         Text(
             text = message,
             modifier = Modifier.align(Alignment.Center),
-            color = getColor(lightColor = DarkCharcoal, darkColor = BrightGray))
+            color = getColor(DarkCharcoal, BrightGray))
     }
 }

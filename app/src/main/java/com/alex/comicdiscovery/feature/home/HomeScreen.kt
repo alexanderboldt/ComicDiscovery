@@ -22,7 +22,7 @@ fun HomeScreen(navControllerTopLevel: NavHostController, navControllerBottomNavi
     Scaffold(
         bottomBar = {
             BottomNavigation(
-                backgroundColor = getColor(lightColor = UltramarineBlue, darkColor = ChineseBlack),
+                backgroundColor = getColor(UltramarineBlue, ChineseBlack),
                 contentColor = BrightGray) {
                 bottomScreens.forEachIndexed { index, bottomScreen ->
                     BottomNavigationItem(
