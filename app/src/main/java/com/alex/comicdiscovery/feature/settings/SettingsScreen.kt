@@ -4,18 +4,19 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.settings.model.UiModelTheme
-import com.alex.comicdiscovery.ui.theme.AlmostWhite
-import com.alex.comicdiscovery.ui.theme.Blue500
-import com.alex.comicdiscovery.ui.theme.Grey300
+import com.alex.comicdiscovery.ui.components.ComicDiscoveryButton
+import com.alex.comicdiscovery.ui.theme.*
+import com.alex.comicdiscovery.util.getColor
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -23,12 +24,19 @@ fun SettingsScreen() {
     val viewModel: SettingsViewModel = getViewModel()
 
     Column(modifier = Modifier
-        .background(AlmostWhite)
+        .background(getColor(lightColor = BrightGray, darkColor = DarkCharcoal))
         .fillMaxSize()) {
+
+        val textStyle = TextStyle(
+            color = getColor(lightColor = DarkElectricBlue, darkColor = BrightGray),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Medium)
+
         Text(
             text = stringResource(R.string.settings_theme_title),
-            style = MaterialTheme.typography.h6,
+            style = textStyle,
             modifier = Modifier.padding(16.dp))
+
         Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
             ThemeButton(UiModelTheme.SYSTEM, viewModel.theme, R.string.settings_theme_system)
             ThemeButton(UiModelTheme.LIGHT, viewModel.theme, R.string.settings_theme_light)
@@ -41,9 +49,13 @@ fun SettingsScreen() {
 fun ThemeButton(theme: UiModelTheme, selectedTheme: UiModelTheme, @StringRes text: Int) {
     val viewModel: SettingsViewModel = getViewModel()
 
-    OutlinedButton(
-        onClick = { viewModel.onSelectTheme(theme) },
-        border = BorderStroke(1.dp, if (theme == selectedTheme) Blue500 else Grey300)) {
-        Text(text = stringResource(text), modifier = Modifier.padding(8.dp))
+    val border = if (theme == selectedTheme) {
+        BorderStroke(2.dp, getColor(lightColor = DarkCharcoal, darkColor = BrightGray))
+    } else {
+        null
+    }
+
+    ComicDiscoveryButton(stringResource(text), border) {
+        viewModel.onSelectTheme(theme)
     }
 }

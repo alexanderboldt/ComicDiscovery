@@ -21,7 +21,7 @@ class CharacterStarredViewModel(
     private val characterRepository: CharacterRepository,
     private val resourceProvider: ResourceProvider) : BaseViewModel<UiEventCharacterStarred>() {
 
-    var listState: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_search)))
+    var content: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_search)))
         private set
 
     // ----------------------------------------------------------------------------
@@ -44,8 +44,8 @@ class CharacterStarredViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             characterRepository
                 .getStarredCharacters()
-                .onStart { listState = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_loading)) }
-                .timberCatch { listState = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_error)) }
+                .onStart { content = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_loading)) }
+                .timberCatch { content = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_error)) }
                 .collect { result ->
                     result
                         .result
@@ -56,7 +56,7 @@ class CharacterStarredViewModel(
                                 character.realName,
                                 character.smallImageUrl)
                         }.also { characters ->
-                            listState = when (characters.isEmpty()) {
+                            content = when (characters.isEmpty()) {
                                 true -> UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_no_entries))
                                 false -> UiStateContent.Characters(characters)
                             }

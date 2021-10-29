@@ -5,6 +5,8 @@
     <string name="bottom_navigation_page_settings">Settings</string>
 
     <!-- Screen Character Overview -->
+    <string name="character_overview_search_hint">Search</string>
+
     <string name="character_overview_message_no_search">Make a search for some characters</string>
     <string name="character_overview_message_loading">Loading characters …</string>
     <string name="character_overview_message_no_entries">No characters found</string>

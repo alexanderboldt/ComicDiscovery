@@ -10,6 +10,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.navigation.*
+import com.alex.comicdiscovery.ui.theme.*
+import com.alex.comicdiscovery.util.getColor
 
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
@@ -19,7 +21,9 @@ fun HomeScreen(navControllerTopLevel: NavHostController, navControllerBottomNavi
 
     Scaffold(
         bottomBar = {
-            BottomNavigation {
+            BottomNavigation(
+                backgroundColor = getColor(lightColor = UltramarineBlue, darkColor = ChineseBlack),
+                contentColor = BrightGray) {
                 bottomScreens.forEachIndexed { index, bottomScreen ->
                     BottomNavigationItem(
                         selected = viewModel.selectNavigationIndex == index,

@@ -1,7 +1,9 @@
 package com.alex.comicdiscovery.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavBackStackEntry
@@ -35,7 +37,7 @@ object CharacterOverview : BottomScreen {
     override val route = "character_overview"
 
     override val title = "Search"
-    override val icon = Icons.Filled.Face
+    override val icon = Icons.Rounded.Search
 
     override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         CharacterOverviewScreen { id ->
@@ -50,7 +52,7 @@ object CharacterStarred : BottomScreen {
     override val route = "character_starred"
 
     override val title = "Starred"
-    override val icon = Icons.Filled.Face
+    override val icon = Icons.Rounded.Star
 
     override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         CharacterStarredScreen { id ->
@@ -65,7 +67,7 @@ object Settings : BottomScreen {
     override val route = "settings"
 
     override val title = "Settings"
-    override val icon = Icons.Filled.Face
+    override val icon = Icons.Rounded.Settings
 
     override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         SettingsScreen()

@@ -2,14 +2,13 @@ package com.alex.comicdiscovery.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val AlmostWhite = Color(0xffefefef)
+val BrightGray = Color(0xffefefef)
 
-val Blue300 = Color(0xff8187ff)
-val Blue500 = Color(0xff3d5afe)
-val Blue700 = Color(0xff0031ca)
+val DarkElectricBlue = Color(0xff62727b)
 
-val Grey300 = Color(0xff62727b)
-val Grey500 = Color(0xff37474f)
-val Grey700 = Color(0xff333333)
+val UltramarineBlue = Color(0xff3d5afe)
+val AbsoluteZero = Color(0xff0031ca)
 
-val AlmostBlack = Color(0xff102027)
+val DarkCharcoal = Color(0xff202020)
+val ChineseBlack = Color(0xff101010)
+val Black = Color(0xff000000)

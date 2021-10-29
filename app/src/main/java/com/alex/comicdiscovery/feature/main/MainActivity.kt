@@ -4,13 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.main.model.UiModelTheme
 import com.alex.comicdiscovery.navigation.ComicDiscoveryTopLevelNavigation
-import com.alex.comicdiscovery.ui.theme.Blue700
+import com.alex.comicdiscovery.ui.theme.AbsoluteZero
+import com.alex.comicdiscovery.ui.theme.Black
 import com.alex.comicdiscovery.ui.theme.ComicDiscoveryTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.getViewModel
@@ -23,13 +23,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            // change the color of the StatusBar and NavigationBar
-            val systemUiController = rememberSystemUiController()
-
-            SideEffect {
-                systemUiController.setSystemBarsColor(Blue700, false)
-            }
-
             // setup the theme
             val viewModel: MainViewModel = getViewModel()
 
@@ -41,6 +34,11 @@ class MainActivity : AppCompatActivity() {
 
             // the content
             ComicDiscoveryTheme(isDarkTheme) {
+                // change the color of the StatusBar and NavigationBar
+                val systemUiController = rememberSystemUiController()
+
+                systemUiController.setSystemBarsColor(if (isDarkTheme) Black else AbsoluteZero)
+
                 val navControllerTopLevel = rememberNavController()
                 val navControllerBottomNavigation = rememberNavController()
 

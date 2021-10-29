@@ -14,7 +14,9 @@ import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.character.starred.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.starred.model.UiEventCharacterStarred
 import com.alex.comicdiscovery.ui.components.CharacterItem
-import com.alex.comicdiscovery.ui.theme.AlmostWhite
+import com.alex.comicdiscovery.ui.theme.BrightGray
+import com.alex.comicdiscovery.ui.theme.DarkCharcoal
+import com.alex.comicdiscovery.util.getColor
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -27,8 +29,10 @@ fun CharacterStarredScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
 
     SideEffects(navigateToCharacterDetailScreen)
 
-    Column(modifier = Modifier.background(AlmostWhite).fillMaxSize()) {
-        when (val state = viewModel.listState) {
+    Column(modifier = Modifier
+        .background(getColor(lightColor = BrightGray, darkColor = DarkCharcoal))
+        .fillMaxSize()) {
+        when (val state = viewModel.content) {
             is UiStateContent.Characters -> CharactersScreen(state)
             is UiStateContent.Message -> MessageScreen(state.message)
         }
@@ -74,6 +78,9 @@ fun CharactersScreen(state: UiStateContent.Characters) {
 @Composable
 fun MessageScreen(message: String) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Text(text = message, modifier = Modifier.align(Alignment.Center))
+        Text(
+            text = message,
+            modifier = Modifier.align(Alignment.Center),
+            color = getColor(lightColor = DarkCharcoal, darkColor = BrightGray))
     }
 }

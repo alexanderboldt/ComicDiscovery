@@ -23,15 +23,11 @@ class CharacterDetailViewModel(
     private val characterRepository: CharacterRepository,
     private val resourceProvider: ResourceProvider) : BaseViewModel<UiEventCharacterDetail>() {
 
-    var contentState: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_loading)))
+    var content: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_loading)))
         private set
 
-    var starState: Int by mutableStateOf(getStarIcon())
+    var isStarred: Boolean by mutableStateOf(false)
         private set
-
-    // ----------------------------------------------------------------------------
-
-    private var isStarred = false
 
     // ----------------------------------------------------------------------------
 
@@ -41,14 +37,14 @@ class CharacterDetailViewModel(
                 true -> characterRepository.getStarredCharacter(characterId)
                 false -> characterRepository.getCharacter(characterId)
             }.onStart {
-                contentState = UiStateContent.Loading(resourceProvider.getString(R.string.character_detail_message_loading))
+                content = UiStateContent.Loading(resourceProvider.getString(R.string.character_detail_message_loading))
             }.timberCatch {
-                contentState = UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_error))
+                content = UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_error))
             }.collect { result ->
                 val character = result.result
                 isStarred = character.isStarred
 
-                contentState = UiStateContent.Character(
+                content = UiStateContent.Character(
                     UiModelCharacter(
                         character.smallImageUrl,
                         character.name,
@@ -63,8 +59,6 @@ class CharacterDetailViewModel(
                         character.origin,
                         character.powers.joinToString("\n")
                     ))
-
-                starState = getStarIcon()
             }
         }
     }
@@ -85,12 +79,7 @@ class CharacterDetailViewModel(
                 }
             }.collect {
                 isStarred = !isStarred
-                starState = getStarIcon()
             }
         }
     }
-
-    // ----------------------------------------------------------------------------
-
-    private fun getStarIcon() = if (isStarred) android.R.drawable.btn_star_big_on else android.R.drawable.btn_star_big_off
 }
