@@ -1,6 +1,5 @@
 package com.alex.comicdiscovery.ui.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -14,9 +13,8 @@ import com.alex.comicdiscovery.ui.theme.DarkElectricBlue
 import com.alex.comicdiscovery.ui.theme.UltramarineBlue
 
 @Composable
-fun ComicDiscoveryButton(text: String, border: BorderStroke? = null, onClick: () -> Unit) {
+fun ComicDiscoveryButton(text: String, onClick: () -> Unit) {
     Button(
-        border = border,
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = if (MaterialTheme.colors.isLight) UltramarineBlue else DarkElectricBlue,

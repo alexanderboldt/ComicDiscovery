@@ -9,12 +9,23 @@ import com.alex.comicdiscovery.feature.settings.model.UiModelTheme
 import com.alex.comicdiscovery.repository.models.RpModelTheme
 import com.alex.comicdiscovery.repository.settings.SettingsRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
 
     var theme: UiModelTheme by mutableStateOf(UiModelTheme.SYSTEM)
         private set
+
+    // ----------------------------------------------------------------------------
+    
+    init {
+        viewModelScope.launch(Dispatchers.Main) {
+            settingsRepository
+                .getTheme()
+                .collect { theme = UiModelTheme.valueOf(it.ordinal) }
+        }
+    }
 
     // ----------------------------------------------------------------------------
 
