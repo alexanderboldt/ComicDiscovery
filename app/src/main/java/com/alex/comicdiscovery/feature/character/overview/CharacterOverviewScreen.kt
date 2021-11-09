@@ -1,21 +1,25 @@
 package com.alex.comicdiscovery.feature.character.overview
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -142,12 +146,34 @@ fun Searchbar() {
 @ExperimentalCoilApi
 @Composable
 fun CharactersScreen(state: UiStateContent.Characters) {
-    val viewModel: CharacterOverviewViewModel = getViewModel()
+    Box(modifier = Modifier.fillMaxSize()) {
+        val viewModel: CharacterOverviewViewModel = getViewModel()
 
-    LazyColumn {
-        items(state.characters) { character ->
-            CharacterItem(character) {
-                viewModel.onClickCharacter(character.id)
+        val listState = rememberLazyListState()
+
+        val scope = rememberCoroutineScope()
+
+        LazyColumn(state = listState) {
+            items(
+                items = state.characters,
+                key = { character -> character.id }) { character ->
+                CharacterItem(character) {
+                    viewModel.onClickCharacter(character.id)
+                }
+            }
+        }
+
+        if (listState.firstVisibleItemIndex >= 1) {
+            FloatingActionButton(
+                onClick = { scope.launch { listState.animateScrollToItem(0) } },
+                backgroundColor = CoralRed,
+                modifier = Modifier.padding(16.dp).align(Alignment.BottomEnd)) {
+                Image(
+                    imageVector = Icons.Rounded.KeyboardArrowUp,
+                    contentDescription = null,
+                    modifier = Modifier.size(32.dp),
+                    colorFilter = ColorFilter.tint(BrightGray)
+                )
             }
         }
     }
