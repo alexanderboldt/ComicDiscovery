@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Star
@@ -101,16 +100,23 @@ fun CharacterScreen(state: UiStateContent.Character, viewModel: CharacterDetailV
         }
 
         FloatingActionButton(
-            onClick = { viewModel.onClickStar() },
+            onClick = { if (!viewModel.starring.isLoading) viewModel.onClickStar() },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(16.dp).border(if (viewModel.isStarred) 4.dp else 0.dp, UltramarineBlue, CircleShape),
-            backgroundColor = getColor(CoralRed, DarkElectricBlue)) {
+                .padding(16.dp),
+            backgroundColor = if (viewModel.starring.isStarred) CoralRed else DarkElectricBlue) {
             Image(
                 imageVector = Icons.Rounded.Star,
                 contentDescription = null,
                 modifier = Modifier.size(32.dp),
                 colorFilter = ColorFilter.tint(BrightGray))
+
+            if (viewModel.starring.isLoading) {
+                CircularProgressIndicator(
+                    color = BrightGray,
+                    modifier = Modifier.size(56.dp)
+                )
+            }
         }
     }
 }

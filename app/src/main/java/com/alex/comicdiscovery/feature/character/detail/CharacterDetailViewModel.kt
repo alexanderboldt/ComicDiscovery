@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.detail.model.UiModelCharacter
-import com.alex.comicdiscovery.feature.character.detail.model.UiStateContent
-import com.alex.comicdiscovery.feature.character.detail.model.UiEventCharacterDetail
+import com.alex.comicdiscovery.feature.character.detail.model.*
 import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.util.timberCatch
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +24,7 @@ class CharacterDetailViewModel(
     var content: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_loading)))
         private set
 
-    var isStarred: Boolean by mutableStateOf(false)
+    var starring: UiModelStarring by mutableStateOf(UiModelStarring(false, false))
         private set
 
     // ----------------------------------------------------------------------------
@@ -42,7 +40,7 @@ class CharacterDetailViewModel(
                 content = UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_error))
             }.collect { result ->
                 val character = result.result
-                isStarred = character.isStarred
+                starring = starring.copy(isStarred = character.isStarred)
 
                 content = UiStateContent.Character(
                     UiModelCharacter(
@@ -67,18 +65,21 @@ class CharacterDetailViewModel(
 
     fun onClickStar() {
         viewModelScope.launch(Dispatchers.Main) {
-            when (isStarred) {
+            when (starring.isStarred) {
                 true -> characterRepository.unstarCharacter(characterId)
                 false -> characterRepository.starCharacter(characterId)
+            }.onStart {
+                starring = starring.copy(isLoading = true)
             }.timberCatch {
-                when (isStarred) {
+                when (starring.isStarred) {
                     true -> R.string.character_detail_message_error_unstar
                     false -> R.string.character_detail_message_error_star
                 }.also { messageResource ->
                     sendEvent(UiEventCharacterDetail.Message(resourceProvider.getString(messageResource)))
                 }
+                starring = starring.copy(isLoading = false)
             }.collect {
-                isStarred = !isStarred
+                starring = starring.copy(isStarred = !starring.isStarred, isLoading = false)
             }
         }
     }
