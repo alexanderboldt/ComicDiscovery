@@ -26,9 +26,7 @@ import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.character.overview.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.overview.model.UiEventCharacterOverview
 import com.alex.comicdiscovery.ui.components.CharacterItem
-import com.alex.comicdiscovery.ui.theme.BrightGray
-import com.alex.comicdiscovery.ui.theme.DarkCharcoal
-import com.alex.comicdiscovery.ui.theme.UltramarineBlue
+import com.alex.comicdiscovery.ui.theme.*
 import com.alex.comicdiscovery.util.getColor
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
@@ -85,20 +83,36 @@ fun Searchbar() {
 
     val colors = if (MaterialTheme.colors.isLight) {
         TextFieldDefaults.textFieldColors(
+            // background
             backgroundColor = BrightGray,
+            // icon
             leadingIconColor = UltramarineBlue,
-            textColor = DarkCharcoal,
-            focusedIndicatorColor = UltramarineBlue,
+            // label
+            unfocusedLabelColor = DarkElectricBlue,
             focusedLabelColor = UltramarineBlue,
-            cursorColor = DarkCharcoal
+            // text
+            textColor = DarkCharcoal,
+            // indicator
+            unfocusedIndicatorColor = DarkElectricBlue,
+            focusedIndicatorColor = UltramarineBlue,
+            // cursor
+            cursorColor = DarkElectricBlue
         )
     } else {
         TextFieldDefaults.textFieldColors(
+            // background
             backgroundColor = DarkCharcoal,
+            // icon
             leadingIconColor = BrightGray,
-            textColor = BrightGray,
-            focusedIndicatorColor = BrightGray,
+            // label
+            unfocusedLabelColor = BrightGray,
             focusedLabelColor = BrightGray,
+            // text
+            textColor = BrightGray,
+            // indicator
+            unfocusedIndicatorColor = BrightGray,
+            focusedIndicatorColor = BrightGray,
+            // cursor
             cursorColor = BrightGray
         )
     }
