@@ -6,11 +6,7 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.navArgument
+import androidx.navigation.*
 import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.character.detail.CharacterDetailScreen
 import com.alex.comicdiscovery.feature.character.overview.CharacterOverviewScreen

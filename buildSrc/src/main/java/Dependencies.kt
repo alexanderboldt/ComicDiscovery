@@ -6,20 +6,20 @@ object Config {
 
 object Deps {
     object Kotlin {
-        const val version = "1.5.30"
+        const val version = "1.5.31"
         const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
     }
 
     object AndroidX {
         object Compose {
-            const val version = "1.0.3"
+            const val version = "1.0.5"
             const val ui = "androidx.compose.ui:ui:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
             const val material = "androidx.compose.material:material:$version"
         }
 
-        const val core = "androidx.core:core-ktx:1.6.0"
+        const val core = "androidx.core:core-ktx:1.7.0"
 
         object DataStore {
             private const val version = "1.0.0"
@@ -27,14 +27,14 @@ object Deps {
         }
 
         object LifeCycle {
-            private const val version = "2.3.1"
+            private const val version = "2.4.0"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         }
 
         const val material = "com.google.android.material:material:1.4.0"
 
         object Navigation {
-            const val compose = "androidx.navigation:navigation-compose:2.4.0-alpha08"
+            const val compose = "androidx.navigation:navigation-compose:2.4.0-beta02"
         }
 
         object Room {
@@ -63,18 +63,18 @@ object Deps {
         }
 
         object Coil {
-            private const val version = "1.3.2"
+            private const val version = "1.4.0"
             const val compose = "io.coil-kt:coil-compose:$version"
         }
 
         object Coroutines {
-            private const val version = "1.5.0"
+            private const val version = "1.5.2"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         }
 
         object Koin {
-            private const val version = "3.1.2"
+            private const val version = "3.1.3"
             const val koin = "io.insert-koin:koin-android:$version"
             const val compose = "io.insert-koin:koin-androidx-compose:$version"
         }
