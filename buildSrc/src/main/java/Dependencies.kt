@@ -1,6 +1,6 @@
 object Config {
     const val applicationId = "com.alex.comicdiscovery"
-    const val minSdk = 23
+    const val minSdk = 26
     const val sdk = 31
 }
 
@@ -43,6 +43,8 @@ object Deps {
             const val ktx = "androidx.room:room-ktx:$version"
             const val compiler = "androidx.room:room-compiler:$version"
         }
+
+        const val splashScreen = "androidx.core:core-splashscreen:1.0.0-alpha02"
     }
 
     object Test {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.feature.main.model.UiModelTheme
@@ -22,10 +23,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        installSplashScreen()
+
         setContent {
-            // setup the theme
             val viewModel: MainViewModel = getViewModel()
 
+            // setup the theme
             val isDarkTheme = when(viewModel.theme) {
                 UiModelTheme.LIGHT -> false
                 UiModelTheme.DARK -> true

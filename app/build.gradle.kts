@@ -165,6 +165,7 @@ dependencies {
     Deps.AndroidX.apply {
         implementation(core)
         implementation(material)
+        implementation(splashScreen)
     }
 
     implementation(Deps.AndroidX.LifeCycle.viewModelKtx)
