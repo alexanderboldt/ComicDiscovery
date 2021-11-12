@@ -12,6 +12,8 @@
     <string name="character_overview_message_no_entries">No characters found</string>
     <string name="character_overview_message_error">Could not load characters</string>
 
+    <string name="character_overview_load_more_characters">Load more Characters</string>
+
     <!-- Screen Character Starred -->
     <string name="character_starred_message_loading">Loading characters …</string>
     <string name="character_starred_message_no_entries">No characters starred</string>

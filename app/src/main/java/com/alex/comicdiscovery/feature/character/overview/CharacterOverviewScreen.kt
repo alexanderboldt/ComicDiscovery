@@ -29,7 +29,7 @@ import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.character.overview.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.overview.model.UiEventCharacterOverview
-import com.alex.comicdiscovery.ui.components.CharacterItem
+import com.alex.comicdiscovery.ui.components.*
 import com.alex.comicdiscovery.ui.theme.*
 import com.alex.comicdiscovery.util.getColor
 import kotlinx.coroutines.flow.collect
@@ -51,8 +51,8 @@ fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
 
         Searchbar()
 
-        when (val state = viewModel.listState) {
-            is UiStateContent.Characters -> CharactersScreen(state)
+        when (val state = viewModel.content) {
+            is UiStateContent.Items -> CharactersScreen(state)
             is UiStateContent.Loading -> LoadingScreen(state.message)
             is UiStateContent.Message -> MessageScreen(state.message)
         }
@@ -145,7 +145,7 @@ fun Searchbar() {
 
 @ExperimentalCoilApi
 @Composable
-fun CharactersScreen(state: UiStateContent.Characters) {
+fun CharactersScreen(state: UiStateContent.Items) {
     Box(modifier = Modifier.fillMaxSize()) {
         val viewModel: CharacterOverviewViewModel = getViewModel()
 
@@ -155,10 +155,11 @@ fun CharactersScreen(state: UiStateContent.Characters) {
 
         LazyColumn(state = listState) {
             items(
-                items = state.characters,
-                key = { character -> character.id }) { character ->
-                CharacterItem(character) {
-                    viewModel.onClickCharacter(character.id)
+                items = state.items,
+                key = { it.hashCode() }) { item ->
+                when (item) {
+                    is UiModelCharacter -> CharacterItem(item) { viewModel.onClickCharacter(item.id) }
+                    is UiModelLoadMore -> LoadMoreItem(item.isEnabled) { viewModel.onClickLoadMore() }
                 }
             }
         }

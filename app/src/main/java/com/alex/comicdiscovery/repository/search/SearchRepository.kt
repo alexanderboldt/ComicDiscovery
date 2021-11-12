@@ -22,14 +22,14 @@ class SearchRepository(private val apiRoutes: ApiRoutes) {
      * @param query The search-query.
      * @return Returns a flow with the characters.
      */
-    suspend fun getSearch(query: String): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
+    suspend fun getSearch(query: String, limit: Int): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
         return flow {
 
             apiRoutes
                 .getSearch(
                     mapOf(
                         "query" to query,
-                        "limit" to "10",
+                        "limit" to limit.toString(),
                         "sort" to "name:asc",
                         "resources" to "character",
                         "field_list" to "id,name,real_name,image"

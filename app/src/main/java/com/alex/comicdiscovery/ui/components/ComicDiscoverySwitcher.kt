@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,8 +24,8 @@ fun ComicDiscoverySwitcher(modifier: Modifier = Modifier, options: List<String>,
         modifier = modifier
             .fillMaxWidth()
             .height(48.dp)
-            .border(1.dp, getColor(UltramarineBlue, DarkElectricBlue), RoundedCornerShape(16.dp))
-            .clip(RoundedCornerShape(16.dp))
+            .border(1.dp, getColor(UltramarineBlue, DarkElectricBlue), MaterialTheme.shapes.small)
+            .clip(MaterialTheme.shapes.small)
             .padding(0.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically) {

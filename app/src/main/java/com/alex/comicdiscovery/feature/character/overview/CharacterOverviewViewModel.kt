@@ -11,6 +11,7 @@ import com.alex.comicdiscovery.feature.character.overview.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.overview.model.UiEventCharacterOverview
 import com.alex.comicdiscovery.repository.search.SearchRepository
 import com.alex.comicdiscovery.ui.components.UiModelCharacter
+import com.alex.comicdiscovery.ui.components.UiModelLoadMore
 import com.alex.comicdiscovery.util.timberCatch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -23,8 +24,13 @@ class CharacterOverviewViewModel(
     var query: String by mutableStateOf("")
         private set
 
-    var listState: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_search)))
+    var content: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_search)))
         private set
+
+    private val numberOfLoadedCharacters: Int
+        get() = (content as? UiStateContent.Items)?.run { items.count { it is UiModelCharacter } } ?: 0
+
+    private val pageSize = 10
 
     // ----------------------------------------------------------------------------
 
@@ -34,8 +40,8 @@ class CharacterOverviewViewModel(
 
     fun onQuerySubmit() {
         when (query.isBlank()) {
-            true -> listState = UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_search))
-            false -> search(query)
+            true -> content = UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_search))
+            false -> search(query, pageSize)
         }
     }
 
@@ -45,22 +51,35 @@ class CharacterOverviewViewModel(
         }
     }
 
+    fun onClickLoadMore() {
+        search(query,numberOfLoadedCharacters + pageSize)
+    }
+
     // ----------------------------------------------------------------------------
 
-    private fun search(query: String) {
+    private fun search(query: String, limit: Int) {
         viewModelScope.launch(Dispatchers.Main) {
             searchRepository
-                .getSearch(query)
-                .onStart { listState = UiStateContent.Loading(resourceProvider.getString(R.string.character_overview_message_loading)) }
-                .timberCatch { listState = UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_error)) }
+                .getSearch(query, limit)
+                .onStart {
+                    content = when (content) {
+                        is UiStateContent.Items -> UiStateContent.Items((content as UiStateContent.Items).items.filterIsInstance<UiModelCharacter>() + UiModelLoadMore(false))
+                        else -> UiStateContent.Loading(resourceProvider.getString(R.string.character_overview_message_loading))
+                    }
+                }.timberCatch { content = UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_error)) }
                 .collect { result ->
                     result
                         .result
                         .map {  character -> UiModelCharacter(character.id, character.name, character.realName, character.smallImageUrl) }
                         .also { characters ->
-                            listState = when (characters.isEmpty()) {
+                            content = when (characters.isEmpty()) {
                                 true -> UiStateContent.Message(resourceProvider.getString(R.string.character_overview_message_no_entries))
-                                false -> UiStateContent.Characters(characters)
+                                false -> {
+                                    when (result.numberOfPageResults < result.numberOfTotalResults) {
+                                        true -> characters + UiModelLoadMore(true)
+                                        false -> characters
+                                    }.let { UiStateContent.Items(it) }
+                                }
                             }
                         }
                 }
