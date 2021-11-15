@@ -2,7 +2,6 @@ package com.alex.comicdiscovery.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,9 +15,10 @@ fun ComicDiscoveryTopLevelNavigation(navControllerTopLevel: NavHostController, n
         topLevelScreens.forEach { screen ->
             composable(
                 route = screen.route,
-                arguments = screen.arguments,
-                content = screen.getContent(navControllerTopLevel, navControllerBottomNavigation)
-            )
+                arguments = screen.arguments) {
+                screen.SetSystemBarsColor()
+                screen.getContent(navControllerTopLevel, navControllerBottomNavigation)(it)
+            }
         }
     }
 }
@@ -31,8 +31,10 @@ fun ComicDiscoveryBottomNavigation(navControllerTopLevel: NavHostController, nav
         allBottomScreens.forEach { screen ->
             composable(
                 route = screen.route,
-                arguments = screen.arguments,
-                content = screen.getContent(navControllerTopLevel, navControllerBottomNavigation))
+                arguments = screen.arguments) {
+                screen.SetSystemBarsColor()
+                screen.getContent(navControllerTopLevel, navControllerBottomNavigation)(it)
+            }
         }
     }
 }

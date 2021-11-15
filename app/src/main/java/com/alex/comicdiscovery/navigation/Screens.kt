@@ -14,6 +14,8 @@ import com.alex.comicdiscovery.feature.character.starred.CharacterStarredScreen
 import com.alex.comicdiscovery.feature.home.HomeScreen
 import com.alex.comicdiscovery.feature.image.ImageScreen
 import com.alex.comicdiscovery.feature.settings.SettingsScreen
+import com.alex.comicdiscovery.ui.theme.AbsoluteZero
+import com.alex.comicdiscovery.ui.theme.Black
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -32,6 +34,8 @@ object Home : Screen {
 object CharacterOverview : BottomScreen {
     override val route = "character_overview"
 
+    override val systemBarsColor = AbsoluteZero to Black
+
     override val title = "Search"
     override val icon = Icons.Rounded.Search
 
@@ -47,6 +51,8 @@ object CharacterOverview : BottomScreen {
 object CharacterStarred : BottomScreen {
     override val route = "character_starred"
 
+    override val systemBarsColor = AbsoluteZero to Black
+
     override val title = "Starred"
     override val icon = Icons.Rounded.Star
 
@@ -61,6 +67,8 @@ object CharacterStarred : BottomScreen {
 @ExperimentalComposeUiApi
 object Settings : BottomScreen {
     override val route = "settings"
+
+    override val systemBarsColor = AbsoluteZero to Black
 
     override val title = "Settings"
     override val icon = Icons.Rounded.Settings
@@ -80,6 +88,8 @@ object CharacterDetail : Screen {
 
     override val arguments = listOf(id, isStarred)
 
+    override val systemBarsColor = AbsoluteZero to Black
+
     override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         CharacterDetailScreen(
             it.arguments!!.getInt(id.name),
@@ -97,6 +107,8 @@ object Image : Screen {
     fun createRoute(url: String) = "image/$url"
 
     override val arguments = listOf(url)
+
+    override val systemBarsColor = Black to Black
 
     override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         ImageScreen(it.arguments!!.getString(url.name)!!)
