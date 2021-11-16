@@ -1,5 +1,7 @@
 package com.alex.comicdiscovery.feature.character.overview
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -39,6 +41,7 @@ import org.koin.androidx.compose.getViewModel
 
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
+@ExperimentalAnimationApi
 @Composable
 fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
     val viewModel: CharacterOverviewViewModel = getViewModel()
@@ -143,6 +146,7 @@ fun Searchbar() {
 
 // ----------------------------------------------------------------------------
 
+@ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
 fun CharactersScreen(state: UiStateContent.Items) {
@@ -164,11 +168,19 @@ fun CharactersScreen(state: UiStateContent.Items) {
             }
         }
 
-        if (listState.firstVisibleItemIndex >= 1) {
+        AnimatedVisibility(
+            visible = listState.firstVisibleItemIndex >= 1,
+            modifier = Modifier.align(Alignment.BottomEnd),
+            enter = expandIn(animationSpec = tween(300), expandFrom = Alignment.TopStart),
+            exit = shrinkOut(animationSpec = tween(300), shrinkTowards = Alignment.TopStart)
+        ) {
+
             FloatingActionButton(
                 onClick = { scope.launch { listState.animateScrollToItem(0) } },
                 backgroundColor = CoralRed,
-                modifier = Modifier.padding(16.dp).align(Alignment.BottomEnd)) {
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.BottomEnd)) {
                 Image(
                     imageVector = Icons.Rounded.KeyboardArrowUp,
                     contentDescription = null,

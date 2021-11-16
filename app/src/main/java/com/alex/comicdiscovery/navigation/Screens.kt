@@ -1,5 +1,6 @@
 package com.alex.comicdiscovery.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
@@ -21,6 +22,7 @@ import java.nio.charset.StandardCharsets
 
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
+@ExperimentalAnimationApi
 object Home : Screen {
     override val route = "home"
 
@@ -31,6 +33,7 @@ object Home : Screen {
 
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
+@ExperimentalAnimationApi
 object CharacterOverview : BottomScreen {
     override val route = "character_overview"
 
@@ -46,6 +49,7 @@ object CharacterOverview : BottomScreen {
     }
 }
 
+@ExperimentalAnimationApi
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 object CharacterStarred : BottomScreen {
@@ -117,12 +121,15 @@ object Image : Screen {
 
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
+@ExperimentalAnimationApi
 val topLevelScreens: List<Screen> = listOf(Home, Image)
 
+@ExperimentalAnimationApi
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 val bottomScreens: List<BottomScreen> = listOf(CharacterOverview, CharacterStarred, Settings)
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
 val allBottomScreens: List<Screen> = listOf(CharacterOverview, CharacterStarred, Settings, CharacterDetail)

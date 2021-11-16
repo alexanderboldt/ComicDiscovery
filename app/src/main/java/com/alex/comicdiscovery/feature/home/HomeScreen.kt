@@ -1,5 +1,6 @@
 package com.alex.comicdiscovery.feature.home
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -15,6 +16,7 @@ import com.alex.comicdiscovery.util.getColor
 
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
+@ExperimentalAnimationApi
 @Composable
 fun HomeScreen(navControllerTopLevel: NavHostController, navControllerBottomNavigation: NavHostController) {
     val viewModel: HomeViewModel = viewModel()

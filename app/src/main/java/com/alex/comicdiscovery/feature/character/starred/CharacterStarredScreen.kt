@@ -1,5 +1,7 @@
 package com.alex.comicdiscovery.feature.character.starred
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,9 +12,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
+@ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
 fun CharacterStarredScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
@@ -69,6 +70,7 @@ fun SideEffects(navigateToCharacterDetailScreen: (Int) -> Unit) {
 
 // ----------------------------------------------------------------------------
 
+@ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
 fun BoxScope.CharactersScreen(state: UiStateContent.Characters) {
@@ -88,11 +90,19 @@ fun BoxScope.CharactersScreen(state: UiStateContent.Characters) {
         }
     }
 
-    if (listState.firstVisibleItemIndex >= 1) {
+    AnimatedVisibility(
+        visible = listState.firstVisibleItemIndex >= 1,
+        modifier = Modifier.align(Alignment.BottomEnd),
+        enter = expandIn(animationSpec = tween(300), expandFrom = Alignment.TopStart),
+        exit = shrinkOut(animationSpec = tween(300), shrinkTowards = Alignment.TopStart)
+    ) {
+
         FloatingActionButton(
             onClick = { scope.launch { listState.animateScrollToItem(0) } },
             backgroundColor = CoralRed,
-            modifier = Modifier.padding(16.dp).align(Alignment.BottomEnd)) {
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd)) {
             Image(
                 imageVector = Icons.Rounded.KeyboardArrowUp,
                 contentDescription = null,

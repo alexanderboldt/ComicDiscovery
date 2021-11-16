@@ -3,6 +3,7 @@ package com.alex.comicdiscovery.feature.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -16,6 +17,7 @@ import com.alex.comicdiscovery.ui.theme.ComicDiscoveryTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.getViewModel
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
 class MainActivity : AppCompatActivity() {
