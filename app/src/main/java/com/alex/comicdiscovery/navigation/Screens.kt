@@ -1,6 +1,7 @@
 package com.alex.comicdiscovery.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
@@ -69,6 +70,7 @@ object CharacterStarred : BottomScreen {
 
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
+@ExperimentalAnimationApi
 object Settings : BottomScreen {
     override val route = "settings"
 
@@ -83,6 +85,7 @@ object Settings : BottomScreen {
 }
 
 @ExperimentalCoilApi
+@ExperimentalAnimationApi
 object CharacterDetail : Screen {
     private val id = navArgument("id") { type = NavType.IntType }
     private val isStarred = navArgument("is_starred") { type = NavType.BoolType }
@@ -104,6 +107,7 @@ object CharacterDetail : Screen {
 }
 
 @ExperimentalCoilApi
+@ExperimentalAnimationApi
 object Image : Screen {
     private val url = navArgument("url") { type = NavType.StringType }
 

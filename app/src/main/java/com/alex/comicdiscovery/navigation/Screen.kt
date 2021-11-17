@@ -1,5 +1,7 @@
 package com.alex.comicdiscovery.navigation
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,11 +13,24 @@ import com.alex.comicdiscovery.ui.theme.AbsoluteZero
 import com.alex.comicdiscovery.ui.theme.Black
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
+@ExperimentalAnimationApi
 sealed interface Screen {
     val route: String
 
     val arguments: List<NamedNavArgument>
         get() = emptyList()
+
+    val enterTransition: AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition
+        get() = { _, _ -> fadeIn(animationSpec = tween(300)) }
+
+    val exitTransition: AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition
+        get() = { _, _ -> fadeOut(animationSpec = tween(300)) }
+
+    val popEnterTransition: AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition
+        get() = { _, _ -> fadeIn(animationSpec = tween(300)) }
+
+    val popExitTransition: AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition
+        get() = { _, _ -> fadeOut(animationSpec = tween(300)) }
 
     // first color is for light-theme, second color is for dark-theme
     val systemBarsColor: Pair<Color, Color>?

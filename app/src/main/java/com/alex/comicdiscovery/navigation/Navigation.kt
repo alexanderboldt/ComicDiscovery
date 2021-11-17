@@ -4,20 +4,24 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import coil.annotation.ExperimentalCoilApi
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
 fun ComicDiscoveryTopLevelNavigation(navControllerTopLevel: NavHostController, navControllerBottomNavigation: NavHostController) {
-    NavHost(navControllerTopLevel, topLevelScreens.first().route) {
+    AnimatedNavHost(navControllerTopLevel, topLevelScreens.first().route) {
         topLevelScreens.forEach { screen ->
             composable(
                 route = screen.route,
-                arguments = screen.arguments) {
+                arguments = screen.arguments,
+                enterTransition = screen.enterTransition,
+                exitTransition = screen.exitTransition,
+                popEnterTransition = screen.popEnterTransition,
+                popExitTransition = screen.popExitTransition) {
                 screen.SetSystemBarsColor()
                 screen.getContent(navControllerTopLevel, navControllerBottomNavigation)(it)
             }
@@ -30,11 +34,15 @@ fun ComicDiscoveryTopLevelNavigation(navControllerTopLevel: NavHostController, n
 @ExperimentalAnimationApi
 @Composable
 fun ComicDiscoveryBottomNavigation(navControllerTopLevel: NavHostController, navControllerBottomNavigation: NavHostController) {
-    NavHost(navControllerBottomNavigation, allBottomScreens.first().route) {
+    AnimatedNavHost(navControllerBottomNavigation, allBottomScreens.first().route) {
         allBottomScreens.forEach { screen ->
             composable(
                 route = screen.route,
-                arguments = screen.arguments) {
+                arguments = screen.arguments,
+                enterTransition = screen.enterTransition,
+                exitTransition = screen.exitTransition,
+                popEnterTransition = screen.popEnterTransition,
+                popExitTransition = screen.popExitTransition) {
                 screen.SetSystemBarsColor()
                 screen.getContent(navControllerTopLevel, navControllerBottomNavigation)(it)
             }

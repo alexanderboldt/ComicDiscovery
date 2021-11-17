@@ -59,9 +59,9 @@ object Deps {
 
     object Libs {
         object Accompanist {
-            private val version = "0.20.0"
+            private val version = "0.20.2"
             val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
-            val insets = "com.google.accompanist:accompanist-insets:$version"
+            val navigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$version"
         }
 
         object Coil {

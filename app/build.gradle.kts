@@ -191,6 +191,7 @@ dependencies {
 
     // compose features
     implementation(Deps.Libs.Accompanist.systemUiController)
+    implementation(Deps.Libs.Accompanist.navigationAnimation)
 
     // image
     implementation(Deps.Libs.Coil.compose)
