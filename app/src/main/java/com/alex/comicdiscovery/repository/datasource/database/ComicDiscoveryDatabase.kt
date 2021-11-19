@@ -5,12 +5,18 @@ import androidx.room.*
 import com.alex.comicdiscovery.repository.datasource.database.character.DbModelCharacter
 import com.alex.comicdiscovery.repository.datasource.database.character.CharacterDao
 import com.alex.comicdiscovery.repository.datasource.database.converter.ListTypeConverter
+import com.alex.comicdiscovery.repository.datasource.database.starlist.DbModelStarlist
+import com.alex.comicdiscovery.repository.datasource.database.starlist.StarlistDao
+import com.alex.comicdiscovery.repository.datasource.database.starlistCharacter.DbModelStarlistCharacter
+import com.alex.comicdiscovery.repository.datasource.database.starlistCharacter.StarlistCharacterDao
 
-@Database(entities = [DbModelCharacter::class], version = 3)
+@Database(entities = [DbModelCharacter::class, DbModelStarlist::class, DbModelStarlistCharacter::class], version = 4)
 @TypeConverters(ListTypeConverter::class)
 abstract class ComicDiscoveryDatabase : RoomDatabase() {
 
+    abstract fun starlistDao(): StarlistDao
     abstract fun characterDao(): CharacterDao
+    abstract fun starlistCharacterDao(): StarlistCharacterDao
 
     companion object {
         lateinit var database: ComicDiscoveryDatabase

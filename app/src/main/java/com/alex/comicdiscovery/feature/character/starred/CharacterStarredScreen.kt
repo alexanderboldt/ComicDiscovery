@@ -4,46 +4,52 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
+import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.character.starred.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.starred.model.UiEventCharacterStarred
+import com.alex.comicdiscovery.feature.character.starred.model.UiStateStarlist
 import com.alex.comicdiscovery.ui.components.CharacterItem
-import com.alex.comicdiscovery.ui.theme.BrightGray
-import com.alex.comicdiscovery.ui.theme.CoralRed
-import com.alex.comicdiscovery.ui.theme.DarkCharcoal
+import com.alex.comicdiscovery.ui.theme.*
 import com.alex.comicdiscovery.util.getColor
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
-fun CharacterStarredScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
+fun CharacterStarredScreen(navigateToStarlistSettingsScreen: () -> Unit, navigateToCharacterDetailScreen: (Int) -> Unit) {
     val viewModel: CharacterStarredViewModel = getViewModel()
 
-    SideEffects(navigateToCharacterDetailScreen)
+    SideEffects(navigateToStarlistSettingsScreen, navigateToCharacterDetailScreen)
 
-    Box(modifier = Modifier
+    Column(modifier = Modifier
         .background(getColor(BrightGray, DarkCharcoal))
         .fillMaxSize()) {
-        when (val state = viewModel.content) {
-            is UiStateContent.Characters -> CharactersScreen(state)
-            is UiStateContent.Message -> MessageScreen(state.message)
+
+        Starlist()
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            when (val state = viewModel.content) {
+                is UiStateContent.Characters -> CharactersScreen(state)
+                is UiStateContent.Message -> MessageScreen(state.message)
+            }
         }
     }
 }
@@ -51,7 +57,7 @@ fun CharacterStarredScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
 // ----------------------------------------------------------------------------
 
 @Composable
-fun SideEffects(navigateToCharacterDetailScreen: (Int) -> Unit) {
+fun SideEffects(navigateToStarlistSettingsScreen: () -> Unit, navigateToCharacterDetailScreen: (Int) -> Unit) {
     val viewModel: CharacterStarredViewModel = getViewModel()
 
     val scope = rememberCoroutineScope()
@@ -60,11 +66,74 @@ fun SideEffects(navigateToCharacterDetailScreen: (Int) -> Unit) {
         viewModel.init()
 
         scope.launch {
-            viewModel
-                .event
-                .map { it as UiEventCharacterStarred.DetailScreen }
-                .collect { navigateToCharacterDetailScreen(it.id) }
+            viewModel.event.collect { event ->
+                when (event) {
+                    is UiEventCharacterStarred.StarlistSettingsScreen -> navigateToStarlistSettingsScreen()
+                    is UiEventCharacterStarred.DetailScreen -> navigateToCharacterDetailScreen(event.id)
+                }
+            }
         }
+    }
+}
+
+// ----------------------------------------------------------------------------
+
+@Composable
+fun Starlist() {
+    val viewModel: CharacterStarredViewModel = getViewModel()
+
+    var expanded by remember { mutableStateOf(false)}
+
+    Column {
+        Row {
+            when (val starlists = viewModel.starlists) {
+                is UiStateStarlist.NoListsAvailable -> {
+                    Text(
+                        text = stringResource(id = R.string.character_starred_no_starlists_available),
+                        modifier = Modifier.weight(1f).padding(16.dp),
+                        fontStyle = FontStyle.Italic,
+                        color = getColor(DarkCharcoal, BrightGray))
+                }
+                is UiStateStarlist.Starlists -> {
+                    Row(modifier = Modifier.weight(1f).clickable { expanded = true }.padding(16.dp)) {
+                        Text(text = starlists.starlists[viewModel.selectedStarlistIndex].name, color = getColor(DarkCharcoal, BrightGray))
+                        Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = getColor(UltramarineBlue, BrightGray))
+                    }
+                }
+            }
+
+            Icon(
+                imageVector = Icons.Rounded.Settings,
+                contentDescription = null,
+                modifier = Modifier
+                    .clickable { viewModel.onClickStarlistSettings() }
+                    .padding(16.dp),
+                tint = getColor(UltramarineBlue, BrightGray))
+        }
+
+        if (viewModel.starlists is UiStateStarlist.Starlists) {
+            val starlists = (viewModel.starlists as UiStateStarlist.Starlists).starlists
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.fillMaxWidth()) {
+
+                starlists.forEachIndexed() { index, starlist ->
+                    DropdownMenuItem(onClick = {
+                        expanded = false
+                        viewModel.onClickStarlist(index)
+                    }) {
+                        Text(text = starlist.name, color = getColor(DarkCharcoal, BrightGray))
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier
+            .height(1.dp)
+            .fillMaxWidth()
+            .background(getColor(DarkElectricBlue, BrightGray)))
     }
 }
 

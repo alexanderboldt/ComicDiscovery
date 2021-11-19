@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val characterDetailModule = module {
     viewModel { (name: Int, userComesFromStarredScreen: Boolean) ->
-        CharacterDetailViewModel(name, userComesFromStarredScreen, get(), get())
+        CharacterDetailViewModel(name, userComesFromStarredScreen, get(), get(), get())
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import coil.annotation.ExperimentalCoilApi
@@ -20,6 +21,7 @@ import org.koin.androidx.compose.getViewModel
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
+@ExperimentalMaterialApi
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

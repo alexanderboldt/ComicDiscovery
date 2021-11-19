@@ -1,4 +1,9 @@
 <resources>
+    <!-- General -->
+    <string name="general_cancel">Cancel</string>
+    <string name="general_create">Create</string>
+    <string name="general_delete">Delete</string>
+
     <!-- MainActivity -->
     <string name="bottom_navigation_page_search">Search</string>
     <string name="bottom_navigation_page_starred">Starred</string>
@@ -15,8 +20,11 @@
     <string name="character_overview_load_more_characters">Load more Characters</string>
 
     <!-- Screen Character Starred -->
+    <string name="character_starred_no_starlists_available">No Starlists available</string>
+
     <string name="character_starred_message_loading">Loading characters …</string>
-    <string name="character_starred_message_no_entries">No characters starred</string>
+    <string name="character_starred_message_no_characters">No characters starred</string>
+    <string name="character_starred_message_no_characters_in_starlist">Starlist is empty</string>
     <string name="character_starred_message_error">Could not load starred characters</string>
 
     <!-- Screen Character Detail -->
@@ -42,4 +50,11 @@
     <string name="settings_theme_system">System</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
+
+    <!-- Screen Starlist-Settings -->
+    <string name="starlist_settings_title_starlists">Starlists</string>
+
+    <string name="starlist_settings_dialog_delete_text">Do you want to delete the Starlist %s?</string>
+
+    <string name="starlist_settings_label_name">Name</string>
 </resources>

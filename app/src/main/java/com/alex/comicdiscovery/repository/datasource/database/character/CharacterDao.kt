@@ -12,9 +12,6 @@ interface CharacterDao {
 
     // read
 
-    @Query("select * from DbModelCharacter")
-    suspend fun getAll(): List<DbModelCharacter>
-
     @Query("SELECT * FROM DbModelCharacter WHERE id = :id")
     suspend fun getCharacter(id: Int): DbModelCharacter?
 

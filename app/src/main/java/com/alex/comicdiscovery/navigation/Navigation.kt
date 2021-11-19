@@ -1,6 +1,7 @@
 package com.alex.comicdiscovery.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
@@ -11,6 +12,7 @@ import com.google.accompanist.navigation.animation.composable
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
+@ExperimentalMaterialApi
 @Composable
 fun ComicDiscoveryTopLevelNavigation(navControllerTopLevel: NavHostController, navControllerBottomNavigation: NavHostController) {
     AnimatedNavHost(navControllerTopLevel, topLevelScreens.first().route) {
@@ -32,6 +34,7 @@ fun ComicDiscoveryTopLevelNavigation(navControllerTopLevel: NavHostController, n
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
+@ExperimentalMaterialApi
 @Composable
 fun ComicDiscoveryBottomNavigation(navControllerTopLevel: NavHostController, navControllerBottomNavigation: NavHostController) {
     AnimatedNavHost(navControllerBottomNavigation, allBottomScreens.first().route) {

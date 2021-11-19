@@ -1,7 +1,7 @@
 package com.alex.comicdiscovery.navigation
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
@@ -16,6 +16,7 @@ import com.alex.comicdiscovery.feature.character.starred.CharacterStarredScreen
 import com.alex.comicdiscovery.feature.home.HomeScreen
 import com.alex.comicdiscovery.feature.image.ImageScreen
 import com.alex.comicdiscovery.feature.settings.SettingsScreen
+import com.alex.comicdiscovery.feature.starlist.StarlistSettingsScreen
 import com.alex.comicdiscovery.ui.theme.AbsoluteZero
 import com.alex.comicdiscovery.ui.theme.Black
 import java.net.URLEncoder
@@ -24,6 +25,7 @@ import java.nio.charset.StandardCharsets
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
+@ExperimentalMaterialApi
 object Home : Screen {
     override val route = "home"
 
@@ -32,13 +34,21 @@ object Home : Screen {
     }
 }
 
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
+object StarlistSettings : Screen {
+    override val route = "starlist_settings"
+
+    override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
+        StarlistSettingsScreen()
+    }
+}
+
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 object CharacterOverview : BottomScreen {
     override val route = "character_overview"
-
-    override val systemBarsColor = AbsoluteZero to Black
 
     override val title = "Search"
     override val icon = Icons.Rounded.Search
@@ -50,21 +60,22 @@ object CharacterOverview : BottomScreen {
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 object CharacterStarred : BottomScreen {
     override val route = "character_starred"
 
-    override val systemBarsColor = AbsoluteZero to Black
-
     override val title = "Starred"
     override val icon = Icons.Rounded.Star
 
     override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
-        CharacterStarredScreen { id ->
+        CharacterStarredScreen({
+            navControllerBottomNavigation.navigate(StarlistSettings.route)
+        }, { id ->
             navControllerBottomNavigation.navigate(CharacterDetail.createRoute(id, true))
-        }
+        })
     }
 }
 
@@ -73,8 +84,6 @@ object CharacterStarred : BottomScreen {
 @ExperimentalAnimationApi
 object Settings : BottomScreen {
     override val route = "settings"
-
-    override val systemBarsColor = AbsoluteZero to Black
 
     override val title = "Settings"
     override val icon = Icons.Rounded.Settings
@@ -94,8 +103,6 @@ object CharacterDetail : Screen {
     fun createRoute(id: Int, userComesFromStarredScreen: Boolean) = "character_detail/$id?${isStarred.name}=$userComesFromStarredScreen"
 
     override val arguments = listOf(id, isStarred)
-
-    override val systemBarsColor = AbsoluteZero to Black
 
     override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
         CharacterDetailScreen(
@@ -126,14 +133,17 @@ object Image : Screen {
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
 @ExperimentalAnimationApi
+@ExperimentalMaterialApi
 val topLevelScreens: List<Screen> = listOf(Home, Image)
 
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
+@ExperimentalMaterialApi
 val bottomScreens: List<BottomScreen> = listOf(CharacterOverview, CharacterStarred, Settings)
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
-val allBottomScreens: List<Screen> = listOf(CharacterOverview, CharacterStarred, Settings, CharacterDetail)
+@ExperimentalMaterialApi
+val allBottomScreens: List<Screen> = listOf(CharacterOverview, CharacterStarred, Settings, CharacterDetail, StarlistSettings)

@@ -9,6 +9,7 @@ import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.detail.model.*
 import com.alex.comicdiscovery.repository.character.CharacterRepository
+import com.alex.comicdiscovery.repository.starlist.StarlistRepository
 import com.alex.comicdiscovery.util.timberCatch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 class CharacterDetailViewModel(
     private val characterId: Int,
     private val userComesFromStarredScreen: Boolean,
+    private val starlistRepository: StarlistRepository,
     private val characterRepository: CharacterRepository,
     private val resourceProvider: ResourceProvider) : BaseViewModel<UiEventCharacterDetail>() {
 
@@ -33,7 +35,7 @@ class CharacterDetailViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             when (userComesFromStarredScreen) {
                 true -> characterRepository.getStarredCharacter(characterId)
-                false -> characterRepository.getCharacter(characterId)
+                false -> characterRepository.getCharacterDetail(characterId)
             }.onStart {
                 content = UiStateContent.Loading(resourceProvider.getString(R.string.character_detail_message_loading))
             }.timberCatch {
@@ -66,8 +68,8 @@ class CharacterDetailViewModel(
     fun onClickStar() {
         viewModelScope.launch(Dispatchers.Main) {
             when (starring.isStarred) {
-                true -> characterRepository.unstarCharacter(characterId)
-                false -> characterRepository.starCharacter(characterId)
+                true -> starlistRepository.removeCharacter(1, characterId)
+                false -> starlistRepository.addCharacter(1, characterId)
             }.onStart {
                 starring = starring.copy(isLoading = true)
             }.timberCatch {

@@ -17,6 +17,7 @@ import com.alex.comicdiscovery.util.getColor
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
+@ExperimentalMaterialApi
 @Composable
 fun HomeScreen(navControllerTopLevel: NavHostController, navControllerBottomNavigation: NavHostController) {
     val viewModel: HomeViewModel = viewModel()

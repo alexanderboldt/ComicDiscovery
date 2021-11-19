@@ -28,7 +28,7 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
      * @param id The id of the character.
      * @return Returns a flow with the response.
      */
-    suspend fun getCharacter(id: Int): Flow<RpModelResponse<RpModelCharacterDetail>> {
+    suspend fun getCharacterDetail(id: Int): Flow<RpModelResponse<RpModelCharacterDetail>> {
         return flow {
             apiRoutes
                 .getCharacter(getId(id), fields)
@@ -42,25 +42,6 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
     }
 
     // ----------------------------------------------------------------------------
-
-    /**
-     * Gets all characters from the database.
-     *
-     * @return Returns a flow with a list of characters.
-     */
-    suspend fun getStarredCharacters(): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
-        return flow {
-            database
-                .characterDao()
-                .getAll()
-                .let { characters ->
-                    RpModelResponse(
-                        characters.size,
-                        characters.size,
-                        characters.toRpModelOverview())
-                }.also { emit(it) }
-        }.flowOn(Dispatchers.IO)
-    }
 
     /**
      * Gets a single character from the database.
@@ -78,37 +59,6 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
                     1,
                     character.toRpModelDetail(true)) }
                 .also { emit(it) }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    // ----------------------------------------------------------------------------
-
-    /**
-     * Gets a character from the backend and stores the information in the database.
-     *
-     * @param id The id of the character.
-     * @return Returns a flow with a Unit.
-     */
-    suspend fun starCharacter(id: Int): Flow<Unit> {
-        return flow {
-            apiRoutes
-                .getCharacter(getId(id), fields)
-                .results
-                .also { character -> database.characterDao().insert(character.toDbModel()) }
-            emit(Unit)
-        }.flowOn(Dispatchers.IO)
-    }
-
-    /**
-     * Deletes a character from the database.
-     *
-     * @param id The id of the character.
-     * @return Returns a flow with a Unit.
-     */
-    suspend fun unstarCharacter(id: Int): Flow<Unit> {
-        return flow {
-            database.characterDao().delete(id)
-            emit(Unit)
         }.flowOn(Dispatchers.IO)
     }
 
