@@ -12,8 +12,7 @@ import com.alex.comicdiscovery.repository.character.CharacterRepository
 import com.alex.comicdiscovery.repository.starlist.StarlistRepository
 import com.alex.comicdiscovery.util.timberCatch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class CharacterDetailViewModel(
@@ -26,12 +25,39 @@ class CharacterDetailViewModel(
     var content: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_loading)))
         private set
 
-    var starring: UiModelStarring by mutableStateOf(UiModelStarring(false, false))
+    var starlists: UiStateStarlist by mutableStateOf(UiStateStarlist.NoListsAvailable)
         private set
 
     // ----------------------------------------------------------------------------
 
     init {
+        getCharacter()
+        getStarlists()
+    }
+
+    // ----------------------------------------------------------------------------
+
+    fun onClickCheckStarlist(id: Long, isChecked: Boolean) {
+        viewModelScope.launch(Dispatchers.Main) {
+            when (isChecked) {
+                true -> starlistRepository.addCharacter(id, characterId)
+                false -> starlistRepository.removeCharacter(id, characterId)
+            }.timberCatch {
+                when (isChecked) {
+                    true -> R.string.character_detail_message_error_star
+                    false -> R.string.character_detail_message_error_unstar
+                }.also { messageResource ->
+                    sendEvent(UiEventCharacterDetail.Message(resourceProvider.getString(messageResource)))
+                }
+            }.collect {
+                getStarlists()
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------------
+
+    private fun getCharacter() {
         viewModelScope.launch(Dispatchers.Main) {
             when (userComesFromStarredScreen) {
                 true -> characterRepository.getStarredCharacter(characterId)
@@ -42,7 +68,6 @@ class CharacterDetailViewModel(
                 content = UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_error))
             }.collect { result ->
                 val character = result.result
-                starring = starring.copy(isStarred = character.isStarred)
 
                 content = UiStateContent.Character(
                     UiModelCharacter(
@@ -63,25 +88,18 @@ class CharacterDetailViewModel(
         }
     }
 
-    // ----------------------------------------------------------------------------
-
-    fun onClickStar() {
+    private fun getStarlists() {
         viewModelScope.launch(Dispatchers.Main) {
-            when (starring.isStarred) {
-                true -> starlistRepository.removeCharacter(1, characterId)
-                false -> starlistRepository.addCharacter(1, characterId)
-            }.onStart {
-                starring = starring.copy(isLoading = true)
-            }.timberCatch {
-                when (starring.isStarred) {
-                    true -> R.string.character_detail_message_error_unstar
-                    false -> R.string.character_detail_message_error_star
-                }.also { messageResource ->
-                    sendEvent(UiEventCharacterDetail.Message(resourceProvider.getString(messageResource)))
+            combine(
+                starlistRepository.getAssociatedStarlists(characterId),
+                starlistRepository.getAllStarlists()) { starlistIds, starlists ->
+                starlistIds to starlists
+            }.collect { (starlistIds, starlists) ->
+                this@CharacterDetailViewModel.starlists = if (starlists.isEmpty()) {
+                    UiStateStarlist.NoListsAvailable
+                } else {
+                    UiStateStarlist.Starlists(starlists.map { UiModelStarlist(it.id, it.name, it.id in starlistIds) })
                 }
-                starring = starring.copy(isLoading = false)
-            }.collect {
-                starring = starring.copy(isStarred = !starring.isStarred, isLoading = false)
             }
         }
     }

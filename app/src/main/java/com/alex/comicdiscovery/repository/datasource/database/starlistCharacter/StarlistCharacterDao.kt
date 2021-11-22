@@ -18,6 +18,9 @@ interface StarlistCharacterDao {
     @Query("SELECT count(*) FROM DbModelStarlistCharacter where characterId = :characterId")
     suspend fun getNumberOfAssociations(characterId: Int): Int
 
+    @Query("select starlistId from DbModelStarlistCharacter  where characterId = :characterId")
+    suspend fun getAssociatedStarlists(characterId: Int): List<Long>
+
     // delete
 
     @Query("DELETE FROM DbModelStarlistCharacter WHERE starlistId = :starlistId AND characterId = :characterId")

@@ -2,17 +2,23 @@ package com.alex.comicdiscovery.feature.character.detail
 
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Star
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -24,6 +30,8 @@ import coil.compose.rememberImagePainter
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.character.detail.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.detail.model.UiEventCharacterDetail
+import com.alex.comicdiscovery.feature.character.detail.model.UiModelStarlist
+import com.alex.comicdiscovery.feature.character.detail.model.UiStateStarlist
 import com.alex.comicdiscovery.ui.theme.*
 import com.alex.comicdiscovery.ui.theme.UltramarineBlue
 import com.alex.comicdiscovery.util.getColor
@@ -34,6 +42,7 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 @ExperimentalCoilApi
+@ExperimentalAnimationApi
 @Composable
 fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigateToImageScreen: (String) -> Unit) {
     val viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, userComesFromStarredScreen) })
@@ -66,10 +75,11 @@ fun SideEffects(viewModel: CharacterDetailViewModel) {
 
 // ----------------------------------------------------------------------------
 
+@ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
 fun CharacterScreen(state: UiStateContent.Character, viewModel: CharacterDetailViewModel, navigateToImageScreen: (String) -> Unit) {
-    Box(modifier = Modifier
+    BoxWithConstraints(modifier = Modifier
         .background(getColor(BrightGray, DarkCharcoal))
         .fillMaxSize()) {
         Column(modifier = Modifier
@@ -99,25 +109,7 @@ fun CharacterScreen(state: UiStateContent.Character, viewModel: CharacterDetailV
             }
         }
 
-        FloatingActionButton(
-            onClick = { if (!viewModel.starring.isLoading) viewModel.onClickStar() },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            backgroundColor = if (viewModel.starring.isStarred) CoralRed else DarkElectricBlue) {
-            Image(
-                imageVector = Icons.Rounded.Star,
-                contentDescription = null,
-                modifier = Modifier.size(32.dp),
-                colorFilter = ColorFilter.tint(BrightGray))
-
-            if (viewModel.starring.isLoading) {
-                CircularProgressIndicator(
-                    color = BrightGray,
-                    modifier = Modifier.size(56.dp)
-                )
-            }
-        }
+        Starlist(viewModel)
     }
 }
 
@@ -126,6 +118,75 @@ fun AttributeItem(@StringRes label: Int, text: String) {
     Row(Modifier.padding(bottom = 8.dp)) {
         Text(text = stringResource(label), modifier = Modifier.width(100.dp), fontWeight = FontWeight.Medium)
         Text(text = text)
+    }
+}
+
+@ExperimentalAnimationApi
+@Composable
+fun BoxWithConstraintsScope.Starlist(viewModel: CharacterDetailViewModel) {
+    var isExpanded by remember { mutableStateOf(false) }
+
+    val animateWidth by animateDpAsState(if (isExpanded) this.maxWidth else 64.dp)
+    val animateHeight by animateDpAsState(if (isExpanded) 200.dp else 64.dp)
+    val animateCorner by animateIntAsState(if (isExpanded) 5 else 50)
+
+    Surface(
+        modifier = Modifier
+            .align(Alignment.BottomEnd)
+            .padding(16.dp)
+            .size(animateWidth, animateHeight),
+        shape = RoundedCornerShape(animateCorner),
+        color = CoralRed,
+        elevation = 6.dp) {
+
+        Box {
+            AnimatedVisibility(visible = isExpanded, enter = fadeIn(), exit = fadeOut()) {
+                when (val starlists = viewModel.starlists) {
+                    is UiStateStarlist.NoListsAvailable -> {
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .padding(16.dp)
+                        ) {
+                            Text(text = stringResource(id = R.string.character_detail_no_starlists))
+                        }
+                    }
+                    is UiStateStarlist.Starlists -> {
+                        Box(modifier = Modifier.align(Alignment.Center)) {
+                            LazyColumn {
+                                items(items = starlists.starlists) { starlist ->
+                                    StarlistItem(starlist, viewModel)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Icon(
+                imageVector = if (isExpanded) Icons.Rounded.Check else Icons.Rounded.Star,
+                contentDescription = null,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .clip(CircleShape)
+                    .clickable { isExpanded = !isExpanded }
+                    .size(64.dp)
+                    .padding(16.dp),
+                tint = BrightGray
+            )
+        }
+    }
+}
+
+@Composable
+fun StarlistItem(starlist: UiModelStarlist, viewModel: CharacterDetailViewModel) {
+    Row(modifier = Modifier
+        .clickable { viewModel.onClickCheckStarlist(starlist.id, !starlist.isChecked) }
+        .fillMaxWidth()
+        .padding(16.dp)) {
+        Checkbox(checked = starlist.isChecked, onCheckedChange = null)
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(text = starlist.name)
     }
 }
 

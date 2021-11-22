@@ -33,12 +33,15 @@ class StarlistRepository(
 
     fun addCharacter(starlistId: Long, characterId: Int): Flow<Unit> {
         return flow {
-            apiRoutes
-                .getCharacter(getId(characterId), fields)
-                .results
-                .let { character -> database.characterDao().insert(character.toDbModel()) }
+            if (database.characterDao().getCharacter(characterId) == null) {
+                apiRoutes
+                    .getCharacter(getId(characterId), fields)
+                    .results
+                    .let { character -> database.characterDao().insert(character.toDbModel()) }
+            }
 
             database.starlistCharacterDao().insert(DbModelStarlistCharacter(starlistId, characterId))
+
             emit(Unit)
         }.flowOn(Dispatchers.IO)
     }
@@ -79,6 +82,12 @@ class StarlistRepository(
     }
 
     // ----------------------------------------------------------------------------
+
+    fun getAssociatedStarlists(characterId: Int): Flow<List<Long>> {
+        return flow {
+            emit(database.starlistCharacterDao().getAssociatedStarlists(characterId))
+        }.flowOn(Dispatchers.IO)
+    }
 
     fun updateStarlist(id: Long, name: String): Flow<Unit> {
         return flow {
