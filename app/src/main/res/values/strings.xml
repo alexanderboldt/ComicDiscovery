@@ -55,6 +55,7 @@
 
     <!-- Screen Starlist-Settings -->
     <string name="starlist_settings_title_starlists">Starlists</string>
+    <string name="starlist_settings_placeholder_new">New Starlist Name</string>
 
     <string name="starlist_settings_dialog_delete_text">Do you want to delete the Starlist %s?</string>
 

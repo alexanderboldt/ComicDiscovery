@@ -5,7 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alex.comicdiscovery.feature.starlist.model.UiModelStarlist
+import com.alex.comicdiscovery.feature.starlist.model.UiModelStarlistItem
+import com.alex.comicdiscovery.repository.models.RpModelList
 import com.alex.comicdiscovery.repository.starlist.StarlistRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -14,8 +15,14 @@ import kotlinx.coroutines.launch
 
 class StarlistViewModel(private val starlistRepository: StarlistRepository) : ViewModel() {
 
-    var starlists: List<UiModelStarlist> by mutableStateOf(emptyList())
+    var starlists: List<UiModelStarlistItem> by mutableStateOf(emptyList())
         private set
+
+    var starlistNameNew: String by mutableStateOf("")
+        private set
+
+    val isStarlistCreateButtonEnabled: Boolean
+        get() = starlistNameNew.isNotBlank()
 
     // ----------------------------------------------------------------------------
 
@@ -23,33 +30,40 @@ class StarlistViewModel(private val starlistRepository: StarlistRepository) : Vi
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
                 .getAllStarlists()
-                .collect { starlists ->
-                    this@StarlistViewModel.starlists = starlists.map { UiModelStarlist(it.id, it.name) }
-                }
+                .collect { mapStarlists(it) }
         }
     }
 
     // ----------------------------------------------------------------------------
 
-    fun onClickCreate(name: String) {
+    fun setNewStarlistName(name: String) {
+        starlistNameNew = name
+    }
+
+    fun onCreateNewStarlist() {
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
-                .createStarlist(name)
+                .createStarlist(starlistNameNew)
                 .flatMapConcat { starlistRepository.getAllStarlists() }
-                .collect { starlists ->
-                    this@StarlistViewModel.starlists = starlists.map { UiModelStarlist(it.id, it.name) }
+                .collect {
+                    mapStarlists(it)
+                    starlistNameNew = ""
                 }
         }
     }
 
-    fun onClickDelete(id: Long) {
+    fun onDeleteStarlist(id: Long) {
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
                 .deleteStarlist(id)
                 .flatMapConcat { starlistRepository.getAllStarlists() }
-                .collect { starlists ->
-                    this@StarlistViewModel.starlists = starlists.map { UiModelStarlist(it.id, it.name) }
-                }
+                .collect { mapStarlists(it) }
         }
+    }
+
+    // ----------------------------------------------------------------------------
+
+    private fun mapStarlists(repositoryStarlists: List<RpModelList>) {
+        this.starlists = repositoryStarlists.map { UiModelStarlistItem.Existing(it.id, it.name) } + UiModelStarlistItem.New
     }
 }
