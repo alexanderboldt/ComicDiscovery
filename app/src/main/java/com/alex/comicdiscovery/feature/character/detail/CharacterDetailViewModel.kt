@@ -28,6 +28,9 @@ class CharacterDetailViewModel(
     var starlists: UiStateStarlist by mutableStateOf(UiStateStarlist.NoListsAvailable)
         private set
 
+    var isStarlistLoading: Boolean by mutableStateOf(false)
+        private set
+
     // ----------------------------------------------------------------------------
 
     init {
@@ -42,6 +45,8 @@ class CharacterDetailViewModel(
             when (isChecked) {
                 true -> starlistRepository.addCharacter(id, characterId)
                 false -> starlistRepository.removeCharacter(id, characterId)
+            }.onStart {
+                isStarlistLoading = true
             }.timberCatch {
                 when (isChecked) {
                     true -> R.string.character_detail_message_error_star
@@ -49,6 +54,7 @@ class CharacterDetailViewModel(
                 }.also { messageResource ->
                     sendEvent(UiEventCharacterDetail.Message(resourceProvider.getString(messageResource)))
                 }
+                isStarlistLoading = false
             }.collect {
                 getStarlists()
             }
@@ -95,6 +101,7 @@ class CharacterDetailViewModel(
                 starlistRepository.getAllStarlists()) { starlistIds, starlists ->
                 starlistIds to starlists
             }.collect { (starlistIds, starlists) ->
+                isStarlistLoading = false
                 this@CharacterDetailViewModel.starlists = if (starlists.isEmpty()) {
                     UiStateStarlist.NoListsAvailable
                 } else {

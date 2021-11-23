@@ -6,6 +6,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -145,10 +146,13 @@ fun BoxWithConstraintsScope.Starlist(viewModel: CharacterDetailViewModel) {
                     is UiStateStarlist.NoListsAvailable -> {
                         Box(
                             modifier = Modifier
-                                .align(Alignment.Center)
+                                .fillMaxSize()
                                 .padding(16.dp)
                         ) {
-                            Text(text = stringResource(id = R.string.character_detail_no_starlists))
+                            Text(
+                                text = stringResource(id = R.string.character_detail_no_starlists),
+                                modifier = Modifier.align(Alignment.Center)
+                            )
                         }
                     }
                     is UiStateStarlist.Starlists -> {
@@ -160,6 +164,24 @@ fun BoxWithConstraintsScope.Starlist(viewModel: CharacterDetailViewModel) {
                             }
                         }
                     }
+                }
+            }
+
+            if (viewModel.isStarlistLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable(
+                            onClick = { },
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        )
+                        .background(DarkCharcoal.copy(alpha = 0.3f))
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = BrightGray
+                    )
                 }
             }
 
@@ -184,9 +206,16 @@ fun StarlistItem(starlist: UiModelStarlist, viewModel: CharacterDetailViewModel)
         .clickable { viewModel.onClickCheckStarlist(starlist.id, !starlist.isChecked) }
         .fillMaxWidth()
         .padding(16.dp)) {
-        Checkbox(checked = starlist.isChecked, onCheckedChange = null)
+        Checkbox(
+            checked = starlist.isChecked,
+            onCheckedChange = null,
+            colors = CheckboxDefaults.colors(
+                checkedColor = BrightGray,
+                uncheckedColor = BrightGray,
+                checkmarkColor = CoralRed
+            ))
         Spacer(modifier = Modifier.width(16.dp))
-        Text(text = starlist.name)
+        Text(text = starlist.name, color = BrightGray)
     }
 }
 
