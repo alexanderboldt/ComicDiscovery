@@ -36,6 +36,8 @@ class StarlistViewModel(private val starlistRepository: StarlistRepository) : Vi
 
     // ----------------------------------------------------------------------------
 
+    // create
+
     fun setNewStarlistName(name: String) {
         starlistNameNew = name
     }
@@ -51,6 +53,19 @@ class StarlistViewModel(private val starlistRepository: StarlistRepository) : Vi
                 }
         }
     }
+
+    // update
+
+    fun updateStarlist(id: Long, name: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            starlistRepository
+                .updateStarlist(id, name)
+                .flatMapConcat { starlistRepository.getAllStarlists() }
+                .collect { mapStarlists(it) }
+        }
+    }
+
+    // delete
 
     fun onDeleteStarlist(id: Long) {
         viewModelScope.launch(Dispatchers.Main) {

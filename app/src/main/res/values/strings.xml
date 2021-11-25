@@ -1,6 +1,7 @@
 <resources>
     <!-- General -->
     <string name="general_cancel">Cancel</string>
+    <string name="general_update">Update</string>
     <string name="general_create">Create</string>
     <string name="general_delete">Delete</string>
 

@@ -31,9 +31,14 @@ import org.koin.androidx.compose.getViewModel
 fun StarlistSettingsScreen() {
     val viewModel: StarlistViewModel = getViewModel()
 
-    Box(modifier = Modifier
-        .background(getColor(BrightGray, DarkCharcoal))
-        .fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .background(getColor(BrightGray, DarkCharcoal))
+            .fillMaxSize()
+    ) {
+
+        var showDialogUpdate by remember { mutableStateOf(false) }
+        var updateStarlist: UiModelStarlistItem.Existing? by remember { mutableStateOf(null) }
 
         var showDialogDelete by remember { mutableStateOf(false) }
         var deleteStarlist: UiModelStarlistItem.Existing? by remember { mutableStateOf(null) }
@@ -42,35 +47,74 @@ fun StarlistSettingsScreen() {
             val textStyle = TextStyle(
                 color = getColor(DarkElectricBlue, BrightGray),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Medium)
+                fontWeight = FontWeight.Medium
+            )
 
             Text(
                 text = stringResource(R.string.starlist_settings_title_starlists),
                 style = textStyle,
-                modifier = Modifier.padding(16.dp))
+                modifier = Modifier.padding(16.dp)
+            )
 
             val listState = rememberLazyListState()
             LazyColumn(state = listState) {
                 items(items = viewModel.starlists) { starlist ->
                     when (starlist) {
                         is UiModelStarlistItem.Existing -> {
-                            StarlistItemExisting(starlist) {
-                                showDialogDelete = true
-                                deleteStarlist = it
-                            }
+                            StarlistItemExisting(
+                                starlist,
+                                onClickUpdate = {
+                                    showDialogUpdate = true
+                                    updateStarlist = it
+                                },
+                                onClickDelete = {
+                                    showDialogDelete = true
+                                    deleteStarlist = it
+                                }
+                            )
                         }
                         UiModelStarlistItem.New -> {
                             StarlistItemNew()
                         }
                     }
 
-                    Spacer(modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .background(getColor(DarkElectricBlue, BrightGray)))
+                    Spacer(
+                        modifier = Modifier
+                            .height(1.dp)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .background(getColor(DarkElectricBlue, BrightGray))
+                    )
                 }
             }
+        }
+
+        if (showDialogUpdate) {
+            var starlistUpdateName by remember { mutableStateOf(updateStarlist!!.name) }
+
+            AlertDialog(
+                onDismissRequest = { showDialogUpdate = false },
+                confirmButton = {
+                    ComicDiscoveryButton(
+                        text = stringResource(id = R.string.general_update),
+                        enabled = starlistUpdateName.isNotBlank()) {
+                            viewModel.updateStarlist(updateStarlist!!.id, starlistUpdateName)
+                            showDialogUpdate = false
+                        }
+                },
+                dismissButton = {
+                    ComicDiscoveryButton(text = stringResource(id = R.string.general_cancel)) {
+                        showDialogUpdate = false
+                    }
+                },
+                text = {
+                    TextField(
+                        placeholder = { Text(text = stringResource(id = R.string.starlist_settings_placeholder_new)) },
+                        value = starlistUpdateName,
+                        onValueChange = { starlistUpdateName = it },
+                        colors = getTextFieldColors()
+                    )
+                })
         }
 
         if (showDialogDelete) {
@@ -88,29 +132,45 @@ fun StarlistSettingsScreen() {
                     }
                 },
                 text = {
-                    Text(text = stringResource(R.string.starlist_settings_dialog_delete_text, deleteStarlist!!.name))
+                    Text(
+                        text = stringResource(
+                            R.string.starlist_settings_dialog_delete_text,
+                            deleteStarlist!!.name
+                        )
+                    )
                 })
         }
     }
 }
 
 @Composable
-fun StarlistItemExisting(starlist: UiModelStarlistItem.Existing, onClickDelete: (UiModelStarlistItem.Existing) -> Unit) {
+fun StarlistItemExisting(
+    starlist: UiModelStarlistItem.Existing,
+    onClickUpdate: (UiModelStarlistItem.Existing) -> Unit,
+    onClickDelete: (UiModelStarlistItem.Existing) -> Unit
+) {
     Row(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-        Text(text = starlist.name, modifier = Modifier.weight(1f), color = getColor(DarkCharcoal, BrightGray))
-        IconButton(onClick = { /*TODO*/ }) {
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = starlist.name,
+            modifier = Modifier.weight(1f),
+            color = getColor(DarkCharcoal, BrightGray)
+        )
+        IconButton(onClick = { onClickUpdate(starlist) }) {
             Icon(
                 imageVector = Icons.Rounded.Edit,
                 contentDescription = null,
-                tint = UltramarineBlue)
+                tint = UltramarineBlue
+            )
         }
         IconButton(onClick = { onClickDelete(starlist) }) {
             Icon(
                 imageVector = Icons.Rounded.Delete,
                 contentDescription = null,
-                tint = CoralRed)
+                tint = CoralRed
+            )
         }
     }
 }
@@ -120,8 +180,35 @@ fun StarlistItemExisting(starlist: UiModelStarlistItem.Existing, onClickDelete: 
 fun StarlistItemNew() {
     val viewModel: StarlistViewModel = getViewModel()
 
+    Row(
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextField(
+            placeholder = { Text(text = stringResource(id = R.string.starlist_settings_placeholder_new)) },
+            value = viewModel.starlistNameNew,
+            onValueChange = { viewModel.setNewStarlistName(it) },
+            modifier = Modifier.weight(1f),
+            colors = getTextFieldColors()
+        )
+
+        IconButton(
+            onClick = { viewModel.onCreateNewStarlist() },
+            enabled = viewModel.isStarlistCreateButtonEnabled
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Check,
+                contentDescription = null,
+                tint = if (viewModel.isStarlistCreateButtonEnabled) UltramarineBlue else DarkElectricBlue
+            )
+        }
+    }
+}
+
+@Composable
+fun getTextFieldColors(): TextFieldColors {
     // todo: centralize
-    val colors = if (MaterialTheme.colors.isLight) {
+    return if (MaterialTheme.colors.isLight) {
         TextFieldDefaults.textFieldColors(
             // background
             backgroundColor = BrightGray,
@@ -155,23 +242,5 @@ fun StarlistItemNew() {
             // cursor
             cursorColor = BrightGray
         )
-    }
-
-    Row(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-        TextField(
-            placeholder = { Text(text = stringResource(id = R.string.starlist_settings_placeholder_new))},
-            value = viewModel.starlistNameNew,
-            onValueChange = { viewModel.setNewStarlistName(it) },
-            modifier = Modifier.weight(1f),
-            colors = colors)
-
-        IconButton(onClick = { viewModel.onCreateNewStarlist() }, enabled = viewModel.isStarlistCreateButtonEnabled) {
-            Icon(
-                imageVector = Icons.Rounded.Check,
-                contentDescription = null,
-                tint = if (viewModel.isStarlistCreateButtonEnabled) UltramarineBlue else DarkElectricBlue)
-        }
     }
 }
