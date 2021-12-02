@@ -54,6 +54,9 @@
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
 
+    <!-- Screen Profile -->
+    <string name="profile_title">Profile</string>
+
     <!-- Screen Starlist-Settings -->
     <string name="starlist_settings_title_starlists">Starlists</string>
     <string name="starlist_settings_placeholder_new">New Starlist Name</string>

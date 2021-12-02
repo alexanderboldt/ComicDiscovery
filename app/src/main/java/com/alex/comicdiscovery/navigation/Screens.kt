@@ -3,6 +3,7 @@ package com.alex.comicdiscovery.navigation
 import androidx.compose.animation.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Star
@@ -15,9 +16,9 @@ import com.alex.comicdiscovery.feature.character.overview.CharacterOverviewScree
 import com.alex.comicdiscovery.feature.character.starred.CharacterStarredScreen
 import com.alex.comicdiscovery.feature.home.HomeScreen
 import com.alex.comicdiscovery.feature.image.ImageScreen
+import com.alex.comicdiscovery.feature.profile.ProfileScreen
 import com.alex.comicdiscovery.feature.settings.SettingsScreen
 import com.alex.comicdiscovery.feature.starlist.StarlistSettingsScreen
-import com.alex.comicdiscovery.ui.theme.AbsoluteZero
 import com.alex.comicdiscovery.ui.theme.Black
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -93,6 +94,18 @@ object Settings : BottomScreen {
     }
 }
 
+@ExperimentalAnimationApi
+object User : BottomScreen {
+    override val route = "user"
+
+    override val title = "User"
+    override val icon = Icons.Rounded.AccountBox
+
+    override fun getContent(navControllerTopLevel: NavController, navControllerBottomNavigation: NavController): @Composable (NavBackStackEntry) -> Unit = {
+        ProfileScreen()
+    }
+}
+
 @ExperimentalCoilApi
 @ExperimentalAnimationApi
 object CharacterDetail : Screen {
@@ -140,10 +153,10 @@ val topLevelScreens: List<Screen> = listOf(Home, Image)
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
-val bottomScreens: List<BottomScreen> = listOf(CharacterOverview, CharacterStarred, Settings)
+val bottomScreens: List<BottomScreen> = listOf(CharacterOverview, CharacterStarred, Settings, User)
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
-val allBottomScreens: List<Screen> = listOf(CharacterOverview, CharacterStarred, Settings, CharacterDetail, StarlistSettings)
+val allBottomScreens: List<Screen> = listOf(CharacterOverview, CharacterStarred, Settings, User, CharacterDetail, StarlistSettings)

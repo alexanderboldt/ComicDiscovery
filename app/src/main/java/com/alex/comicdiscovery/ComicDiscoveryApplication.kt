@@ -7,6 +7,7 @@ import com.alex.comicdiscovery.feature.character.overview.di.characterOverviewMo
 import com.alex.comicdiscovery.feature.character.starred.di.characterStarredModule
 import com.alex.comicdiscovery.feature.home.di.homeModule
 import com.alex.comicdiscovery.feature.main.di.mainModule
+import com.alex.comicdiscovery.feature.profile.di.profileModule
 import com.alex.comicdiscovery.feature.settings.di.settingsModule
 import com.alex.comicdiscovery.feature.starlist.di.starlistModule
 import com.alex.comicdiscovery.repository.character.di.characterRepositoryModule
@@ -14,6 +15,7 @@ import com.alex.comicdiscovery.repository.datasource.api.di.apiRoutesModule
 import com.alex.comicdiscovery.repository.datasource.database.ComicDiscoveryDatabase
 import com.alex.comicdiscovery.repository.datasource.database.di.comicDiscoveryDatabaseModule
 import com.alex.comicdiscovery.repository.datasource.datastore.di.settingsDataStoreModule
+import com.alex.comicdiscovery.repository.file.di.fileRepositoryModule
 import com.alex.comicdiscovery.repository.search.di.searchRepositoryModule
 import com.alex.comicdiscovery.repository.settings.di.settingsRepositoryModule
 import com.alex.comicdiscovery.repository.starlist.di.starlistRepositoryModule
@@ -49,6 +51,7 @@ class ComicDiscoveryApplication : Application() {
                 characterStarredModule,
                 characterDetailModule,
                 settingsModule,
+                profileModule,
                 // resource
                 resourceProviderModule,
                 // repository
@@ -57,6 +60,7 @@ class ComicDiscoveryApplication : Application() {
                 characterRepositoryModule,
                 settingsRepositoryModule,
                 settingsDataStoreModule,
+                fileRepositoryModule,
                 apiRoutesModule,
                 comicDiscoveryDatabaseModule))
         }
