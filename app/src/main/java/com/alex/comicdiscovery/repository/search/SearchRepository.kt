@@ -1,7 +1,7 @@
 package com.alex.comicdiscovery.repository.search
 
 import com.alex.comicdiscovery.repository.datasource.api.ApiRoutes
-import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
+import com.alex.comicdiscovery.repository.models.RpModelCharacterMinimal
 import com.alex.comicdiscovery.repository.models.RpModelResponse
 import com.alex.comicdiscovery.util.mapping.toRpModel
 import kotlinx.coroutines.Dispatchers
@@ -12,17 +12,18 @@ import kotlinx.coroutines.flow.flowOn
 /**
  * Manages the data-handling of search-operations.
  *
- * @param apiRoutes The api-routes will be automatically injected.
+ * @param apiRoutes An instance of [ApiRoutes].
  */
 class SearchRepository(private val apiRoutes: ApiRoutes) {
 
     /**
      * Makes a search for characters from the backend.
      *
-     * @param query The search-query.
-     * @return Returns a flow with the characters.
+     * @param query The search-query as [String].
+     * @param limit The limit as [Int].
+     * @return Returns a [List] of [RpModelCharacterMinimal] in a [Flow].
      */
-    suspend fun getSearch(query: String, limit: Int): Flow<RpModelResponse<List<RpModelCharacterOverview>>> {
+    suspend fun getSearch(query: String, limit: Int): Flow<RpModelResponse<List<RpModelCharacterMinimal>>> {
         return flow {
 
             apiRoutes

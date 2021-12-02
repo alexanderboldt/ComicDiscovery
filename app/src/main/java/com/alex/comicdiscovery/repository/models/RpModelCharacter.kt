@@ -1,6 +1,6 @@
 package com.alex.comicdiscovery.repository.models
 
-data class RpModelCharacterDetail(
+data class RpModelCharacter(
     val id: Int,
     val name: String,
     val realName: String?,

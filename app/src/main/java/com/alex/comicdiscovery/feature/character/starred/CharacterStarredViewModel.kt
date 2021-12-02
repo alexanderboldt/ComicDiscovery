@@ -62,7 +62,7 @@ class CharacterStarredViewModel(
     private fun getStarlistsAndCharacters() {
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
-                .getAllStarlists()
+                .getAll()
                 .onStart { content = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_loading)) }
                 .timberCatch { content = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_error)) }
                 .collect {  starlists ->
@@ -81,7 +81,7 @@ class CharacterStarredViewModel(
     private fun getCharacters() {
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
-                .getStarredCharactersOverview((starlists as UiStateStarlist.Starlists).starlists[selectedStarlistIndex].id)
+                .getStarredCharacters((starlists as UiStateStarlist.Starlists).starlists[selectedStarlistIndex].id)
                 .timberCatch {
                     content = UiStateContent.Message(resourceProvider.getString(R.string.character_starred_message_no_characters))
                 }.collect { response ->

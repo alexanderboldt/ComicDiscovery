@@ -3,16 +3,12 @@ package com.alex.comicdiscovery.feature.character.detail
 import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.BaseViewModelTest
 import com.alex.comicdiscovery.feature.base.ResourceProvider
-import com.alex.comicdiscovery.feature.character.detail.model.UiStateContent
-import com.alex.comicdiscovery.feature.character.detail.model.UiModelCharacter
 import com.alex.comicdiscovery.repository.character.CharacterRepository
-import com.alex.comicdiscovery.repository.models.RpModelCharacterDetail
+import com.alex.comicdiscovery.repository.models.RpModelCharacter
 import com.alex.comicdiscovery.repository.models.RpModelResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -55,7 +51,7 @@ class CharacterDetailViewModelTest : BaseViewModelTest() {
                 val response = RpModelResponse(
                     1,
                     1,
-                    RpModelCharacterDetail(
+                    RpModelCharacter(
                         1,
                         "Superman",
                         "Clark Kent",

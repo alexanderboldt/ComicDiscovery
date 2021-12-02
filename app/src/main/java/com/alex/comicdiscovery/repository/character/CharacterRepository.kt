@@ -12,26 +12,31 @@ import kotlinx.coroutines.flow.flowOn
 /**
  * Manages the data-handling of the characters.
  *
- * @param apiRoutes The ApiRoutes will be automatically injected.
- * @param database The ComicDiscoveryDatabase will be automatically injected.
+ * @param apiRoutes An instance of [ApiRoutes].
+ * @param database An instance of [ComicDiscoveryDatabase].
  */
 class CharacterRepository(private val apiRoutes: ApiRoutes, private val database: ComicDiscoveryDatabase) {
 
     private val idPrefix = "4005-"
     private val fields = "id,name,real_name,image,gender,aliases,birth,powers,origin"
 
+    // assembles the actual id with a prefix
+    private val Int.withPrefix: String
+        get() = idPrefix + this
+
     // ----------------------------------------------------------------------------
 
     /**
-     * Gets a character from the backend.
+     * Returns a character from the backend.
      *
-     * @param id The id of the character.
-     * @return Returns a flow with the response.
+     * @param id The Id as [Int].
+     *
+     * @return Returns [RpModelCharacter] in a [Flow].
      */
-    suspend fun getCharacterDetail(id: Int): Flow<RpModelResponse<RpModelCharacterDetail>> {
+    suspend fun getCharacter(id: Int): Flow<RpModelResponse<RpModelCharacter>> {
         return flow {
             apiRoutes
-                .getCharacter(getId(id), fields)
+                .getCharacter(id.withPrefix, fields)
                 .let { response ->
                     RpModelResponse(
                         response.numberOfPageResults,
@@ -44,12 +49,13 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
     // ----------------------------------------------------------------------------
 
     /**
-     * Gets a single character from the database.
+     * Returns a single character from the database.
      *
-     * @param id The id of the character.
-     * @return Returns a flow with the character.
+     * @param id The Id as [Int].
+     *
+     * @return Returns [RpModelCharacter] in a [Flow].
      */
-    suspend fun getStarredCharacter(id: Int): Flow<RpModelResponse<RpModelCharacterDetail>> {
+    suspend fun getStarredCharacter(id: Int): Flow<RpModelResponse<RpModelCharacter>> {
         return flow {
             database
                 .characterDao()
@@ -57,18 +63,8 @@ class CharacterRepository(private val apiRoutes: ApiRoutes, private val database
                 .let { character -> RpModelResponse(
                     1,
                     1,
-                    character.toRpModelDetail(true)) }
+                    character.toRpModel(true)) }
                 .also { emit(it) }
         }.flowOn(Dispatchers.IO)
     }
-
-    // ----------------------------------------------------------------------------
-
-    /**
-     * Assembles the actual id with a prefix.
-     *
-     * @param id The id of the character.
-     * @return Returns the complete id.
-     */
-    private fun getId(id: Int) = idPrefix + id
 }

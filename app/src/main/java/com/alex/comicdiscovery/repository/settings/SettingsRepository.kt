@@ -11,14 +11,14 @@ import kotlinx.coroutines.flow.map
 /**
  * Manages the settings.
  *
- * @param settingsDataStore The SettingsDataStore will be automatically injected.
+ * @param settingsDataStore An instance of [SettingsDataStore].
  */
 class SettingsRepository(private val settingsDataStore: SettingsDataStore) {
 
     /**
-     * Gets the saved theme from the DataStore.
+     * Returns the saved theme in the DataStore.
      *
-     * @return Returns a flow with the theme.
+     * @return Returns [RpModelTheme] in a [kotlinx.coroutines.flow.Flow].
      */
     fun getTheme() = settingsDataStore
         .getTheme()
@@ -28,8 +28,7 @@ class SettingsRepository(private val settingsDataStore: SettingsDataStore) {
     /**
      * Sets a theme to the DataStore.
      *
-     * @param theme The theme to store.
+     * @param theme The theme as [RpModelTheme].
      */
-    suspend fun setTheme(theme: RpModelTheme) = settingsDataStore
-        .setTheme(theme.toDsModel())
+    suspend fun setTheme(theme: RpModelTheme) = settingsDataStore.setTheme(theme.toDsModel())
 }

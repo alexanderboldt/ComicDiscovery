@@ -43,8 +43,8 @@ class CharacterDetailViewModel(
     fun onClickCheckStarlist(id: Long, isChecked: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
             when (isChecked) {
-                true -> starlistRepository.addCharacter(id, characterId)
-                false -> starlistRepository.removeCharacter(id, characterId)
+                true -> starlistRepository.linkCharacter(id, characterId)
+                false -> starlistRepository.releaseCharacter(id, characterId)
             }.onStart {
                 isStarlistLoading = true
             }.timberCatch {
@@ -67,7 +67,7 @@ class CharacterDetailViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             when (userComesFromStarredScreen) {
                 true -> characterRepository.getStarredCharacter(characterId)
-                false -> characterRepository.getCharacterDetail(characterId)
+                false -> characterRepository.getCharacter(characterId)
             }.onStart {
                 content = UiStateContent.Loading(resourceProvider.getString(R.string.character_detail_message_loading))
             }.timberCatch {
@@ -98,7 +98,7 @@ class CharacterDetailViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             combine(
                 starlistRepository.getAssociatedStarlists(characterId),
-                starlistRepository.getAllStarlists()) { starlistIds, starlists ->
+                starlistRepository.getAll()) { starlistIds, starlists ->
                 starlistIds to starlists
             }.collect { (starlistIds, starlists) ->
                 isStarlistLoading = false

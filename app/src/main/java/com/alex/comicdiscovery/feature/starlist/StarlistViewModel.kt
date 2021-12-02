@@ -29,7 +29,7 @@ class StarlistViewModel(private val starlistRepository: StarlistRepository) : Vi
     init {
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
-                .getAllStarlists()
+                .getAll()
                 .collect { mapStarlists(it) }
         }
     }
@@ -45,8 +45,8 @@ class StarlistViewModel(private val starlistRepository: StarlistRepository) : Vi
     fun onCreateNewStarlist() {
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
-                .createStarlist(starlistNameNew)
-                .flatMapConcat { starlistRepository.getAllStarlists() }
+                .create(starlistNameNew)
+                .flatMapConcat { starlistRepository.getAll() }
                 .collect {
                     mapStarlists(it)
                     starlistNameNew = ""
@@ -59,8 +59,8 @@ class StarlistViewModel(private val starlistRepository: StarlistRepository) : Vi
     fun updateStarlist(id: Long, name: String) {
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
-                .updateStarlist(id, name)
-                .flatMapConcat { starlistRepository.getAllStarlists() }
+                .update(id, name)
+                .flatMapConcat { starlistRepository.getAll() }
                 .collect { mapStarlists(it) }
         }
     }
@@ -70,8 +70,8 @@ class StarlistViewModel(private val starlistRepository: StarlistRepository) : Vi
     fun onDeleteStarlist(id: Long) {
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
-                .deleteStarlist(id)
-                .flatMapConcat { starlistRepository.getAllStarlists() }
+                .delete(id)
+                .flatMapConcat { starlistRepository.getAll() }
                 .collect { mapStarlists(it) }
         }
     }

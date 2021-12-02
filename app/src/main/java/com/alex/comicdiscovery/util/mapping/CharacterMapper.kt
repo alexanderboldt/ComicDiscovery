@@ -1,18 +1,18 @@
 package com.alex.comicdiscovery.util.mapping
 
-import com.alex.comicdiscovery.repository.datasource.api.models.ApiModelCharacterDetail
-import com.alex.comicdiscovery.repository.datasource.api.models.ApiModelCharacterOverview
+import com.alex.comicdiscovery.repository.datasource.api.models.ApiModelCharacter
+import com.alex.comicdiscovery.repository.datasource.api.models.ApiModelCharacterMinimal
 import com.alex.comicdiscovery.repository.datasource.database.character.DbModelCharacter
-import com.alex.comicdiscovery.repository.models.RpModelCharacterDetail
-import com.alex.comicdiscovery.repository.models.RpModelCharacterOverview
+import com.alex.comicdiscovery.repository.models.RpModelCharacter
+import com.alex.comicdiscovery.repository.models.RpModelCharacterMinimal
 
 // region - from api to repository
 
-fun List<ApiModelCharacterOverview>.toRpModel() = map {
-    RpModelCharacterOverview(it.id, it.name, it.realName, it.image.smallUrl)
+fun List<ApiModelCharacterMinimal>.toRpModel() = map {
+    RpModelCharacterMinimal(it.id, it.name, it.realName, it.image.smallUrl)
 }
 
-fun ApiModelCharacterDetail.toRpModel(isStarred: Boolean) = RpModelCharacterDetail(
+fun ApiModelCharacter.toRpModel(isStarred: Boolean) = RpModelCharacter(
     id,
     name,
     realName,
@@ -29,7 +29,7 @@ fun ApiModelCharacterDetail.toRpModel(isStarred: Boolean) = RpModelCharacterDeta
 
 // region - from api to database
 
-fun ApiModelCharacterDetail.toDbModel() = DbModelCharacter(
+fun ApiModelCharacter.toDbModel() = DbModelCharacter(
     id,
     name,
     realName,
@@ -45,8 +45,8 @@ fun ApiModelCharacterDetail.toDbModel() = DbModelCharacter(
 
 // region - from database to repository
 
-fun List<DbModelCharacter>.toRpModelOverview() = map {
-    RpModelCharacterOverview(
+fun List<DbModelCharacter>.toRpModelMinimal() = map {
+    RpModelCharacterMinimal(
         it.id,
         it.name,
         it.realName,
@@ -54,7 +54,7 @@ fun List<DbModelCharacter>.toRpModelOverview() = map {
     )
 }
 
-fun DbModelCharacter.toRpModelDetail(isStarred: Boolean) = RpModelCharacterDetail(
+fun DbModelCharacter.toRpModel(isStarred: Boolean) = RpModelCharacter(
     id,
     name,
     realName,
