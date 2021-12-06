@@ -1,6 +1,6 @@
 package com.alex.comicdiscovery.repository.settings
 
-import com.alex.comicdiscovery.repository.datasource.datastore.SettingsDataStore
+import com.alex.comicdiscovery.repository.datasource.datastore.settings.SettingsDataStore
 import com.alex.comicdiscovery.repository.models.RpModelTheme
 import com.alex.comicdiscovery.util.mapping.toDsModel
 import com.alex.comicdiscovery.util.mapping.toRpModel

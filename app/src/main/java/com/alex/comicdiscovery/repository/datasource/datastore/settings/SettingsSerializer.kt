@@ -1,4 +1,4 @@
-package com.alex.comicdiscovery.repository.datasource.datastore
+package com.alex.comicdiscovery.repository.datasource.datastore.settings
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer

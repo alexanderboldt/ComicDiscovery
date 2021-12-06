@@ -153,7 +153,7 @@ val topLevelScreens: List<Screen> = listOf(Home, Image)
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
-val bottomScreens: List<BottomScreen> = listOf(CharacterOverview, CharacterStarred, Settings, User)
+val bottomScreens: List<BottomScreen> = listOf(CharacterOverview, CharacterStarred, User, Settings)
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
