@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class CharacterOverviewViewModel(
     private val searchRepository: SearchRepository,
-    private val resourceProvider: ResourceProvider) : BaseViewModel<UiEventCharacterOverview>() {
+    private val resourceProvider: ResourceProvider) : BaseViewModel<Unit, UiEventCharacterOverview>(Unit) {
 
     var query: String by mutableStateOf("")
         private set
@@ -47,7 +47,7 @@ class CharacterOverviewViewModel(
 
     fun onClickCharacter(id: Int) {
         viewModelScope.launch(Dispatchers.Main) {
-            sendEvent(UiEventCharacterOverview.DetailScreen(id))
+            postSideEffect(UiEventCharacterOverview.DetailScreen(id))
         }
     }
 

@@ -4,14 +4,16 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
-abstract class BaseViewModel<T : UiEvent> : ViewModel() {
+abstract class BaseViewModel<STATE, SIDE_EFFECT>(initialState: STATE) : ViewModel() {
 
-    private var _event = Channel<T>(Channel.RENDEZVOUS)
+    val state: STATE = initialState
+
+    private var _event = Channel<SIDE_EFFECT>(Channel.RENDEZVOUS)
     val event = _event.receiveAsFlow()
 
     // ----------------------------------------------------------------------------
 
-    protected suspend fun sendEvent(event: T) {
+    protected suspend fun postSideEffect(event: SIDE_EFFECT) {
         _event.send(event)
     }
 }

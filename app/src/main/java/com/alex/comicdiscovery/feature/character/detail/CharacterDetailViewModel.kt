@@ -20,7 +20,7 @@ class CharacterDetailViewModel(
     private val userComesFromStarredScreen: Boolean,
     private val starlistRepository: StarlistRepository,
     private val characterRepository: CharacterRepository,
-    private val resourceProvider: ResourceProvider) : BaseViewModel<UiEventCharacterDetail>() {
+    private val resourceProvider: ResourceProvider) : BaseViewModel<Unit, UiEventCharacterDetail>(Unit) {
 
     var content: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_loading)))
         private set
@@ -52,7 +52,7 @@ class CharacterDetailViewModel(
                     true -> R.string.character_detail_message_error_star
                     false -> R.string.character_detail_message_error_unstar
                 }.also { messageResource ->
-                    sendEvent(UiEventCharacterDetail.Message(resourceProvider.getString(messageResource)))
+                    postSideEffect(UiEventCharacterDetail.Message(resourceProvider.getString(messageResource)))
                 }
                 isStarlistLoading = false
             }.collect {

@@ -3,8 +3,8 @@ package com.alex.comicdiscovery.feature.starlist
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.starlist.model.UiModelStarlistItem
 import com.alex.comicdiscovery.repository.models.RpModelList
 import com.alex.comicdiscovery.repository.starlist.StarlistRepository
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.launch
 
-class StarlistViewModel(private val starlistRepository: StarlistRepository) : ViewModel() {
+class StarlistViewModel(private val starlistRepository: StarlistRepository) : BaseViewModel<Unit, Unit>(Unit) {
 
     var starlists: List<UiModelStarlistItem> by mutableStateOf(emptyList())
         private set

@@ -21,9 +21,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.R
-import com.alex.comicdiscovery.feature.character.starred.model.UiStateContent
 import com.alex.comicdiscovery.feature.character.starred.model.UiEventCharacterStarred
-import com.alex.comicdiscovery.feature.character.starred.model.UiStateStarlist
+import com.alex.comicdiscovery.feature.character.starred.model.UiStateCharacterStarred
 import com.alex.comicdiscovery.ui.components.CharacterItem
 import com.alex.comicdiscovery.ui.theme.*
 import com.alex.comicdiscovery.util.getColor
@@ -46,9 +45,9 @@ fun CharacterStarredScreen(navigateToStarlistSettingsScreen: () -> Unit, navigat
         Starlist()
 
         Box(modifier = Modifier.fillMaxSize()) {
-            when (val state = viewModel.content) {
-                is UiStateContent.Characters -> CharactersScreen(state)
-                is UiStateContent.Message -> MessageScreen(state.message)
+            when (val state = viewModel.state.content) {
+                is UiStateCharacterStarred.Content.Characters -> CharactersScreen(state)
+                is UiStateCharacterStarred.Content.Message -> MessageScreen(state.message)
             }
         }
     }
@@ -86,17 +85,17 @@ fun Starlist() {
 
     Column {
         Row {
-            when (val starlists = viewModel.starlists) {
-                is UiStateStarlist.NoListsAvailable -> {
+            when (val starlists = viewModel.state.starlists) {
+                is UiStateCharacterStarred.Starlist.NoListsAvailable -> {
                     Text(
                         text = stringResource(id = R.string.character_starred_no_starlists_available),
                         modifier = Modifier.weight(1f).padding(16.dp),
                         fontStyle = FontStyle.Italic,
                         color = getColor(DarkCharcoal, BrightGray))
                 }
-                is UiStateStarlist.Starlists -> {
+                is UiStateCharacterStarred.Starlist.Starlists -> {
                     Row(modifier = Modifier.weight(1f).clickable { expanded = true }.padding(16.dp)) {
-                        Text(text = starlists.starlists[viewModel.selectedStarlistIndex].name, color = getColor(DarkCharcoal, BrightGray))
+                        Text(text = starlists.starlists[viewModel.state.selectedStarlistIndex].name, color = getColor(DarkCharcoal, BrightGray))
                         Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = getColor(UltramarineBlue, BrightGray))
                     }
                 }
@@ -111,8 +110,8 @@ fun Starlist() {
                 tint = getColor(UltramarineBlue, BrightGray))
         }
 
-        if (viewModel.starlists is UiStateStarlist.Starlists) {
-            val starlists = (viewModel.starlists as UiStateStarlist.Starlists).starlists
+        if (viewModel.state.starlists is UiStateCharacterStarred.Starlist.Starlists) {
+            val starlists = (viewModel.state.starlists as UiStateCharacterStarred.Starlist.Starlists).starlists
 
             DropdownMenu(
                 expanded = expanded,
@@ -142,7 +141,7 @@ fun Starlist() {
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
-fun BoxScope.CharactersScreen(state: UiStateContent.Characters) {
+fun BoxScope.CharactersScreen(state: UiStateCharacterStarred.Content.Characters) {
     val viewModel: CharacterStarredViewModel = getViewModel()
 
     val listState = rememberLazyListState()
