@@ -76,7 +76,7 @@ object Deps {
         }
 
         object Koin {
-            private const val version = "3.1.3"
+            private const val version = "3.1.4"
             const val koin = "io.insert-koin:koin-android:$version"
             const val compose = "io.insert-koin:koin-androidx-compose:$version"
         }
@@ -90,7 +90,7 @@ object Deps {
         }
 
         object ProtoBuf {
-            private const val version = "3.18.0"
+            private const val version = "3.19.1"
             const val protoc = "com.google.protobuf:protoc:$version"
             const val javaLite = "com.google.protobuf:protobuf-javalite:$version"
         }
