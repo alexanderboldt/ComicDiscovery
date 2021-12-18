@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alex.comicdiscovery.R
-import com.alex.comicdiscovery.feature.settings.model.UiModelTheme
+import com.alex.comicdiscovery.feature.settings.model.State
 import com.alex.comicdiscovery.ui.components.ComicDiscoverySwitcher
 import com.alex.comicdiscovery.ui.theme.*
 import com.alex.comicdiscovery.util.getColor
@@ -41,8 +41,8 @@ fun SettingsScreen() {
                 stringResource(id = R.string.settings_theme_system),
                 stringResource(id = R.string.settings_theme_light),
                 stringResource(id = R.string.settings_theme_dark)),
-            selected = viewModel.theme.ordinal) { newIndex ->
-            viewModel.onSelectTheme(UiModelTheme.valueOf(newIndex))
+            selected = viewModel.state.theme.ordinal) { newIndex ->
+            viewModel.onSelectTheme(State.UiModelTheme.valueOf(newIndex))
         }
     }
 }

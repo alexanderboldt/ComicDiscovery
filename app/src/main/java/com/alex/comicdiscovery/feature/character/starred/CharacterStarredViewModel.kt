@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 
 class CharacterStarredViewModel(
     private val starlistRepository: StarlistRepository,
-    private val resourceProvider: ResourceProvider) : BaseViewModel<UiStateCharacterStarred, UiEventCharacterStarred>(
-    UiStateCharacterStarred(UiStateCharacterStarred.Content.Message(resourceProvider.getString(R.string.character_starred_message_loading)))) {
+    private val resourceProvider: ResourceProvider) : BaseViewModel<State, SideEffect>(
+    State(State.Content.Message(resourceProvider.getString(R.string.character_starred_message_loading)))) {
 
     // ----------------------------------------------------------------------------
 
@@ -33,13 +33,13 @@ class CharacterStarredViewModel(
 
     fun onClickStarlistSettings() {
         viewModelScope.launch(Dispatchers.Main) {
-            postSideEffect(UiEventCharacterStarred.StarlistSettingsScreen)
+            postSideEffect(SideEffect.StarlistSettingsScreen)
         }
     }
 
     fun onClickCharacter(id: Int) {
         viewModelScope.launch(Dispatchers.Main) {
-            postSideEffect(UiEventCharacterStarred.DetailScreen(id))
+            postSideEffect(SideEffect.CharacterDetailScreen(id))
         }
     }
 
@@ -49,15 +49,15 @@ class CharacterStarredViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
                 .getAll()
-                .onStart { state.content = UiStateCharacterStarred.Content.Message(resourceProvider.getString(R.string.character_starred_message_loading)) }
-                .timberCatch { state.content = UiStateCharacterStarred.Content.Message(resourceProvider.getString(R.string.character_starred_message_error)) }
+                .onStart { state.content = State.Content.Message(resourceProvider.getString(R.string.character_starred_message_loading)) }
+                .timberCatch { state.content = State.Content.Message(resourceProvider.getString(R.string.character_starred_message_error)) }
                 .collect {  starlists ->
                     if (starlists.isEmpty()) {
-                        state.starlists = UiStateCharacterStarred.Starlist.NoListsAvailable
-                        state.content = UiStateCharacterStarred.Content.Message(resourceProvider.getString(R.string.character_starred_message_no_characters))
+                        state.starlists = State.Starlist.NoListsAvailable
+                        state.content = State.Content.Message(resourceProvider.getString(R.string.character_starred_message_no_characters))
                     } else {
-                        state.starlists = UiStateCharacterStarred.Starlist.Starlists(starlists.map {
-                            UiStateCharacterStarred.UiModelStarlist(it.id, it.name)
+                        state.starlists = State.Starlist.Starlists(starlists.map {
+                            State.UiModelStarlist(it.id, it.name)
                         })
 
                         getCharacters()
@@ -69,8 +69,8 @@ class CharacterStarredViewModel(
     private fun getCharacters() {
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
-                .getStarredCharacters((state.starlists as UiStateCharacterStarred.Starlist.Starlists).starlists[state.selectedStarlistIndex].id)
-                .timberCatch { state.content = UiStateCharacterStarred.Content.Message(resourceProvider.getString(R.string.character_starred_message_no_characters)) }
+                .getStarredCharacters((state.starlists as State.Starlist.Starlists).starlists[state.selectedStarlistIndex].id)
+                .timberCatch { state.content = State.Content.Message(resourceProvider.getString(R.string.character_starred_message_no_characters)) }
                 .collect { response ->
                     response
                         .result
@@ -83,8 +83,8 @@ class CharacterStarredViewModel(
                             )
                         }.also { characters ->
                             state.content = when (characters.isEmpty()) {
-                                true -> UiStateCharacterStarred.Content.Message(resourceProvider.getString(R.string.character_starred_message_no_characters_in_starlist))
-                                false -> UiStateCharacterStarred.Content.Characters(characters)
+                                true -> State.Content.Message(resourceProvider.getString(R.string.character_starred_message_no_characters_in_starlist))
+                                false -> State.Content.Characters(characters)
                             }
                         }
                 }

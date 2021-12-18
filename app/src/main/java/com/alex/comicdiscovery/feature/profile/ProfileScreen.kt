@@ -62,7 +62,7 @@ fun ProfileScreen() {
                 .aspectRatio(1f)
         ) {
             AnimatedContent(
-                targetState = viewModel.avatar,
+                targetState = viewModel.state.avatar,
                 transitionSpec = {
                     fadeIn(animationSpec = tween(500)) with fadeOut(animationSpec = tween(500))
                 },

@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alex.comicdiscovery.R
-import com.alex.comicdiscovery.feature.starlist.model.UiModelStarlistItem
+import com.alex.comicdiscovery.feature.starlist.model.State
 import com.alex.comicdiscovery.ui.components.ComicDiscoveryButton
 import com.alex.comicdiscovery.ui.theme.*
 import com.alex.comicdiscovery.util.getColor
@@ -38,10 +38,10 @@ fun StarlistSettingsScreen() {
     ) {
 
         var showDialogUpdate by remember { mutableStateOf(false) }
-        var updateStarlist: UiModelStarlistItem.Existing? by remember { mutableStateOf(null) }
+        var updateStarlist: State.UiModelStarlistItem.Existing? by remember { mutableStateOf(null) }
 
         var showDialogDelete by remember { mutableStateOf(false) }
-        var deleteStarlist: UiModelStarlistItem.Existing? by remember { mutableStateOf(null) }
+        var deleteStarlist: State.UiModelStarlistItem.Existing? by remember { mutableStateOf(null) }
 
         Column {
             val textStyle = TextStyle(
@@ -58,9 +58,9 @@ fun StarlistSettingsScreen() {
 
             val listState = rememberLazyListState()
             LazyColumn(state = listState) {
-                items(items = viewModel.starlists) { starlist ->
+                items(items = viewModel.state.starlists) { starlist ->
                     when (starlist) {
-                        is UiModelStarlistItem.Existing -> {
+                        is State.UiModelStarlistItem.Existing -> {
                             StarlistItemExisting(
                                 starlist,
                                 onClickUpdate = {
@@ -73,7 +73,7 @@ fun StarlistSettingsScreen() {
                                 }
                             )
                         }
-                        UiModelStarlistItem.New -> {
+                        State.UiModelStarlistItem.New -> {
                             StarlistItemNew()
                         }
                     }
@@ -145,9 +145,9 @@ fun StarlistSettingsScreen() {
 
 @Composable
 fun StarlistItemExisting(
-    starlist: UiModelStarlistItem.Existing,
-    onClickUpdate: (UiModelStarlistItem.Existing) -> Unit,
-    onClickDelete: (UiModelStarlistItem.Existing) -> Unit
+    starlist: State.UiModelStarlistItem.Existing,
+    onClickUpdate: (State.UiModelStarlistItem.Existing) -> Unit,
+    onClickDelete: (State.UiModelStarlistItem.Existing) -> Unit
 ) {
     Row(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
@@ -186,7 +186,7 @@ fun StarlistItemNew() {
     ) {
         TextField(
             placeholder = { Text(text = stringResource(id = R.string.starlist_settings_placeholder_new)) },
-            value = viewModel.starlistNameNew,
+            value = viewModel.state.starlistNameNew,
             onValueChange = { viewModel.setNewStarlistName(it) },
             modifier = Modifier.weight(1f),
             colors = getTextFieldColors()
@@ -194,12 +194,12 @@ fun StarlistItemNew() {
 
         IconButton(
             onClick = { viewModel.onCreateNewStarlist() },
-            enabled = viewModel.isStarlistCreateButtonEnabled
+            enabled = viewModel.state.isStarlistCreateButtonEnabled
         ) {
             Icon(
                 imageVector = Icons.Rounded.Check,
                 contentDescription = null,
-                tint = if (viewModel.isStarlistCreateButtonEnabled) UltramarineBlue else DarkElectricBlue
+                tint = if (viewModel.state.isStarlistCreateButtonEnabled) UltramarineBlue else DarkElectricBlue
             )
         }
     }

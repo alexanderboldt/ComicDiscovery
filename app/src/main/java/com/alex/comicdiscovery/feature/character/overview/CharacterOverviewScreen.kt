@@ -29,8 +29,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import com.alex.comicdiscovery.R
-import com.alex.comicdiscovery.feature.character.overview.model.UiStateContent
-import com.alex.comicdiscovery.feature.character.overview.model.UiEventCharacterOverview
+import com.alex.comicdiscovery.feature.character.overview.model.SideEffect
+import com.alex.comicdiscovery.feature.character.overview.model.State
 import com.alex.comicdiscovery.ui.components.*
 import com.alex.comicdiscovery.ui.theme.*
 import com.alex.comicdiscovery.util.getColor
@@ -54,10 +54,10 @@ fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
 
         Searchbar()
 
-        when (val state = viewModel.content) {
-            is UiStateContent.Items -> CharactersScreen(state)
-            is UiStateContent.Loading -> LoadingScreen(state.message)
-            is UiStateContent.Message -> MessageScreen(state.message)
+        when (val state = viewModel.state.content) {
+            is State.Content.Items -> CharactersScreen(state)
+            is State.Content.Loading -> LoadingScreen(state.message)
+            is State.Content.Message -> MessageScreen(state.message)
         }
     }
 }
@@ -74,7 +74,7 @@ fun SideEffects(navigateToCharacterDetailScreen: (Int) -> Unit) {
         scope.launch {
             viewModel
                 .event
-                .map { it as UiEventCharacterOverview.DetailScreen }
+                .map { it as SideEffect.DetailScreen }
                 .collect { navigateToCharacterDetailScreen(it.id) }
         }
     }
@@ -125,7 +125,7 @@ fun Searchbar() {
     }
 
     TextField(
-        value = viewModel.query,
+        value = viewModel.state.query,
         onValueChange = { value -> viewModel.onQueryChange(value) },
         label = { Text(stringResource(id = R.string.character_overview_search_hint)) },
         modifier = Modifier.fillMaxWidth(),
@@ -149,7 +149,7 @@ fun Searchbar() {
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
-fun CharactersScreen(state: UiStateContent.Items) {
+fun CharactersScreen(state: State.Content.Items) {
     Box(modifier = Modifier.fillMaxSize()) {
         val viewModel: CharacterOverviewViewModel = getViewModel()
 

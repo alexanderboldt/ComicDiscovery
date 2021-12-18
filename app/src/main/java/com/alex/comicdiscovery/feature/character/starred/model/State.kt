@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.alex.comicdiscovery.ui.components.UiModelCharacter
 
-class UiStateCharacterStarred(initialContent: Content) {
+class State(initialContent: Content) {
 
     data class UiModelStarlist(val id: Long, val name: String)
 
