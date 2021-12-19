@@ -6,7 +6,7 @@ import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.overview.model.SideEffect
 import com.alex.comicdiscovery.feature.character.overview.model.State
-import com.alex.comicdiscovery.repository.search.SearchRepository
+import com.alex.repository.search.SearchRepository
 import com.alex.comicdiscovery.ui.components.UiModelCharacter
 import com.alex.comicdiscovery.ui.components.UiModelLoadMore
 import com.alex.comicdiscovery.util.timberCatch

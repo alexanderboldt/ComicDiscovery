@@ -3,8 +3,8 @@ package com.alex.comicdiscovery.feature.starlist
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.starlist.model.State
-import com.alex.comicdiscovery.repository.models.RpModelList
-import com.alex.comicdiscovery.repository.starlist.StarlistRepository
+import com.alex.repository.models.RpModelList
+import com.alex.repository.starlist.StarlistRepository
 import com.alex.comicdiscovery.util.clearAndAdd
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -25,6 +25,7 @@ class StarlistViewModel(private val starlistRepository: StarlistRepository) : Ba
 
     fun setNewStarlistName(name: String) {
         state.starlistNameNew = name
+
     }
 
     fun onCreateNewStarlist() {

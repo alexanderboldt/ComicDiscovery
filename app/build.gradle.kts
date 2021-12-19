@@ -1,13 +1,9 @@
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.protoc
 import org.apache.commons.io.output.ByteArrayOutputStream
 
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("com.google.protobuf")
 }
 
 fun getCommitCount(): Int {
@@ -57,6 +53,7 @@ android {
         // only use the following resources
         resourceConfigurations.addAll(listOf("en", "de"))
     }
+
     buildTypes {
         getByName("debug") {
             isDebuggable = true
@@ -67,9 +64,6 @@ android {
 
             // disable png-optimization for faster builds
             isCrunchPngs = false
-
-            buildConfigField("String", "BASE_URL", "\"${LocalProperties.BASE_URL}\"")
-            buildConfigField("String", "API_KEY", "\"${LocalProperties.API_KEY}\"")
 
             resValue("string", "app_name", "ComicDiscovery (debug)")
         }
@@ -87,9 +81,6 @@ android {
 
             // rules for R8
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
-            buildConfigField("String", "BASE_URL", "\"${LocalProperties.BASE_URL}\"")
-            buildConfigField("String", "API_KEY", "\"${LocalProperties.API_KEY}\"")
 
             // use the debug-signing-configuration as long there is no keystore
             signingConfig = signingConfigs.getByName("debug")
@@ -122,25 +113,6 @@ android {
     }
 }
 
-protobuf {
-    protobuf.protoc {
-        artifact = Deps.Libs.ProtoBuf.protoc
-    }
-
-    // Generates the java Protobuf-lite code for the Protobufs in this project. See
-    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
-    // for more information.
-    protobuf.generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                id("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
-
 repositories {
     google()
     mavenCentral()
@@ -170,14 +142,6 @@ dependencies {
 
     implementation(Deps.AndroidX.LifeCycle.viewModelKtx)
 
-    Deps.AndroidX.Room.apply {
-        implementation(room)
-        implementation(ktx)
-        kapt(compiler)
-    }
-
-    implementation(Deps.AndroidX.DataStore.datastore)
-
     Deps.AndroidX.Compose.apply {
         implementation(ui)
         implementation(uiTooling)
@@ -205,20 +169,6 @@ dependencies {
     // logging
     implementation(Deps.Libs.timber)
 
-    // protocol-buffer
-    implementation(Deps.Libs.ProtoBuf.javaLite)
-
-    // network
-    Deps.Libs.Retrofit.apply {
-        implementation(retrofit)
-        implementation(moshiConverter)
-        implementation(okHttpLogging)
-    }
-    Deps.Libs.Moshi.apply {
-        implementation(moshi)
-        kapt(codeGen)
-    }
-
     // leak-detection
     debugImplementation(Deps.Libs.leakCanary)
 
@@ -227,4 +177,6 @@ dependencies {
         implementation(koin)
         implementation(compose)
     }
+
+    implementation(project(":repository"))
 }

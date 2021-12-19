@@ -3,8 +3,8 @@ package com.alex.comicdiscovery.feature.settings
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.settings.model.State
-import com.alex.comicdiscovery.repository.models.RpModelTheme
-import com.alex.comicdiscovery.repository.settings.SettingsRepository
+import com.alex.repository.models.RpModelTheme
+import com.alex.repository.settings.SettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

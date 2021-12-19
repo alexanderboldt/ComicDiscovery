@@ -5,7 +5,7 @@ import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.starred.model.*
-import com.alex.comicdiscovery.repository.starlist.StarlistRepository
+import com.alex.repository.starlist.StarlistRepository
 import com.alex.comicdiscovery.ui.components.UiModelCharacter
 import com.alex.comicdiscovery.util.timberCatch
 import kotlinx.coroutines.Dispatchers

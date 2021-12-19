@@ -8,12 +8,13 @@ import com.alex.comicdiscovery.R
 import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.base.ResourceProvider
 import com.alex.comicdiscovery.feature.character.detail.model.*
-import com.alex.comicdiscovery.repository.character.CharacterRepository
-import com.alex.comicdiscovery.repository.starlist.StarlistRepository
 import com.alex.comicdiscovery.util.timberCatch
+import com.alex.repository.character.CharacterRepository
+import com.alex.repository.starlist.StarlistRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+
 
 class CharacterDetailViewModel(
     private val characterId: Int,

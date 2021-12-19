@@ -3,7 +3,7 @@ package com.alex.comicdiscovery.feature.profile
 import androidx.lifecycle.viewModelScope
 import com.alex.comicdiscovery.feature.base.BaseViewModel
 import com.alex.comicdiscovery.feature.profile.model.State
-import com.alex.comicdiscovery.repository.profile.ProfileRepository
+import com.alex.repository.profile.ProfileRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*

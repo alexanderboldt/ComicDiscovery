@@ -2,7 +2,7 @@ package com.alex.comicdiscovery.feature.settings
 
 import com.alex.comicdiscovery.feature.BaseViewModelTest
 import com.alex.comicdiscovery.feature.settings.model.UiModelTheme
-import com.alex.comicdiscovery.repository.settings.SettingsRepository
+import com.alex.repository.settings.SettingsRepository
 import org.junit.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
