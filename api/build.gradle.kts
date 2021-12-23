@@ -1,12 +1,13 @@
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.protoc
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("com.google.protobuf")
+}
+
+repositories {
+    google()
+    mavenCentral()
+    maven { setUrl("https://www.jitpack.io") }
 }
 
 android {
@@ -23,6 +24,9 @@ android {
         getByName("debug") {
             isMinifyEnabled = false
             isShrinkResources = false
+
+            buildConfigField("String", "BASE_URL", "\"${LocalProperties.BASE_URL}\"")
+            buildConfigField("String", "API_KEY", "\"${LocalProperties.API_KEY}\"")
         }
 
         getByName("release") {
@@ -36,6 +40,9 @@ android {
 
             // rules for R8
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            buildConfigField("String", "BASE_URL", "\"${LocalProperties.BASE_URL}\"")
+            buildConfigField("String", "API_KEY", "\"${LocalProperties.API_KEY}\"")
 
             // use the debug-signing-configuration as long there is no keystore
             signingConfig = signingConfigs.getByName("debug")
@@ -52,57 +59,20 @@ android {
     }
 }
 
-protobuf {
-    protobuf.protoc {
-        artifact = Deps.Libs.ProtoBuf.protoc
-    }
-
-    // Generates the java Protobuf-lite code for the Protobufs in this project. See
-    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
-    // for more information.
-    protobuf.generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                id("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
-
-repositories {
-    google()
-    mavenCentral()
-    maven { setUrl("https://www.jitpack.io") }
-}
-
 dependencies {
-
-    // kotlin-std-lib
-    implementation(Deps.Kotlin.stdLib)
-
-    Deps.AndroidX.Room.apply {
-        implementation(room)
-        implementation(ktx)
-        kapt(compiler)
+    Deps.Libs.Retrofit.apply {
+        implementation(retrofit)
+        implementation(moshiConverter)
+        implementation(okHttpLogging)
     }
 
-    implementation(Deps.AndroidX.DataStore.datastore)
-
-    // 3rd-party libraries
-
-    // coroutines
-    Deps.Libs.Coroutines.apply {
-        implementation(core)
-        implementation(android)
+    Deps.Libs.Moshi.apply {
+        implementation(moshi)
+        kapt(codeGen)
     }
 
-    // protocol-buffer
-    implementation(Deps.Libs.ProtoBuf.javaLite)
-
-    // dependency injection
+    // todo: use koin-core
     implementation(Deps.Libs.Koin.koin)
-
-    implementation(project(":api"))
 }
+
+// todo: make a library module, create a task for own BuildConfig, add to sourceSets

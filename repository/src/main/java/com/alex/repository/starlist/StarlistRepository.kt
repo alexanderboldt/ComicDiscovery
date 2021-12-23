@@ -1,6 +1,6 @@
 package com.alex.repository.starlist
 
-import com.alex.repository.datasource.api.ApiRoutes
+import com.alex.api.ApiRoutes
 import com.alex.repository.datasource.database.ComicDiscoveryDatabase
 import com.alex.repository.datasource.database.starlist.DbModelStarlist
 import com.alex.repository.datasource.database.starlistCharacter.DbModelStarlistCharacter

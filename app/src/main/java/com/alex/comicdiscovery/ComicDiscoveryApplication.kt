@@ -1,6 +1,7 @@
 package com.alex.comicdiscovery
 
 import android.app.Application
+import com.alex.api.di.apiRoutesModule
 import com.alex.comicdiscovery.feature.base.di.resourceProviderModule
 import com.alex.comicdiscovery.feature.character.detail.di.characterDetailModule
 import com.alex.comicdiscovery.feature.character.overview.di.characterOverviewModule
@@ -11,7 +12,6 @@ import com.alex.comicdiscovery.feature.profile.di.profileModule
 import com.alex.comicdiscovery.feature.settings.di.settingsModule
 import com.alex.comicdiscovery.feature.starlist.di.starlistModule
 import com.alex.repository.character.di.characterRepositoryModule
-import com.alex.repository.datasource.api.di.apiRoutesModule
 import com.alex.repository.datasource.database.ComicDiscoveryDatabase
 import com.alex.repository.datasource.database.di.comicDiscoveryDatabaseModule
 import com.alex.repository.datasource.datastore.profile.di.profileDataStoreModule

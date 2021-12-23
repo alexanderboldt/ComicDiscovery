@@ -3,7 +3,7 @@ package com.alex.repository.datasource.datastore.profile
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.alex.comicdiscovery.Profile
+import com.alex.repository.Profile
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 

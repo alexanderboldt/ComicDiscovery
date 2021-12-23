@@ -1,4 +1,4 @@
-package com.alex.repository.datasource.api.models
+package com.alex.api.models
 
 import com.squareup.moshi.JsonClass
 

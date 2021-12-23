@@ -3,8 +3,8 @@ package com.alex.repository.datasource.datastore.settings
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.alex.comicdiscovery.DsModelTheme
-import com.alex.comicdiscovery.Settings
+import com.alex.repository.DsModelTheme
+import com.alex.repository.Settings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

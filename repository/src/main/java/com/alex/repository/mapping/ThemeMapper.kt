@@ -1,6 +1,6 @@
 package com.alex.repository.mapping
 
-import com.alex.comicdiscovery.DsModelTheme
+import com.alex.repository.DsModelTheme
 import com.alex.repository.models.RpModelTheme
 
 // from DataStore to Repository

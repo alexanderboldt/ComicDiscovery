@@ -1,6 +1,5 @@
-package com.alex.repository.datasource.api
+package com.alex.api
 
-import com.alex.repository.BuildConfig
 import com.ihsanbal.logging.Level
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -20,24 +19,26 @@ internal object ApiClient {
             val request = chain.request()
 
             val url = request
-                    .url
-                    .newBuilder()
-                    .addQueryParameter("api_key", BuildConfig.API_KEY)
-                    .addQueryParameter("format", "json")
-                    .build()
+                .url
+                .newBuilder()
+                .addQueryParameter("api_key", BuildConfig.API_KEY)
+                .addQueryParameter("format", "json")
+                .build()
 
             val requestBuilder = request.newBuilder()
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Content-Type", "application/json")
-                    .url(url)
-                    .build()
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .url(url)
+                .build()
 
             chain.proceed(requestBuilder)
         }
-        .addInterceptor(LoggingInterceptor.Builder()
+        .addInterceptor(
+            LoggingInterceptor.Builder()
                 .setLevel(if (BuildConfig.DEBUG) Level.BASIC else Level.NONE)
                 .log(Platform.INFO)
-                .build())
+                .build()
+        )
         .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
         .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
         .readTimeout(TIMEOUT, TimeUnit.SECONDS)

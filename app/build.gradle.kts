@@ -179,4 +179,5 @@ dependencies {
     }
 
     implementation(project(":repository"))
+    implementation(project(":api"))
 }

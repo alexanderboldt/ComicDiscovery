@@ -1,7 +1,7 @@
 package com.alex.repository.mapping
 
-import com.alex.repository.datasource.api.models.ApiModelCharacter
-import com.alex.repository.datasource.api.models.ApiModelCharacterMinimal
+import com.alex.api.models.ApiModelCharacter
+import com.alex.api.models.ApiModelCharacterMinimal
 import com.alex.repository.datasource.database.character.DbModelCharacter
 import com.alex.repository.models.RpModelCharacter
 import com.alex.repository.models.RpModelCharacterMinimal

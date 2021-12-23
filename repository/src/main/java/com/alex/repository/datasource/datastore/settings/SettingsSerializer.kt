@@ -2,7 +2,7 @@ package com.alex.repository.datasource.datastore.settings
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
-import com.alex.comicdiscovery.Settings
+import com.alex.repository.Settings
 import com.google.protobuf.InvalidProtocolBufferException
 import java.io.InputStream
 import java.io.OutputStream

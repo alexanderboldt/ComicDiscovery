@@ -1,8 +1,8 @@
-package com.alex.repository.datasource.api
+package com.alex.api
 
-import com.alex.repository.datasource.api.models.ApiModelCharacter
-import com.alex.repository.datasource.api.models.ApiModelCharacterMinimal
-import com.alex.repository.datasource.api.models.ApiModelResponse
+import com.alex.api.models.ApiModelCharacter
+import com.alex.api.models.ApiModelCharacterMinimal
+import com.alex.api.models.ApiModelResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

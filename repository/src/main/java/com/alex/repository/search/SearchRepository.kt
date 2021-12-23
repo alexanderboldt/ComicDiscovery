@@ -1,6 +1,6 @@
 package com.alex.repository.search
 
-import com.alex.repository.datasource.api.ApiRoutes
+import com.alex.api.ApiRoutes
 import com.alex.repository.mapping.toRpModel
 import com.alex.repository.models.RpModelCharacterMinimal
 import com.alex.repository.models.RpModelResponse
