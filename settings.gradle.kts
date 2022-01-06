@@ -1,3 +1,8 @@
 include(":app")
 include(":repository")
 include(":api")
+include(":database")
+include(":datastore")
+include(":injector")
+include(":features")
+include(":util")

@@ -4,12 +4,6 @@ plugins {
     id("kotlin-kapt")
 }
 
-repositories {
-    google()
-    mavenCentral()
-    maven { setUrl("https://www.jitpack.io") }
-}
-
 android {
     compileSdk = Config.sdk
 
@@ -59,6 +53,12 @@ android {
     }
 }
 
+repositories {
+    google()
+    mavenCentral()
+    maven { setUrl("https://www.jitpack.io") }
+}
+
 dependencies {
     Deps.Libs.Retrofit.apply {
         implementation(retrofit)
@@ -70,9 +70,4 @@ dependencies {
         implementation(moshi)
         kapt(codeGen)
     }
-
-    // todo: use koin-core
-    implementation(Deps.Libs.Koin.koin)
 }
-
-// todo: make a library module, create a task for own BuildConfig, add to sourceSets

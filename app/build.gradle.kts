@@ -48,8 +48,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        vectorDrawables.useSupportLibrary = true
-
         // only use the following resources
         resourceConfigurations.addAll(listOf("en", "de"))
     }
@@ -103,14 +101,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Deps.AndroidX.Compose.version
-    }
 }
 
 repositories {
@@ -120,15 +110,6 @@ repositories {
 }
 
 dependencies {
-
-    // testing
-    Deps.Test.apply {
-        testImplementation(junit)
-        testImplementation(mockitoCore)
-        testImplementation(coroutinesTest)
-
-        androidTestImplementation(junit)
-    }
 
     // kotlin-std-lib
     implementation(Deps.Kotlin.stdLib)
@@ -140,44 +121,8 @@ dependencies {
         implementation(splashScreen)
     }
 
-    implementation(Deps.AndroidX.LifeCycle.viewModelKtx)
-
-    Deps.AndroidX.Compose.apply {
-        implementation(ui)
-        implementation(uiTooling)
-        implementation(foundation)
-        implementation(material)
-    }
-
-    implementation(Deps.AndroidX.Navigation.compose)
-
-    // 3rd-party libraries
-
-    // compose features
-    implementation(Deps.Libs.Accompanist.systemUiController)
-    implementation(Deps.Libs.Accompanist.navigationAnimation)
-
-    // image
-    implementation(Deps.Libs.Coil.compose)
-
-    // coroutines
-    Deps.Libs.Coroutines.apply {
-        implementation(core)
-        implementation(android)
-    }
-
-    // logging
-    implementation(Deps.Libs.timber)
-
     // leak-detection
     debugImplementation(Deps.Libs.leakCanary)
 
-    // dependency injection
-    Deps.Libs.Koin.apply {
-        implementation(koin)
-        implementation(compose)
-    }
-
-    implementation(project(":repository"))
-    implementation(project(":api"))
+    implementation(project(":features"))
 }

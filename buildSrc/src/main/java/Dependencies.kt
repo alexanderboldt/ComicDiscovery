@@ -81,7 +81,7 @@ object Deps {
             const val compose = "io.insert-koin:koin-androidx-compose:$version"
         }
 
-        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8"
 
         object Moshi {
             private const val version = "1.12.0"

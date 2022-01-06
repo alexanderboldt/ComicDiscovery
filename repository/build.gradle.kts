@@ -1,12 +1,7 @@
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.protoc
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("com.google.protobuf")
 }
 
 android {
@@ -52,25 +47,6 @@ android {
     }
 }
 
-protobuf {
-    protobuf.protoc {
-        artifact = Deps.Libs.ProtoBuf.protoc
-    }
-
-    // Generates the java Protobuf-lite code for the Protobufs in this project. See
-    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
-    // for more information.
-    protobuf.generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                id("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
-
 repositories {
     google()
     mavenCentral()
@@ -78,31 +54,16 @@ repositories {
 }
 
 dependencies {
-
-    // kotlin-std-lib
     implementation(Deps.Kotlin.stdLib)
 
-    Deps.AndroidX.Room.apply {
-        implementation(room)
-        implementation(ktx)
-        kapt(compiler)
-    }
-
-    implementation(Deps.AndroidX.DataStore.datastore)
-
-    // 3rd-party libraries
-
-    // coroutines
     Deps.Libs.Coroutines.apply {
         implementation(core)
         implementation(android)
     }
 
-    // protocol-buffer
-    implementation(Deps.Libs.ProtoBuf.javaLite)
-
-    // dependency injection
     implementation(Deps.Libs.Koin.koin)
 
     implementation(project(":api"))
+    implementation(project(":database"))
+    implementation(project(":datastore"))
 }

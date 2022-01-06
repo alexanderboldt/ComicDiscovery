@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- Theme for Splash-screen -->
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#005afe</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+
+    <!-- Theme for the App -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+
+</resources>
