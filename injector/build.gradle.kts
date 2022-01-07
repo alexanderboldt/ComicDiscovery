@@ -54,5 +54,9 @@ repositories {
 dependencies {
     implementation(Deps.Libs.Koin.koin)
 
+    implementation(project(":features"))
+    implementation(project(":repository"))
     implementation(project(":api"))
+    implementation(project(":database"))
+    implementation(project(":datastore"))
 }

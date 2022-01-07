@@ -32,14 +32,12 @@ object ApiClient {
                 .build()
 
             chain.proceed(requestBuilder)
-        }
-        .addInterceptor(
+        }.addInterceptor(
             LoggingInterceptor.Builder()
                 .setLevel(if (BuildConfig.DEBUG) Level.BASIC else Level.NONE)
                 .log(Platform.INFO)
                 .build()
-        )
-        .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+        ).writeTimeout(TIMEOUT, TimeUnit.SECONDS)
         .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
         .readTimeout(TIMEOUT, TimeUnit.SECONDS)
         .build()

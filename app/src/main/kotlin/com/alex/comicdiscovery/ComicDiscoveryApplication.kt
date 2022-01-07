@@ -1,7 +1,8 @@
 package com.alex.comicdiscovery
 
 import android.app.Application
-import com.alex.features.FeaturesModule
+import com.alex.features.Features
+import com.alex.injector.Injector
 
 class ComicDiscoveryApplication : Application() {
 
@@ -15,7 +16,8 @@ class ComicDiscoveryApplication : Application() {
     // ----------------------------------------------------------------------------
 
     private fun setupFeaturesModule() {
-        FeaturesModule.init(this)
+        Features.init(this)
+        Injector.init(this)
     }
 
     /*

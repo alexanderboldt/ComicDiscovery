@@ -3,7 +3,6 @@ import org.apache.commons.io.output.ByteArrayOutputStream
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
 }
 
 fun getCommitCount(): Int {
@@ -110,19 +109,8 @@ repositories {
 }
 
 dependencies {
-
-    // kotlin-std-lib
-    implementation(Deps.Kotlin.stdLib)
-
-    // androidx
-    Deps.AndroidX.apply {
-        implementation(core)
-        implementation(material)
-        implementation(splashScreen)
-    }
-
-    // leak-detection
     debugImplementation(Deps.Libs.leakCanary)
 
     implementation(project(":features"))
+    implementation(project(":injector"))
 }
