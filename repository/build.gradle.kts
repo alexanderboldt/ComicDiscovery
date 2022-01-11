@@ -61,6 +61,8 @@ dependencies {
         implementation(android)
     }
 
+    implementation(Deps.Libs.Koin.koin)
+
     implementation(project(":api"))
     implementation(project(":database"))
     implementation(project(":datastore"))

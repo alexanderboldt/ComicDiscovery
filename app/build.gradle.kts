@@ -111,6 +111,7 @@ repositories {
 dependencies {
     debugImplementation(Deps.Libs.leakCanary)
 
+    implementation(Deps.Libs.Koin.koin)
+
     implementation(project(":features"))
-    implementation(project(":injector"))
 }
