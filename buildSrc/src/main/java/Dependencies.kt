@@ -49,6 +49,7 @@ object Deps {
 
     object Test {
         const val junit = "androidx.test.ext:junit:1.1.2"
+        const val truth = "com.google.truth:truth:1.1.3"
 
         // testing with mocked instances
         const val mockitoCore = "org.mockito:mockito-core:3.12.4"

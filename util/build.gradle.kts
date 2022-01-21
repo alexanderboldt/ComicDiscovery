@@ -52,5 +52,8 @@ repositories {
 }
 
 dependencies {
+    testImplementation(Deps.Test.junit)
+    testImplementation(Deps.Test.truth)
+
     implementation(Deps.Kotlin.stdLib)
 }
