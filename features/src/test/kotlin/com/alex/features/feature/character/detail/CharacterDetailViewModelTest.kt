@@ -1,9 +1,10 @@
 package com.alex.features.feature.character.detail
 
-
+import com.alex.features.R
 import com.alex.features.feature.BaseViewModelTest
 import com.alex.features.feature.base.ResourceProvider
 import com.alex.repository.CharacterRepository
+import com.alex.repository.StarlistRepository
 import com.alex.repository.model.RpModelCharacter
 import com.alex.repository.model.RpModelResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,6 +25,7 @@ class CharacterDetailViewModelTest : BaseViewModelTest() {
 
     // mocking dependencies
     @Mock private lateinit var characterRepository: CharacterRepository
+    @Mock private lateinit var starlistRepository: StarlistRepository
     @Mock private lateinit var resourceProvider: ResourceProvider
 
     // prepare variables
@@ -71,6 +73,7 @@ class CharacterDetailViewModelTest : BaseViewModelTest() {
             viewModel = CharacterDetailViewModel(
                 1,
                 true,
+                starlistRepository,
                 characterRepository,
                 resourceProvider)
 
