@@ -29,10 +29,8 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.alex.features.R
-import com.alex.features.feature.character.detail.model.UiStateContent
-import com.alex.features.feature.character.detail.model.UiEventCharacterDetail
-import com.alex.features.feature.character.detail.model.UiModelStarlist
-import com.alex.features.feature.character.detail.model.UiStateStarlist
+import com.alex.features.feature.character.detail.model.*
+import com.alex.features.feature.character.detail.model.State
 import com.alex.features.ui.theme.*
 import com.alex.features.ui.theme.UltramarineBlue
 import com.alex.features.util.getColor
@@ -50,10 +48,10 @@ fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigate
 
     SideEffects(viewModel)
 
-    when (val state = viewModel.content) {
-        is UiStateContent.Character -> CharacterScreen(state, viewModel, navigateToImageScreen)
-        is UiStateContent.Loading -> LoadingScreen(state.message)
-        is UiStateContent.Message -> MessageScreen(state.message)
+    when (val state = viewModel.state.content) {
+        is State.Content.Character -> CharacterScreen(state, viewModel, navigateToImageScreen)
+        is State.Content.Loading -> LoadingScreen(state.message)
+        is State.Content.Message -> MessageScreen(state.message)
     }
 }
 
@@ -68,7 +66,7 @@ fun SideEffects(viewModel: CharacterDetailViewModel) {
         scope.launch {
             viewModel
                 .event
-                .map { it as UiEventCharacterDetail.Message }
+                .map { it as SideEffect.Message }
                 .collect { Toast.makeText(context, it.message, Toast.LENGTH_LONG).show() }
         }
     }
@@ -79,7 +77,7 @@ fun SideEffects(viewModel: CharacterDetailViewModel) {
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
-fun CharacterScreen(state: UiStateContent.Character, viewModel: CharacterDetailViewModel, navigateToImageScreen: (String) -> Unit) {
+fun CharacterScreen(state: State.Content.Character, viewModel: CharacterDetailViewModel, navigateToImageScreen: (String) -> Unit) {
     BoxWithConstraints(modifier = Modifier
         .background(getColor(BrightGray, DarkCharcoal))
         .fillMaxSize()) {
@@ -142,8 +140,8 @@ fun BoxWithConstraintsScope.Starlist(viewModel: CharacterDetailViewModel) {
 
         Box {
             AnimatedVisibility(visible = isExpanded, enter = fadeIn(), exit = fadeOut()) {
-                when (val starlists = viewModel.starlists) {
-                    is UiStateStarlist.NoListsAvailable -> {
+                when (val starlists = viewModel.state.starlist) {
+                    is State.Starlist.NoListsAvailable -> {
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -155,7 +153,7 @@ fun BoxWithConstraintsScope.Starlist(viewModel: CharacterDetailViewModel) {
                             )
                         }
                     }
-                    is UiStateStarlist.Starlists -> {
+                    is State.Starlist.Starlists -> {
                         Box(modifier = Modifier.align(Alignment.Center)) {
                             LazyColumn {
                                 items(items = starlists.starlists) { starlist ->
@@ -167,7 +165,7 @@ fun BoxWithConstraintsScope.Starlist(viewModel: CharacterDetailViewModel) {
                 }
             }
 
-            if (viewModel.isStarlistLoading) {
+            if (viewModel.state.isStarlistLoading) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -201,7 +199,7 @@ fun BoxWithConstraintsScope.Starlist(viewModel: CharacterDetailViewModel) {
 }
 
 @Composable
-fun StarlistItem(starlist: UiModelStarlist, viewModel: CharacterDetailViewModel) {
+fun StarlistItem(starlist: State.UiModelStarlist, viewModel: CharacterDetailViewModel) {
     Row(modifier = Modifier
         .clickable { viewModel.onClickCheckStarlist(starlist.id, !starlist.isChecked) }
         .fillMaxWidth()

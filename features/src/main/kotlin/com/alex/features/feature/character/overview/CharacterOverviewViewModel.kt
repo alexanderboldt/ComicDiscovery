@@ -16,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class CharacterOverviewViewModel(
     private val searchRepository: SearchRepository,
-    private val resourceProvider: ResourceProvider) : BaseViewModel<State, SideEffect>(State(State.Content.Message(resourceProvider.getString(R.string.character_overview_message_no_search)))) {
+    private val resourceProvider: ResourceProvider
+) : BaseViewModel<State, SideEffect>(State(State.Content.Message(resourceProvider.getString(R.string.character_overview_message_no_search)))) {
 
     private val numberOfLoadedCharacters: Int
         get() = (state.content as? State.Content.Items)?.run { items.count { it is UiModelCharacter } } ?: 0

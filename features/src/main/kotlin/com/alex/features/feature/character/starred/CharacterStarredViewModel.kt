@@ -18,8 +18,6 @@ class CharacterStarredViewModel(
     private val resourceProvider: ResourceProvider) : BaseViewModel<State, SideEffect>(
     State(State.Content.Message(resourceProvider.getString(R.string.character_starred_message_loading)))) {
 
-    // ----------------------------------------------------------------------------
-
     fun init() {
         getStarlistsAndCharacters()
     }

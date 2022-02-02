@@ -46,6 +46,11 @@ class CharacterDetailViewModelTest : BaseViewModelTest() {
     // ----------------------------------------------------------------------------
 
     @Test
+    fun ggg() {
+
+    }
+
+    @Test
     fun `it should be successful with default-theme`() {
         runBlockingTest {
             // mock the search

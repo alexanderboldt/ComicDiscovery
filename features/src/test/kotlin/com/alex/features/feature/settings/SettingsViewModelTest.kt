@@ -3,7 +3,7 @@ package com.alex.features.feature.settings
 import com.alex.features.feature.BaseViewModelTest
 import com.alex.features.feature.settings.model.State
 import com.alex.repository.SettingsRepository
-import org.junit.Assert.assertEquals
+import com.google.common.truth.Truth.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -31,24 +31,24 @@ class SettingsViewModelTest : BaseViewModelTest() {
     // ----------------------------------------------------------------------------
 
     @Test
-    fun `it should be successful with default-theme`() {
+    fun `should be successful with default-theme`() {
         runBlockingTest {
             // verify
-            assertEquals(State.UiModelTheme.SYSTEM, viewModel.state.theme)
+            assertThat(viewModel.state.theme).isEqualTo(State.UiModelTheme.SYSTEM)
         }
     }
 
     @Test
-    fun `it should be successful with theme-change`() {
+    fun `should be successful with theme-change`() {
         runBlockingTest {
             // verify
-            assertEquals(State.UiModelTheme.SYSTEM, viewModel.state.theme)
+            assertThat(viewModel.state.theme).isEqualTo(State.UiModelTheme.SYSTEM)
 
             // change the theme
             viewModel.onSelectTheme(State.UiModelTheme.DARK)
 
             // verify again
-            assertEquals(State.UiModelTheme.DARK, viewModel.state.theme)
+            assertThat(viewModel.state.theme).isEqualTo(State.UiModelTheme.DARK)
         }
     }
 }

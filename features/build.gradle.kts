@@ -73,6 +73,7 @@ dependencies {
         testImplementation(junit)
         testImplementation(mockitoCore)
         testImplementation(coroutinesTest)
+        testImplementation(truth)
 
         androidTestImplementation(junit)
     }

@@ -14,6 +14,8 @@ class State(initialContent: Content) {
         data class Starlists(val starlists: List<UiModelStarlist>) : Starlist()
     }
 
+    // ----------------------------------------------------------------------------
+
     sealed class Content {
         data class Characters(val characters: List<UiModelCharacter>) : Content()
         data class Message(val message: String) : Content()

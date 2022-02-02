@@ -1,8 +1,5 @@
 package com.alex.features.feature.character.detail
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.alex.features.R
 import com.alex.features.feature.base.BaseViewModel
@@ -15,25 +12,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-
 class CharacterDetailViewModel(
     private val characterId: Int,
     private val userComesFromStarredScreen: Boolean,
     private val starlistRepository: StarlistRepository,
     private val characterRepository: CharacterRepository,
-    private val resourceProvider: ResourceProvider) : BaseViewModel<Unit, UiEventCharacterDetail>(Unit) {
-
-    var content: UiStateContent by mutableStateOf(UiStateContent.Message(resourceProvider.getString(
-        R.string.character_detail_message_loading)))
-        private set
-
-    var starlists: UiStateStarlist by mutableStateOf(UiStateStarlist.NoListsAvailable)
-        private set
-
-    var isStarlistLoading: Boolean by mutableStateOf(false)
-        private set
-
-    // ----------------------------------------------------------------------------
+    private val resourceProvider: ResourceProvider
+) : BaseViewModel<State, SideEffect>(State(State.Content.Message(resourceProvider.getString(R.string.character_detail_message_loading)))) {
 
     init {
         getCharacter()
@@ -48,15 +33,15 @@ class CharacterDetailViewModel(
                 true -> starlistRepository.linkCharacter(id, characterId)
                 false -> starlistRepository.releaseCharacter(id, characterId)
             }.onStart {
-                isStarlistLoading = true
+                state.isStarlistLoading = true
             }.timberCatch {
                 when (isChecked) {
                     true -> R.string.character_detail_message_error_star
                     false -> R.string.character_detail_message_error_unstar
                 }.also { messageResource ->
-                    postSideEffect(UiEventCharacterDetail.Message(resourceProvider.getString(messageResource)))
+                    postSideEffect(SideEffect.Message(resourceProvider.getString(messageResource)))
                 }
-                isStarlistLoading = false
+                state.isStarlistLoading = false
             }.collect {
                 getStarlists()
             }
@@ -71,14 +56,14 @@ class CharacterDetailViewModel(
                 true -> characterRepository.getStarredCharacter(characterId)
                 false -> characterRepository.getCharacter(characterId)
             }.onStart {
-                content = UiStateContent.Loading(resourceProvider.getString(R.string.character_detail_message_loading))
+                state.content = State.Content.Loading(resourceProvider.getString(R.string.character_detail_message_loading))
             }.timberCatch {
-                content = UiStateContent.Message(resourceProvider.getString(R.string.character_detail_message_error))
+                state.content = State.Content.Message(resourceProvider.getString(R.string.character_detail_message_error))
             }.collect { result ->
                 val character = result.result
 
-                content = UiStateContent.Character(
-                    UiModelCharacter(
+                state.content = State.Content.Character(
+                    State.UiModelCharacter(
                         character.smallImageUrl,
                         character.name,
                         character.realName ?: "-",
@@ -91,7 +76,8 @@ class CharacterDetailViewModel(
                         character.birth ?: "-",
                         character.origin,
                         character.powers.joinToString("\n")
-                    ))
+                    )
+                )
             }
         }
     }
@@ -103,11 +89,10 @@ class CharacterDetailViewModel(
                 starlistRepository.getAll()) { starlistIds, starlists ->
                 starlistIds to starlists
             }.collect { (starlistIds, starlists) ->
-                isStarlistLoading = false
-                this@CharacterDetailViewModel.starlists = if (starlists.isEmpty()) {
-                    UiStateStarlist.NoListsAvailable
-                } else {
-                    UiStateStarlist.Starlists(starlists.map { UiModelStarlist(it.id, it.name, it.id in starlistIds) })
+                state.isStarlistLoading = false
+                state.starlist = when (starlists.isEmpty()) {
+                    true -> State.Starlist.NoListsAvailable
+                    false -> State.Starlist.Starlists(starlists.map { State.UiModelStarlist(it.id, it.name, it.id in starlistIds) })
                 }
             }
         }
