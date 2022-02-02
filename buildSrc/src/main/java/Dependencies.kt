@@ -52,10 +52,10 @@ object Deps {
         const val truth = "com.google.truth:truth:1.1.3"
 
         // testing with mocked instances
-        const val mockitoCore = "org.mockito:mockito-core:3.12.4"
+        const val mockitoCore = "org.mockito:mockito-core:4.3.1"
 
         // testing with coroutines
-        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
+        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
     }
 
     object Libs {

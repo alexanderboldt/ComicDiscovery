@@ -9,12 +9,11 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import coil.annotation.ExperimentalCoilApi
-import com.alex.features.feature.main.model.UiModelTheme
+import com.alex.features.feature.main.model.State
 import com.alex.features.navigation.ComicDiscoveryTopLevelNavigation
 import com.alex.features.ui.theme.AbsoluteZero
 import com.alex.features.ui.theme.Black
 import com.alex.features.ui.theme.ComicDiscoveryTheme
-import com.alex.repository.SettingsRepository
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.getViewModel
@@ -34,10 +33,10 @@ class MainActivity : AppCompatActivity() {
             val viewModel: MainViewModel = getViewModel()
 
             // setup the theme
-            val isDarkTheme = when(viewModel.theme) {
-                UiModelTheme.LIGHT -> false
-                UiModelTheme.DARK -> true
-                UiModelTheme.SYSTEM -> isSystemInDarkTheme()
+            val isDarkTheme = when(viewModel.state.theme) {
+                State.UiModelTheme.LIGHT -> false
+                State.UiModelTheme.DARK -> true
+                State.UiModelTheme.SYSTEM -> isSystemInDarkTheme()
             }
 
             // the content
