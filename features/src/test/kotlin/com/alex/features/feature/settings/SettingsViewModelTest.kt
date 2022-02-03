@@ -8,7 +8,6 @@ import com.google.common.truth.Truth.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -26,47 +25,43 @@ class SettingsViewModelTest : BaseViewModelTest() {
 
     // ----------------------------------------------------------------------------
 
-    @Before
-    fun before() {
+    private fun initViewModel() {
         viewModel = SettingsViewModel(settingsRepository)
     }
 
     // ----------------------------------------------------------------------------
 
     @Test
-    fun `should be successful with default system-theme`() {
-        runTest {
-            // verify
-            assertThat(viewModel.state.theme).isEqualTo(State.UiModelTheme.SYSTEM)
-        }
-    }
-
-    @Test
     fun `should be successful with mocked dark-theme`() {
         runTest {
-            // mock the theme
-            //val flow = flowOf(RpModelTheme.DARK)
-            //`when`(settingsRepository.getTheme()).thenReturn(flow)
+            // mock
+            `when`(settingsRepository.getTheme()).thenReturn(flowOf(RpModelTheme.DARK))
+
+            // execute
+            initViewModel()
 
             // verify
-            assertThat(viewModel.state.theme).isEqualTo(State.UiModelTheme.SYSTEM)
+            assertThat(viewModel.state.theme).isEqualTo(State.UiModelTheme.DARK)
         }
     }
 
-    /*
     @Test
-    fun `should be successful with theme-change`() {
-        runBlockingTest {
-            // verify
+    fun `should be successful with theme change`() {
+        runTest {
+            // mock the default theme
+            `when`(settingsRepository.getTheme()).thenReturn(flowOf(RpModelTheme.SYSTEM))
+
+            // execute
+            initViewModel()
+
+            // verify the default theme
             assertThat(viewModel.state.theme).isEqualTo(State.UiModelTheme.SYSTEM)
 
             // change the theme
             viewModel.onSelectTheme(State.UiModelTheme.DARK)
 
-            // verify again
+            // verify the changed theme
             assertThat(viewModel.state.theme).isEqualTo(State.UiModelTheme.DARK)
         }
     }
-
-     */
 }

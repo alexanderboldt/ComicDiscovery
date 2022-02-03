@@ -8,7 +8,6 @@ import com.google.common.truth.Truth.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -26,29 +25,23 @@ class MainViewModelTest : BaseViewModelTest() {
 
     // ----------------------------------------------------------------------------
 
-    @Before
-    fun before() {
+    private fun initViewModel() {
         viewModel = MainViewModel(settingsRepository)
     }
 
     // ----------------------------------------------------------------------------
 
     @Test
-    fun `it should be successful with default-theme`() {
+    fun `should be successful with mocked theme`() {
         runTest {
-            // verify
-            assertThat(State.UiModelTheme.SYSTEM).isEqualTo(viewModel.state.theme)
-        }
-    }
+            // mock
+            `when`(settingsRepository.getTheme()).thenReturn(flowOf(RpModelTheme.LIGHT))
 
-    @Test
-    fun `it should be successful with light-theme`() {
-        runTest {
-            val flowTheme = flowOf(RpModelTheme.LIGHT)
-            `when`(settingsRepository.getTheme()).thenReturn(flowTheme)
+            // execute
+            initViewModel()
 
             // verify
-            assertThat(State.UiModelTheme.LIGHT).isEqualTo(viewModel.state.theme)
+            assertThat(viewModel.state.theme).isEqualTo(State.UiModelTheme.LIGHT)
         }
     }
 }
