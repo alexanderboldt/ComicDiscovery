@@ -18,15 +18,11 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class MainViewModelTest : BaseViewModelTest() {
 
-    private lateinit var viewModel: MainViewModel
-
     // mocking dependencies
     @Mock private lateinit var settingsRepository: SettingsRepository
 
-    // ----------------------------------------------------------------------------
-
-    private fun initViewModel() {
-        viewModel = MainViewModel(settingsRepository)
+    private val viewModel: MainViewModel by lazy {
+        MainViewModel(settingsRepository)
     }
 
     // ----------------------------------------------------------------------------
@@ -36,9 +32,6 @@ class MainViewModelTest : BaseViewModelTest() {
         runTest {
             // mock
             `when`(settingsRepository.getTheme()).thenReturn(flowOf(RpModelTheme.LIGHT))
-
-            // execute
-            initViewModel()
 
             // verify
             assertThat(viewModel.state.theme).isEqualTo(State.UiModelTheme.LIGHT)
