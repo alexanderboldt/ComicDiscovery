@@ -11,8 +11,6 @@ android {
         minSdk = Config.minSdk
         targetSdk = Config.sdk
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
         vectorDrawables.useSupportLibrary = true
 
         // only use the following resources
@@ -67,16 +65,11 @@ repositories {
 }
 
 dependencies {
-
     // testing
-    Deps.Test.apply {
-        testImplementation(junit)
-        testImplementation(mockitoCore)
-        testImplementation(coroutinesTest)
-        testImplementation(truth)
-
-        androidTestImplementation(junit)
-    }
+    testImplementation(Deps.AndroidX.Test.junit)
+    testImplementation(Deps.Libs.Mockito.core)
+    testImplementation(Deps.Libs.Coroutines.test)
+    testImplementation(Deps.Libs.truth)
 
     // kotlin-std-lib
     implementation(Deps.Kotlin.stdLib)

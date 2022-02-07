@@ -53,6 +53,15 @@ repositories {
 }
 
 dependencies {
+    // testing
+    Deps.AndroidX.Test.apply {
+        androidTestImplementation(junit)
+        androidTestImplementation(rules)
+        androidTestImplementation(runner)
+    }
+    androidTestImplementation(Deps.Libs.truth)
+    androidTestImplementation(Deps.Libs.Coroutines.test)
+
     Deps.AndroidX.Room.apply {
         implementation(room)
         implementation(ktx)

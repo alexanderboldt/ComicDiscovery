@@ -10,6 +10,7 @@ import com.alex.repository.model.RpModelResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,20 +40,15 @@ class CharacterDetailViewModelTest : BaseViewModelTest() {
 
     @Before
     fun before() {
-        `when`(resourceProvider.getString(R.string.character_detail_message_loading)).thenReturn(stringLoading)
+        //`when`(resourceProvider.getString(R.string.character_detail_message_loading)).thenReturn(stringLoading)
         //`when`(resourceProvider.getString(R.string.character_detail_message_error)).thenReturn(stringError)
     }
 
     // ----------------------------------------------------------------------------
 
     @Test
-    fun ggg() {
-
-    }
-
-    @Test
-    fun `it should be successful with default-theme`() {
-        runBlockingTest {
+    fun `should be successful with default-theme`() {
+        runTest {
             // mock the search
             val flow = flow {
                 val response = RpModelResponse(
@@ -99,7 +95,6 @@ class CharacterDetailViewModelTest : BaseViewModelTest() {
             delay(1_000)
             assertEquals(UiStateContent.LoadingStateContent(stringLoading), viewModel.contentState)
             assertEquals(drawableStarOff, viewModel.starState)
-
              */
         }
     }

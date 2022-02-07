@@ -45,17 +45,12 @@ object Deps {
         }
 
         const val splashScreen = "androidx.core:core-splashscreen:1.0.0-alpha02"
-    }
 
-    object Test {
-        const val junit = "androidx.test.ext:junit:1.1.2"
-        const val truth = "com.google.truth:truth:1.1.3"
-
-        // testing with mocked instances
-        const val mockitoCore = "org.mockito:mockito-core:4.3.1"
-
-        // testing with coroutines
-        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
+        object Test {
+            const val junit = "androidx.test.ext:junit:1.1.3"
+            const val rules = "androidx.test:rules:1.4.0"
+            const val runner = "androidx.test:runner:1.4.0"
+        }
     }
 
     object Libs {
@@ -71,9 +66,10 @@ object Deps {
         }
 
         object Coroutines {
-            private const val version = "1.5.2"
+            private const val version = "1.6.0"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
+            const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
         }
 
         object Koin {
@@ -84,8 +80,12 @@ object Deps {
 
         const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8"
 
+        object Mockito {
+            const val core = "org.mockito:mockito-core:4.3.1"
+        }
+
         object Moshi {
-            private const val version = "1.12.0"
+            private const val version = "1.13.0"
             const val moshi = "com.squareup.moshi:moshi:$version"
             const val codeGen = "com.squareup.moshi:moshi-kotlin-codegen:$version"
         }
@@ -104,5 +104,7 @@ object Deps {
         }
 
         const val timber = "com.jakewharton.timber:timber:5.0.1"
+
+        const val truth = "com.google.truth:truth:1.1.3"
     }
 }

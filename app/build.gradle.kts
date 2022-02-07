@@ -45,8 +45,6 @@ android {
 
         ndk.abiFilters.addAll(mutableSetOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
         // only use the following resources
         resourceConfigurations.addAll(listOf("en", "de"))
     }

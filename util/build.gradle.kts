@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdk = Config.minSdk
         targetSdk = Config.sdk
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -52,8 +50,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation(Deps.Test.junit)
-    testImplementation(Deps.Test.truth)
+    testImplementation(Deps.AndroidX.Test.junit)
+    testImplementation(Deps.Libs.truth)
 
     implementation(Deps.Kotlin.stdLib)
 }
