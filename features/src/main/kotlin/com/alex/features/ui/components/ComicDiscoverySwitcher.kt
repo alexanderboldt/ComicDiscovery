@@ -16,10 +16,14 @@ import androidx.compose.ui.unit.dp
 import com.alex.features.ui.theme.*
 import com.alex.features.ui.theme.DarkElectricBlue
 import com.alex.features.util.getColor
-import java.lang.IllegalArgumentException
 
 @Composable
-fun ComicDiscoverySwitcher(modifier: Modifier = Modifier, options: List<String>, selected: Int = 0, onClick: (Int) -> Unit) {
+fun ComicDiscoverySwitcher(
+    modifier: Modifier = Modifier,
+    options: List<String>,
+    selected: Int = 0,
+    onClick: (Int) -> Unit
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -30,7 +34,7 @@ fun ComicDiscoverySwitcher(modifier: Modifier = Modifier, options: List<String>,
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically) {
 
-        if (options.size < 2) throw IllegalArgumentException("Number of options must be at least 2")
+        require(options.size >= 2) { "Number of options must be at least 2" }
 
         options.forEachIndexed { index, text ->
 
@@ -49,7 +53,9 @@ fun ComicDiscoverySwitcher(modifier: Modifier = Modifier, options: List<String>,
                 colors = ButtonDefaults.buttonColors(backgroundColor, contentColor),
                 shape = RoundedCornerShape(0.dp),
                 elevation = ButtonDefaults.elevation(0.dp, 0.dp),
-                modifier = Modifier.weight(1f).fillMaxHeight()) {
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()) {
                 Text(text)
             }
 

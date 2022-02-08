@@ -31,20 +31,20 @@ object Deps {
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         }
 
-        const val material = "com.google.android.material:material:1.4.0"
+        const val material = "com.google.android.material:material:1.5.0"
 
         object Navigation {
-            const val compose = "androidx.navigation:navigation-compose:2.4.0-beta02"
+            const val compose = "androidx.navigation:navigation-compose:2.4.0"
         }
 
         object Room {
-            private const val version = "2.3.0"
+            private const val version = "2.4.1"
             const val room = "androidx.room:room-runtime:$version"
             const val ktx = "androidx.room:room-ktx:$version"
             const val compiler = "androidx.room:room-compiler:$version"
         }
 
-        const val splashScreen = "androidx.core:core-splashscreen:1.0.0-alpha02"
+        const val splashScreen = "androidx.core:core-splashscreen:1.0.0-beta01"
 
         object Test {
             const val junit = "androidx.test.ext:junit:1.1.3"
@@ -55,7 +55,7 @@ object Deps {
 
     object Libs {
         object Accompanist {
-            private val version = "0.20.2"
+            private val version = "0.20.3"
             val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
             val navigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$version"
         }
@@ -73,12 +73,12 @@ object Deps {
         }
 
         object Koin {
-            private const val version = "3.1.4"
+            private const val version = "3.1.5"
             const val koin = "io.insert-koin:koin-android:$version"
             const val compose = "io.insert-koin:koin-androidx-compose:$version"
         }
 
-        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8"
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
 
         object Mockito {
             const val core = "org.mockito:mockito-core:4.3.1"

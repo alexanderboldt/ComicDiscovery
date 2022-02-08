@@ -10,9 +10,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.alex.features.R
-
 import com.alex.features.feature.settings.model.State
+import com.alex.features.R
 import com.alex.features.ui.components.ComicDiscoverySwitcher
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
