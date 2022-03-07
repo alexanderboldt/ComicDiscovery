@@ -6,13 +6,13 @@ object Config {
 
 object Deps {
     object Kotlin {
-        const val version = "1.5.31"
+        const val version = "1.6.10"
         const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
     }
 
     object AndroidX {
         object Compose {
-            const val version = "1.0.5"
+            const val version = "1.1.1"
             const val ui = "androidx.compose.ui:ui:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -55,7 +55,7 @@ object Deps {
 
     object Libs {
         object Accompanist {
-            private val version = "0.20.3"
+            private val version = "0.23.1"
             val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
             val navigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$version"
         }

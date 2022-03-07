@@ -10,7 +10,11 @@ import com.alex.database.starlist.StarlistDao
 import com.alex.database.starlistCharacter.DbModelStarlistCharacter
 import com.alex.database.starlistCharacter.StarlistCharacterDao
 
-@Database(entities = [DbModelCharacter::class, DbModelStarlist::class, DbModelStarlistCharacter::class], version = 4)
+@Database(
+    entities = [DbModelCharacter::class, DbModelStarlist::class, DbModelStarlistCharacter::class],
+    version = 4,
+    exportSchema = false
+)
 @TypeConverters(ListTypeConverter::class)
 internal abstract class ComicDiscoveryDatabaseInternal : RoomDatabase() {
 

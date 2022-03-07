@@ -20,17 +20,17 @@ sealed interface Screen {
     val arguments: List<NamedNavArgument>
         get() = emptyList()
 
-    val enterTransition: AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition
-        get() = { _, _ -> fadeIn(animationSpec = tween(300)) }
+    val enterTransition: (AnimatedContentScope<NavBackStackEntry>.() -> EnterTransition?)?
+        get() = { fadeIn(animationSpec = tween(300)) }
 
-    val exitTransition: AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition
-        get() = { _, _ -> fadeOut(animationSpec = tween(300)) }
+    val exitTransition: (AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition?)?
+        get() = { fadeOut(animationSpec = tween(300)) }
 
-    val popEnterTransition: AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> EnterTransition
-        get() = { _, _ -> fadeIn(animationSpec = tween(300)) }
+    val popEnterTransition: (AnimatedContentScope<NavBackStackEntry>.() -> EnterTransition?)?
+        get() = { fadeIn(animationSpec = tween(300)) }
 
-    val popExitTransition: AnimatedContentScope<String>.(initial: NavBackStackEntry, target: NavBackStackEntry) -> ExitTransition
-        get() = { _, _ -> fadeOut(animationSpec = tween(300)) }
+    val popExitTransition: (AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition?)?
+        get() = { fadeOut(animationSpec = tween(300)) }
 
     // first color is for light-theme, second color is for dark-theme
     val systemBarsColor: Pair<Color, Color>?
