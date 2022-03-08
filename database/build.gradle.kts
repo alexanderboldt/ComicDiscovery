@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    android()
+    kotlin()
+    ksp()
 }
 
 android {
@@ -65,6 +65,6 @@ dependencies {
     Deps.AndroidX.Room.apply {
         implementation(room)
         implementation(ktx)
-        kapt(compiler)
+        ksp(compiler)
     }
 }

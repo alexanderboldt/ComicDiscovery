@@ -3,9 +3,9 @@ import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protoc
 
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("com.google.protobuf")
+    android()
+    kotlin()
+    protobuf()
 }
 
 android {

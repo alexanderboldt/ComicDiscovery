@@ -1,8 +1,8 @@
 import org.apache.commons.io.output.ByteArrayOutputStream
 
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
+    application()
+    kotlin()
 }
 
 fun getCommitCount(): Int {

@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    android()
+    kotlin()
+    ksp()
 }
 
 android {
@@ -66,6 +66,6 @@ dependencies {
 
     Deps.Libs.Moshi.apply {
         implementation(moshi)
-        kapt(codeGen)
+        ksp(codeGen)
     }
 }

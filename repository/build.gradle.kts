@@ -1,7 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    android()
+    kotlin()
 }
 
 android {
@@ -52,6 +51,8 @@ repositories {
 }
 
 dependencies {
+    retrofit()
+
     implementation(Deps.Kotlin.stdLib)
 
     Deps.Libs.Coroutines.apply {
