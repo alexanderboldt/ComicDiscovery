@@ -51,8 +51,6 @@ repositories {
 }
 
 dependencies {
-    retrofit()
-
     implementation(Deps.Kotlin.stdLib)
 
     Deps.Libs.Coroutines.apply {
