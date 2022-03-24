@@ -5,7 +5,7 @@ import com.alex.features.R
 import com.alex.features.feature.base.BaseViewModel
 import com.alex.features.feature.base.ResourceProvider
 import com.alex.features.feature.character.detail.model.*
-import com.alex.features.util.timberCatch
+import com.alex.features.util.printCatch
 import com.alex.repository.CharacterRepository
 import com.alex.repository.StarlistRepository
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +34,7 @@ class CharacterDetailViewModel(
                 false -> starlistRepository.releaseCharacter(id, characterId)
             }.onStart {
                 state.isStarlistLoading = true
-            }.timberCatch {
+            }.printCatch {
                 when (isChecked) {
                     true -> R.string.character_detail_message_error_star
                     false -> R.string.character_detail_message_error_unstar
@@ -57,7 +57,7 @@ class CharacterDetailViewModel(
                 false -> characterRepository.getCharacter(characterId)
             }.onStart {
                 state.content = State.Content.Loading(resourceProvider.getString(R.string.character_detail_message_loading))
-            }.timberCatch {
+            }.printCatch {
                 state.content = State.Content.Message(resourceProvider.getString(R.string.character_detail_message_error))
             }.collect { result ->
                 val character = result.result

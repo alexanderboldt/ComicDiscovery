@@ -104,6 +104,8 @@ dependencies {
     debugImplementation(Deps.Libs.leakCanary)
 
     implementation(Deps.Libs.Koin.koin)
+    
+    implementation(Deps.Libs.logcat)
 
     implementation(project(":features"))
 }

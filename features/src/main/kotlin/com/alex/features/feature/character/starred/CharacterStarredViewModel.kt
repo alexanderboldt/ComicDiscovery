@@ -7,9 +7,8 @@ import com.alex.features.feature.base.ResourceProvider
 import com.alex.features.feature.character.starred.model.*
 import com.alex.repository.StarlistRepository
 import com.alex.features.ui.components.UiModelCharacter
-import com.alex.features.util.timberCatch
+import com.alex.features.util.printCatch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -48,7 +47,7 @@ class CharacterStarredViewModel(
             starlistRepository
                 .getAll()
                 .onStart { state.content = State.Content.Message(resourceProvider.getString(R.string.character_starred_message_loading)) }
-                .timberCatch { state.content = State.Content.Message(resourceProvider.getString(R.string.character_starred_message_error)) }
+                .printCatch { state.content = State.Content.Message(resourceProvider.getString(R.string.character_starred_message_error)) }
                 .collect {  starlists ->
                     if (starlists.isEmpty()) {
                         state.starlists = State.Starlist.NoListsAvailable
@@ -68,7 +67,7 @@ class CharacterStarredViewModel(
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
                 .getStarredCharacters((state.starlists as State.Starlist.Starlists).starlists[state.selectedStarlistIndex].id)
-                .timberCatch { state.content = State.Content.Message(resourceProvider.getString(R.string.character_starred_message_no_characters)) }
+                .printCatch { state.content = State.Content.Message(resourceProvider.getString(R.string.character_starred_message_no_characters)) }
                 .collect { response ->
                     response
                         .result

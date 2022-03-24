@@ -2,6 +2,8 @@ package com.alex.comicdiscovery
 
 import android.app.Application
 import com.alex.features.Features
+import logcat.AndroidLogcatLogger
+import logcat.LogPriority
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -12,7 +14,7 @@ class ComicDiscoveryApplication : Application() {
 
         setupKoin()
         setupFeatures()
-        //setupTimber()
+        setupLogcat()
     }
 
     // ----------------------------------------------------------------------------
@@ -27,11 +29,7 @@ class ComicDiscoveryApplication : Application() {
         Features.init(this)
     }
 
-    /*
-    private fun setupTimber() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
+    private fun setupLogcat() {
+        AndroidLogcatLogger.installOnDebuggableApp(this, minPriority = LogPriority.VERBOSE)
     }
-     */
 }

@@ -95,6 +95,8 @@ object Deps {
 
         const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
 
+        const val logcat = "com.squareup.logcat:logcat:0.1"
+
         object Mockito {
             const val core = "org.mockito:mockito-core:4.3.1"
         }
@@ -117,8 +119,6 @@ object Deps {
             const val moshiConverter = "com.squareup.retrofit2:converter-moshi:$version"
             const val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.1.0"
         }
-
-        const val timber = "com.jakewharton.timber:timber:5.0.1"
 
         const val truth = "com.google.truth:truth:1.1.3"
     }

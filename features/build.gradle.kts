@@ -107,7 +107,7 @@ dependencies {
     }
 
     // logging
-    implementation(Deps.Libs.timber)
+    implementation(Deps.Libs.logcat)
 
     // dependency injection
     Deps.Libs.Koin.apply {

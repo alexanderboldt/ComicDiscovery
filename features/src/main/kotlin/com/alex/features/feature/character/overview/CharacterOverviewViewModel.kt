@@ -9,7 +9,7 @@ import com.alex.features.feature.character.overview.model.State
 import com.alex.repository.SearchRepository
 import com.alex.features.ui.components.UiModelCharacter
 import com.alex.features.ui.components.UiModelLoadMore
-import com.alex.features.util.timberCatch
+import com.alex.features.util.printCatch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -58,7 +58,7 @@ class CharacterOverviewViewModel(
                         is State.Content.Items -> State.Content.Items((state.content as State.Content.Items).items.filterIsInstance<UiModelCharacter>() + UiModelLoadMore(false))
                         else -> State.Content.Loading(resourceProvider.getString(R.string.character_overview_message_loading))
                     }
-                }.timberCatch { state.content = State.Content.Message(resourceProvider.getString(R.string.character_overview_message_error)) }
+                }.printCatch { state.content = State.Content.Message(resourceProvider.getString(R.string.character_overview_message_error)) }
                 .collect { result ->
                     result
                         .result
