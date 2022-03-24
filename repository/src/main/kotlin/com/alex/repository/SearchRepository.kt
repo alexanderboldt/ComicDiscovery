@@ -23,26 +23,22 @@ class SearchRepository(private val apiRoutes: ApiRoutes) {
      * @param limit The limit as [Int].
      * @return Returns a [List] of [RpModelCharacterMinimal] in a [Flow].
      */
-    suspend fun getSearch(query: String, limit: Int): Flow<RpModelResponse<List<RpModelCharacterMinimal>>> {
-        return flow {
-
-            apiRoutes
-                .getSearch(
-                    mapOf(
-                        "query" to query,
-                        "limit" to limit.toString(),
-                        "sort" to "name:asc",
-                        "resources" to "character",
-                        "field_list" to "id,name,real_name,image"
-                    )
-                ).let { response ->
-                    RpModelResponse(
-                        response.numberOfPageResults,
-                        response.numberOfTotalResults,
-                        response.results.toRpModel()
-                    )
-                }.also { emit(it) }
-
-        }.flowOn(Dispatchers.IO)
-    }
+    suspend fun getSearch(query: String, limit: Int) = flow {
+        apiRoutes
+            .getSearch(
+                mapOf(
+                    "query" to query,
+                    "limit" to limit.toString(),
+                    "sort" to "name:asc",
+                    "resources" to "character",
+                    "field_list" to "id,name,real_name,image"
+                )
+            ).let { response ->
+                RpModelResponse(
+                    response.numberOfPageResults,
+                    response.numberOfTotalResults,
+                    response.results.toRpModel()
+                )
+            }.also { emit(it) }
+    }.flowOn(Dispatchers.IO)
 }

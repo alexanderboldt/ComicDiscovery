@@ -37,18 +37,17 @@ class CharacterRepository(
      *
      * @return Returns [RpModelCharacter] in a [Flow].
      */
-    suspend fun getCharacter(id: Int): Flow<RpModelResponse<RpModelCharacter>> {
-        return flow {
-            apiRoutes
-                .getCharacter(id.withPrefix, fields)
-                .let { response ->
-                    RpModelResponse(
-                        response.numberOfPageResults,
-                        response.numberOfTotalResults,
-                        response.results.toRpModel(database.characterDao.getCharacter(id) != null))
-                }.also { emit(it) }
-        }.flowOn(Dispatchers.IO)
-    }
+    suspend fun getCharacter(id: Int) = flow {
+        apiRoutes
+            .getCharacter(id.withPrefix, fields)
+            .let { response ->
+                RpModelResponse(
+                    response.numberOfPageResults,
+                    response.numberOfTotalResults,
+                    response.results.toRpModel(database.characterDao.getCharacter(id) != null)
+                )
+            }.also { emit(it) }
+    }.flowOn(Dispatchers.IO)
 
     // ----------------------------------------------------------------------------
 
@@ -59,16 +58,16 @@ class CharacterRepository(
      *
      * @return Returns [RpModelCharacter] in a [Flow].
      */
-    suspend fun getStarredCharacter(id: Int): Flow<RpModelResponse<RpModelCharacter>> {
-        return flow {
-            database
-                .characterDao
-                .getCharacter(id)!!
-                .let { character -> RpModelResponse(
+    suspend fun getStarredCharacter(id: Int) = flow {
+        database
+            .characterDao
+            .getCharacter(id)!!
+            .let { character ->
+                RpModelResponse(
                     1,
                     1,
-                    character.toRpModel(true)) }
-                .also { emit(it) }
-        }.flowOn(Dispatchers.IO)
-    }
+                    character.toRpModel(true)
+                )
+            }.also { emit(it) }
+    }.flowOn(Dispatchers.IO)
 }

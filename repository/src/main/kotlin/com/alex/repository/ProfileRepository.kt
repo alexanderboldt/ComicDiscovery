@@ -24,11 +24,9 @@ class ProfileRepository(
      *
      * @return Returns a [File] in a [Flow].
      */
-    fun getAvatar(): Flow<File?> {
-        return flow {
-            profileDataStore.getAvatar()?.let { File(it) }.also { emit(it) }
-        }.flowOn(Dispatchers.IO)
-    }
+    fun getAvatar() = flow {
+        profileDataStore.getAvatar()?.let { File(it) }.also { emit(it) }
+    }.flowOn(Dispatchers.IO)
 
     /**
      * Saves the assigned file in the app-storage.
@@ -37,11 +35,10 @@ class ProfileRepository(
      *
      * @return Returns the saved avatar as a [File] in a [Flow].
      */
-    fun saveAvatar(file: File): Flow<File> {
-        return flow {
-            profileDataStore.setAvatar(file.path)
-            val targetFile = file.copyTo(context.filesDir.resolve("avatar_${System.currentTimeMillis()}"), true)
-            emit(targetFile)
-        }.flowOn(Dispatchers.IO)
-    }
+    fun saveAvatar(file: File) = flow {
+        profileDataStore.setAvatar(file.path)
+        file
+            .copyTo(context.filesDir.resolve("avatar_${System.currentTimeMillis()}"), true)
+            .also { emit(it) }
+    }.flowOn(Dispatchers.IO)
 }
