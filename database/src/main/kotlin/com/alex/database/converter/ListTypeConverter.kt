@@ -4,9 +4,13 @@ import androidx.room.TypeConverter
 
 internal class ListTypeConverter {
 
-    @TypeConverter
-    fun fromStringToList(value: String) = value.split(";")
+    private val delimiter = ";"
+
+    // ----------------------------------------------------------------------------
 
     @TypeConverter
-    fun fromListToString(list: List<String>) = list.joinToString(";")
+    fun fromStringToList(value: String) = value.split(delimiter)
+
+    @TypeConverter
+    fun fromListToString(list: List<String>) = list.joinToString(delimiter)
 }

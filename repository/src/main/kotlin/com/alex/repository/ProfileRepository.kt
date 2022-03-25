@@ -1,7 +1,7 @@
 package com.alex.repository
 
 import android.content.Context
-import com.alex.datastore.profile.ProfileDataStore
+import com.alex.filemanager.FileManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,11 +12,11 @@ import java.io.File
  * Manages the profile settings.
  *
  * @param context An instance of [Context]
- * @param profileDataStore An instance of [ProfileDataStore]
+ * @param fileManager An instance of [FileManager]
  */
 class ProfileRepository(
     private val context: Context,
-    private val profileDataStore: ProfileDataStore
+    private val fileManager: FileManager
 ) {
 
     /**
@@ -25,7 +25,7 @@ class ProfileRepository(
      * @return Returns a [File] in a [Flow].
      */
     fun getAvatar() = flow {
-        profileDataStore.getAvatar()?.let { File(it) }.also { emit(it) }
+        emit(fileManager.getAvatar())
     }.flowOn(Dispatchers.IO)
 
     /**
@@ -36,9 +36,6 @@ class ProfileRepository(
      * @return Returns the saved avatar as a [File] in a [Flow].
      */
     fun saveAvatar(file: File) = flow {
-        profileDataStore.setAvatar(file.path)
-        file
-            .copyTo(context.filesDir.resolve("avatar_${System.currentTimeMillis()}"), true)
-            .also { emit(it) }
+        emit(fileManager.saveAvatar(file))
     }.flowOn(Dispatchers.IO)
 }

@@ -1,7 +1,12 @@
 include(":app")
+
+include(":features")
+
 include(":repository")
+
 include(":api")
 include(":database")
 include(":datastore")
-include(":features")
+include(":filemanager")
+
 include(":util")

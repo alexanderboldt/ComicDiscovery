@@ -47,21 +47,8 @@ android {
 repositories {
     google()
     mavenCentral()
-    maven { setUrl("https://www.jitpack.io") }
 }
 
 dependencies {
     implementation(Deps.Kotlin.stdLib)
-
-    Deps.Libs.Coroutines.apply {
-        implementation(core)
-        implementation(android)
-    }
-
-    implementation(Deps.Libs.Koin.koin)
-
-    implementation(project(":api"))
-    implementation(project(":database"))
-    implementation(project(":datastore"))
-    implementation(project(":filemanager"))
 }
