@@ -24,6 +24,7 @@ import com.alex.features.feature.starlist.model.State
 import com.alex.features.ui.components.ComicDiscoveryButton
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
+import com.google.android.material.navigation.NavigationBarMenu
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalMaterialApi
@@ -95,16 +96,18 @@ fun StarlistSettingsScreen() {
             AlertDialog(
                 onDismissRequest = { showDialogUpdate = false },
                 confirmButton = {
-                    ComicDiscoveryButton(
-                        text = stringResource(id = R.string.general_update),
-                        enabled = starlistUpdateName.isNotBlank()) {
+                    TextButton(
+                        onClick = {
                             viewModel.updateStarlist(updateStarlist!!.id, starlistUpdateName)
                             showDialogUpdate = false
-                        }
+                        },
+                        enabled = starlistUpdateName.isNotBlank()) {
+                        Text(text = stringResource(id = R.string.general_update))
+                    }
                 },
                 dismissButton = {
-                    ComicDiscoveryButton(text = stringResource(id = R.string.general_cancel)) {
-                        showDialogUpdate = false
+                    TextButton(onClick = { showDialogUpdate = false }) {
+                        Text(text = stringResource(id = R.string.general_cancel))
                     }
                 },
                 text = {
@@ -121,14 +124,16 @@ fun StarlistSettingsScreen() {
             AlertDialog(
                 onDismissRequest = { showDialogDelete = false },
                 confirmButton = {
-                    ComicDiscoveryButton(text = stringResource(id = R.string.general_delete)) {
+                    TextButton(onClick = {
                         viewModel.onDeleteStarlist(deleteStarlist!!.id)
                         showDialogDelete = false
+                    }) {
+                        Text(text = stringResource(id = R.string.general_delete))
                     }
                 },
                 dismissButton = {
-                    ComicDiscoveryButton(text = stringResource(id = R.string.general_cancel)) {
-                        showDialogDelete = false
+                    TextButton(onClick = { showDialogDelete = false }) {
+                        Text(text = stringResource(id = R.string.general_cancel))
                     }
                 },
                 text = {
