@@ -5,7 +5,7 @@ import java.io.File
 
 class FileManager(private val context: Context) {
 
-    private val fileName = "avatar_%s"
+    private val fileNamePrefix = "avatar_"
 
     // ----------------------------------------------------------------------------
 
@@ -13,14 +13,14 @@ class FileManager(private val context: Context) {
         context
             .filesDir
             .listFiles()
-            ?.filter { it.isFile && it.name.startsWith(fileName.dropLast(2)) }
+            ?.filter { it.isFile && it.name.startsWith(fileNamePrefix) }
             ?.forEach { it.delete() }
 
-        return file.copyTo(context.filesDir.resolve(fileName.format(System.currentTimeMillis())), true)
+        return file.copyTo(context.filesDir.resolve(fileNamePrefix + System.currentTimeMillis()), true)
     }
 
     suspend fun getAvatar() = context
         .filesDir
         .listFiles()
-        ?.find { it.isFile && it.name.startsWith(fileName.dropLast(2)) }
+        ?.find { it.isFile && it.name.startsWith(fileNamePrefix) }
 }
