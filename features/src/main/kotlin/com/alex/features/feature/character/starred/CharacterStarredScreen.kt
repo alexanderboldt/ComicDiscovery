@@ -23,20 +23,25 @@ import coil.annotation.ExperimentalCoilApi
 import com.alex.features.R
 import com.alex.features.feature.character.starred.model.SideEffect
 import com.alex.features.feature.character.starred.model.State
+import com.alex.features.feature.destinations.CharacterDetailScreenDestination
+import com.alex.features.feature.destinations.StarlistSettingsScreenDestination
 import com.alex.features.ui.components.CharacterItem
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
-import kotlinx.coroutines.flow.collect
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
+@Destination(route = "CharacterStarredScreen")
+@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
-fun CharacterStarredScreen(navigateToStarlistSettingsScreen: () -> Unit, navigateToCharacterDetailScreen: (Int) -> Unit) {
+fun CharacterStarredScreen(navigator: DestinationsNavigator) {
     val viewModel: CharacterStarredViewModel = getViewModel()
 
-    SideEffects(navigateToStarlistSettingsScreen, navigateToCharacterDetailScreen)
+    SideEffects(navigator)
 
     Column(modifier = Modifier
         .background(getColor(BrightGray, DarkCharcoal))
@@ -55,8 +60,11 @@ fun CharacterStarredScreen(navigateToStarlistSettingsScreen: () -> Unit, navigat
 
 // ----------------------------------------------------------------------------
 
+@ExperimentalMaterialApi
+@ExperimentalCoilApi
+@ExperimentalAnimationApi
 @Composable
-fun SideEffects(navigateToStarlistSettingsScreen: () -> Unit, navigateToCharacterDetailScreen: (Int) -> Unit) {
+fun SideEffects(navigator: DestinationsNavigator) {
     val viewModel: CharacterStarredViewModel = getViewModel()
 
     val scope = rememberCoroutineScope()
@@ -67,8 +75,8 @@ fun SideEffects(navigateToStarlistSettingsScreen: () -> Unit, navigateToCharacte
         scope.launch {
             viewModel.event.collect { event ->
                 when (event) {
-                    is SideEffect.StarlistSettingsScreen -> navigateToStarlistSettingsScreen()
-                    is SideEffect.CharacterDetailScreen -> navigateToCharacterDetailScreen(event.id)
+                    is SideEffect.StarlistSettingsScreen -> navigator.navigate(StarlistSettingsScreenDestination())
+                    is SideEffect.CharacterDetailScreen -> navigator.navigate(CharacterDetailScreenDestination(event.id, true))
                 }
             }
         }

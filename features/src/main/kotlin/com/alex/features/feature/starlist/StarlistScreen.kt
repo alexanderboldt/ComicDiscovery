@@ -25,8 +25,10 @@ import com.alex.features.ui.components.ComicDiscoveryButton
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
 import com.google.android.material.navigation.NavigationBarMenu
+import com.ramcosta.composedestinations.annotation.Destination
 import org.koin.androidx.compose.getViewModel
 
+@Destination
 @ExperimentalMaterialApi
 @Composable
 fun StarlistSettingsScreen() {

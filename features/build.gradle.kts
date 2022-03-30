@@ -1,6 +1,7 @@
 plugins {
     android()
     kotlin()
+    ksp()
 }
 
 android {
@@ -61,6 +62,17 @@ android {
     }
 }
 
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
+}
+
 repositories {
     google()
     mavenCentral()
@@ -118,6 +130,9 @@ dependencies {
         implementation(koin)
         implementation(compose)
     }
+
+    implementation("io.github.raamcosta.compose-destinations:core:1.4.0-beta")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.4.0-beta")
 
     implementation(project(":util"))
     implementation(project(":repository"))

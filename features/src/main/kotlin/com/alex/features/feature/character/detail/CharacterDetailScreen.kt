@@ -31,25 +31,28 @@ import coil.compose.rememberImagePainter
 import com.alex.features.R
 import com.alex.features.feature.character.detail.model.*
 import com.alex.features.feature.character.detail.model.State
+import com.alex.features.feature.destinations.ImageScreenDestination
 import com.alex.features.ui.theme.*
 import com.alex.features.ui.theme.UltramarineBlue
 import com.alex.features.util.getColor
-import kotlinx.coroutines.flow.collect
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
+@Destination
 @ExperimentalCoilApi
 @ExperimentalAnimationApi
 @Composable
-fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigateToImageScreen: (String) -> Unit) {
+fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigator: DestinationsNavigator) {
     val viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, userComesFromStarredScreen) })
 
     SideEffects(viewModel)
 
     when (val state = viewModel.state.content) {
-        is State.Content.Character -> CharacterScreen(state, viewModel, navigateToImageScreen)
+        is State.Content.Character -> CharacterScreen(state, viewModel, navigator)
         is State.Content.Loading -> LoadingScreen(state.message)
         is State.Content.Message -> MessageScreen(state.message)
     }
@@ -77,7 +80,7 @@ fun SideEffects(viewModel: CharacterDetailViewModel) {
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
-fun CharacterScreen(state: State.Content.Character, viewModel: CharacterDetailViewModel, navigateToImageScreen: (String) -> Unit) {
+fun CharacterScreen(state: State.Content.Character, viewModel: CharacterDetailViewModel, navigator: DestinationsNavigator) {
     BoxWithConstraints(modifier = Modifier
         .background(getColor(BrightGray, DarkCharcoal))
         .fillMaxSize()) {
@@ -91,7 +94,7 @@ fun CharacterScreen(state: State.Content.Character, viewModel: CharacterDetailVi
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(300.dp)
-                    .clickable { navigateToImageScreen(state.character.imageUrl) },
+                    .clickable { navigator.navigate(ImageScreenDestination(state.character.imageUrl)) },
                 contentScale = ContentScale.Crop
             )
 

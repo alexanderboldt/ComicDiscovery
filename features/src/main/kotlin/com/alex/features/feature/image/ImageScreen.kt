@@ -10,7 +10,9 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.alex.features.ui.theme.Black
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.ramcosta.composedestinations.annotation.Destination
 
+@Destination
 @ExperimentalCoilApi
 @Composable
 fun ImageScreen(url: String) {

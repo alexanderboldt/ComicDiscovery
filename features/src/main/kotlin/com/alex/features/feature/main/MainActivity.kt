@@ -5,16 +5,13 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import coil.annotation.ExperimentalCoilApi
+import com.alex.features.feature.home.HomeScreen
 import com.alex.features.feature.main.model.State
-import com.alex.features.navigation.ComicDiscoveryTopLevelNavigation
-import com.alex.features.ui.theme.AbsoluteZero
-import com.alex.features.ui.theme.Black
-import com.alex.features.ui.theme.ComicDiscoveryTheme
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.alex.features.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.getViewModel
 
@@ -42,14 +39,11 @@ class MainActivity : AppCompatActivity() {
             // the content
             ComicDiscoveryTheme(isDarkTheme) {
                 // change the color of the StatusBar and NavigationBar
-                val systemUiController = rememberSystemUiController()
+                rememberSystemUiController().apply {
+                    setSystemBarsColor(if (isDarkTheme) Black else AbsoluteZero)
+                }
 
-                systemUiController.setSystemBarsColor(if (isDarkTheme) Black else AbsoluteZero)
-
-                val navControllerTopLevel = rememberAnimatedNavController()
-                val navControllerBottomNavigation = rememberAnimatedNavController()
-
-                ComicDiscoveryTopLevelNavigation(navControllerTopLevel, navControllerBottomNavigation)
+                HomeScreen()
             }
         }
     }

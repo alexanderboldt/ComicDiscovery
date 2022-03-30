@@ -15,8 +15,10 @@ import com.alex.features.R
 import com.alex.features.ui.components.ComicDiscoverySwitcher
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
+import com.ramcosta.composedestinations.annotation.Destination
 import org.koin.androidx.compose.getViewModel
 
+@Destination(route = "SettingsScreen")
 @Composable
 fun SettingsScreen() {
     val viewModel: SettingsViewModel = getViewModel()

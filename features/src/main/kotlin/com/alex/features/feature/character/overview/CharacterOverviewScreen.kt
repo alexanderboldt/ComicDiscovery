@@ -31,22 +31,25 @@ import coil.annotation.ExperimentalCoilApi
 import com.alex.features.R
 import com.alex.features.feature.character.overview.model.SideEffect
 import com.alex.features.feature.character.overview.model.State
+import com.alex.features.feature.destinations.CharacterDetailScreenDestination
 import com.alex.features.ui.components.*
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
-import kotlinx.coroutines.flow.collect
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
+@Destination(start = true, route = "CharacterOverviewScreen")
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Composable
-fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
+fun CharacterOverviewScreen(navigator: DestinationsNavigator) {
     val viewModel: CharacterOverviewViewModel = getViewModel()
 
-    SideEffects(navigateToCharacterDetailScreen)
+    SideEffects(navigator)
 
     Column(modifier = Modifier
         .background(getColor(BrightGray, DarkCharcoal))
@@ -64,8 +67,10 @@ fun CharacterOverviewScreen(navigateToCharacterDetailScreen: (Int) -> Unit) {
 
 // ----------------------------------------------------------------------------
 
+@ExperimentalCoilApi
+@ExperimentalAnimationApi
 @Composable
-fun SideEffects(navigateToCharacterDetailScreen: (Int) -> Unit) {
+fun SideEffects(navigator: DestinationsNavigator) {
     val viewModel: CharacterOverviewViewModel = getViewModel()
 
     val scope = rememberCoroutineScope()
@@ -75,7 +80,7 @@ fun SideEffects(navigateToCharacterDetailScreen: (Int) -> Unit) {
             viewModel
                 .event
                 .map { it as SideEffect.DetailScreen }
-                .collect { navigateToCharacterDetailScreen(it.id) }
+                .collect { navigator.navigate(CharacterDetailScreenDestination(it.id, false)) }
         }
     }
 }
