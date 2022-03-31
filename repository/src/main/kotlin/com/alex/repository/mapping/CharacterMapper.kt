@@ -15,6 +15,7 @@ internal fun List<ApiModelCharacterMinimal>.toRpModel() = map {
 internal fun ApiModelCharacter.toRpModel(isStarred: Boolean) = RpModelCharacter(
     id,
     name,
+    summary,
     realName,
     image.smallUrl,
     gender,
@@ -32,6 +33,7 @@ internal fun ApiModelCharacter.toRpModel(isStarred: Boolean) = RpModelCharacter(
 internal fun ApiModelCharacter.toDbModel() = DbModelCharacter(
     id,
     name,
+    summary,
     realName,
     image.smallUrl,
     gender,
@@ -57,6 +59,7 @@ internal fun List<DbModelCharacter>.toRpModelMinimal() = map {
 internal fun DbModelCharacter.toRpModel(isStarred: Boolean) = RpModelCharacter(
     id,
     name,
+    summary,
     realName,
     smallImageUrl,
     gender,

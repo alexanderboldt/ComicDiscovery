@@ -66,6 +66,7 @@ class CharacterDetailViewModel(
                     State.UiModelCharacter(
                         character.smallImageUrl,
                         character.name,
+                        character.summary,
                         character.realName ?: "-",
                         character.aliases ?: "-",
                         when (character.gender) {

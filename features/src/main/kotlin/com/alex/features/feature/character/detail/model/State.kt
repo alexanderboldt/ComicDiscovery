@@ -9,6 +9,7 @@ class State(initialContent: Content) {
     data class UiModelCharacter(
         val imageUrl: String,
         val name: String,
+        val summary: String,
         val realName: String,
         val aliases: String,
         val gender: String,

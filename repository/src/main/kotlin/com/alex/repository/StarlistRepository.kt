@@ -10,6 +10,8 @@ import com.alex.repository.mapping.toRpModelMinimal
 import com.alex.repository.model.RpModelCharacterMinimal
 import com.alex.repository.model.RpModelList
 import com.alex.repository.model.RpModelResponse
+import com.alex.repository.util.fields
+import com.alex.repository.util.withPrefix
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -25,13 +27,6 @@ class StarlistRepository(
     private val apiRoutes: ApiRoutes,
     private val database: ComicDiscoveryDatabase
 ) {
-
-    private val idPrefix = "4005-"
-    private val fields = "id,name,real_name,image,gender,aliases,birth,powers,origin"
-
-    // assembles the actual id with a prefix
-    private val Int.withPrefix: String
-        get() = idPrefix + this
 
     // ----------------------------------------------------------------------------
     // Starlist-functions

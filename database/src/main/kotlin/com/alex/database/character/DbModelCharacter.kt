@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class DbModelCharacter(
     @PrimaryKey val id: Int,
     val name: String,
+    val summary: String,
     val realName: String?,
     val smallImageUrl: String,
     val gender: Int,

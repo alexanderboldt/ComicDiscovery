@@ -101,6 +101,7 @@ fun CharacterScreen(state: State.Content.Character, viewModel: CharacterDetailVi
             ProvideTextStyle(value = if (MaterialTheme.colors.isLight) TextStyle(DarkCharcoal) else TextStyle(BrightGray)) {
                 Column(Modifier.padding(16.dp)) {
                     AttributeItem(R.string.character_detail_name, state.character.name)
+                    AttributeItem(R.string.character_detail_summary, state.character.summary)
                     AttributeItem(R.string.character_detail_real_name, state.character.realName)
                     AttributeItem(R.string.character_detail_aliases, state.character.aliases)
                     AttributeItem(R.string.character_detail_gender, state.character.gender)
