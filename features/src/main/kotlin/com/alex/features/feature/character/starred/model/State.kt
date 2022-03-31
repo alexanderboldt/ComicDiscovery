@@ -24,6 +24,6 @@ class State(initialContent: Content) {
     // ----------------------------------------------------------------------------
 
     var starlists: Starlist by mutableStateOf(Starlist.NoListsAvailable)
-    var selectedStarlistIndex by mutableStateOf(0)
+    var selectedStarlistId: Long by mutableStateOf(-1)
     var content: Content by mutableStateOf(initialContent)
 }

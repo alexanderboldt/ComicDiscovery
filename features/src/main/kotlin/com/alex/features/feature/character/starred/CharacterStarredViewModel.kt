@@ -14,8 +14,10 @@ import kotlinx.coroutines.launch
 
 class CharacterStarredViewModel(
     private val starlistRepository: StarlistRepository,
-    private val resourceProvider: ResourceProvider) : BaseViewModel<State, SideEffect>(
-    State(State.Content.Message(resourceProvider.getString(R.string.character_starred_message_loading)))) {
+    private val resourceProvider: ResourceProvider
+) : BaseViewModel<State, SideEffect>(
+    State(State.Content.Message(resourceProvider.getString(R.string.character_starred_message_loading)))
+) {
 
     fun init() {
         getStarlistsAndCharacters()
@@ -23,8 +25,8 @@ class CharacterStarredViewModel(
 
     // ----------------------------------------------------------------------------
 
-    fun onClickStarlist(index: Int) {
-        state.selectedStarlistIndex = index
+    fun onClickStarlist(id: Long) {
+        state.selectedStarlistId = id
         getCharacters()
     }
 
@@ -56,6 +58,9 @@ class CharacterStarredViewModel(
                         state.starlists = State.Starlist.Starlists(starlists.map {
                             State.UiModelStarlist(it.id, it.name)
                         })
+                        if (state.selectedStarlistId == -1L || starlists.none { it.id == state.selectedStarlistId }) {
+                            state.selectedStarlistId = starlists.first().id
+                        }
 
                         getCharacters()
                     }
@@ -66,7 +71,7 @@ class CharacterStarredViewModel(
     private fun getCharacters() {
         viewModelScope.launch(Dispatchers.Main) {
             starlistRepository
-                .getStarredCharacters((state.starlists as State.Starlist.Starlists).starlists[state.selectedStarlistIndex].id)
+                .getStarredCharacters(state.selectedStarlistId)
                 .printCatch { state.content = State.Content.Message(resourceProvider.getString(R.string.character_starred_message_no_characters)) }
                 .collect { response ->
                     response

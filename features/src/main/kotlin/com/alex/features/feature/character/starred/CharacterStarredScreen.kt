@@ -43,9 +43,11 @@ fun CharacterStarredScreen(navigator: DestinationsNavigator) {
 
     SideEffects(navigator)
 
-    Column(modifier = Modifier
-        .background(getColor(BrightGray, DarkCharcoal))
-        .fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .background(getColor(BrightGray, DarkCharcoal))
+            .fillMaxSize()
+    ) {
 
         Starlist()
 
@@ -75,9 +77,9 @@ fun SideEffects(navigator: DestinationsNavigator) {
         scope.launch {
             viewModel.event.collect { event ->
                 when (event) {
-                    is SideEffect.StarlistSettingsScreen -> navigator.navigate(StarlistSettingsScreenDestination())
-                    is SideEffect.CharacterDetailScreen -> navigator.navigate(CharacterDetailScreenDestination(event.id, true))
-                }
+                    is SideEffect.StarlistSettingsScreen -> StarlistSettingsScreenDestination()
+                    is SideEffect.CharacterDetailScreen -> CharacterDetailScreenDestination(event.id, true)
+                }.apply { navigator.navigate(this) }
             }
         }
     }
@@ -89,7 +91,7 @@ fun SideEffects(navigator: DestinationsNavigator) {
 fun Starlist() {
     val viewModel: CharacterStarredViewModel = getViewModel()
 
-    var expanded by remember { mutableStateOf(false)}
+    var expanded by remember { mutableStateOf(false) }
 
     Column {
         Row {
@@ -97,14 +99,24 @@ fun Starlist() {
                 is State.Starlist.NoListsAvailable -> {
                     Text(
                         text = stringResource(id = R.string.character_starred_no_starlists_available),
-                        modifier = Modifier.weight(1f).padding(16.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(16.dp),
                         fontStyle = FontStyle.Italic,
-                        color = getColor(DarkCharcoal, BrightGray))
+                        color = getColor(DarkCharcoal, BrightGray)
+                    )
                 }
                 is State.Starlist.Starlists -> {
-                    Row(modifier = Modifier.weight(1f).clickable { expanded = true }.padding(16.dp)) {
-                        Text(text = starlists.starlists[viewModel.state.selectedStarlistIndex].name, color = getColor(DarkCharcoal, BrightGray))
-                        Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = getColor(UltramarineBlue, BrightGray))
+                    Row(modifier = Modifier
+                        .weight(1f)
+                        .clickable { expanded = true }
+                        .padding(16.dp)) {
+                        Text(text = starlists.starlists.find { it.id == viewModel.state.selectedStarlistId }?.name ?: "", color = getColor(DarkCharcoal, BrightGray))
+                        Icon(
+                            Icons.Rounded.ArrowDropDown,
+                            contentDescription = null,
+                            tint = getColor(UltramarineBlue, BrightGray)
+                        )
                     }
                 }
             }
@@ -124,12 +136,12 @@ fun Starlist() {
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier.fillMaxWidth()) {
-
-                starlists.forEachIndexed() { index, starlist ->
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                starlists.forEach() { starlist ->
                     DropdownMenuItem(onClick = {
                         expanded = false
-                        viewModel.onClickStarlist(index)
+                        viewModel.onClickStarlist(starlist.id)
                     }) {
                         Text(text = starlist.name, color = getColor(DarkCharcoal, BrightGray))
                     }
@@ -137,10 +149,12 @@ fun Starlist() {
             }
         }
 
-        Spacer(modifier = Modifier
-            .height(1.dp)
-            .fillMaxWidth()
-            .background(getColor(DarkElectricBlue, BrightGray)))
+        Spacer(
+            modifier = Modifier
+                .height(1.dp)
+                .fillMaxWidth()
+                .background(getColor(DarkElectricBlue, BrightGray))
+        )
     }
 }
 
@@ -178,7 +192,8 @@ fun BoxScope.CharactersScreen(state: State.Content.Characters) {
             backgroundColor = CoralRed,
             modifier = Modifier
                 .padding(16.dp)
-                .align(Alignment.BottomEnd)) {
+                .align(Alignment.BottomEnd)
+        ) {
             Image(
                 imageVector = Icons.Rounded.KeyboardArrowUp,
                 contentDescription = null,
@@ -196,5 +211,6 @@ fun BoxScope.MessageScreen(message: String) {
     Text(
         text = message,
         modifier = Modifier.align(Alignment.Center),
-        color = getColor(DarkCharcoal, BrightGray))
+        color = getColor(DarkCharcoal, BrightGray)
+    )
 }
