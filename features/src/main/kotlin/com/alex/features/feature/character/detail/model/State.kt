@@ -15,7 +15,10 @@ class State(initialContent: Content) {
         val gender: String,
         val birth: String,
         val origin: String,
-        val powers: String
+        val powers: String,
+        val teams: String,
+        val friends: String,
+        val enemies: String
     )
 
     sealed class Content {

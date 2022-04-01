@@ -108,6 +108,9 @@ fun CharacterScreen(state: State.Content.Character, viewModel: CharacterDetailVi
                     AttributeItem(R.string.character_detail_birth, state.character.birth)
                     AttributeItem(R.string.character_detail_origin, state.character.origin)
                     AttributeItem(R.string.character_detail_powers, state.character.powers)
+                    AttributeItem(R.string.character_detail_teams, state.character.teams)
+                    AttributeItem(R.string.character_detail_friends, state.character.friends)
+                    AttributeItem(R.string.character_detail_enemies, state.character.enemies)
                 }
             }
         }

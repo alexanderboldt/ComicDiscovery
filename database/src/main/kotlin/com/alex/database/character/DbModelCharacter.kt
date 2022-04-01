@@ -14,5 +14,8 @@ data class DbModelCharacter(
     val aliases: String?,
     val birth: String?,
     val powers: List<String>,
-    val origin: String
+    val origin: String,
+    val teams: List<String>,
+    val friends: List<String>,
+    val enemies: List<String>
 )

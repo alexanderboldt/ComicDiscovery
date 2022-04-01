@@ -23,6 +23,9 @@ internal fun ApiModelCharacter.toRpModel(isStarred: Boolean) = RpModelCharacter(
     birth,
     powers.map { it.name },
     origin.name,
+    teams.map { it.name },
+    friends.map { it.name },
+    enemies.map { it.name },
     isStarred
 )
 
@@ -40,7 +43,10 @@ internal fun ApiModelCharacter.toDbModel() = DbModelCharacter(
     aliases,
     birth,
     powers.map { it.name },
-    origin.name
+    origin.name,
+    teams.map { it.name },
+    friends.map { it.name },
+    enemies.map { it.name }
 )
 
 // endregion
@@ -67,6 +73,9 @@ internal fun DbModelCharacter.toRpModel(isStarred: Boolean) = RpModelCharacter(
     birth,
     powers,
     origin,
+    teams,
+    friends,
+    enemies,
     isStarred
 )
 

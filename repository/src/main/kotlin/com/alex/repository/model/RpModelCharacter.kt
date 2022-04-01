@@ -11,5 +11,8 @@ data class RpModelCharacter(
     val birth: String?,
     val powers: List<String>,
     val origin: String,
+    val teams: List<String>,
+    val friends: List<String>,
+    val enemies: List<String>,
     val isStarred: Boolean
 )

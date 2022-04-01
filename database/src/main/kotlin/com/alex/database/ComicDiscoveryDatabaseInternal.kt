@@ -12,7 +12,7 @@ import com.alex.database.starlistCharacter.StarlistCharacterDao
 
 @Database(
     entities = [DbModelCharacter::class, DbModelStarlist::class, DbModelStarlistCharacter::class],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(ListTypeConverter::class)

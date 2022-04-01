@@ -76,7 +76,10 @@ class CharacterDetailViewModel(
                         },
                         character.birth ?: "-",
                         character.origin,
-                        character.powers.joinToString("\n")
+                        character.powers.joinToString("\n"),
+                        character.teams.joinToString("\n"),
+                        character.friends.joinToString("\n"),
+                        character.enemies.joinToString("\n")
                     )
                 )
             }

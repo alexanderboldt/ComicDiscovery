@@ -46,6 +46,9 @@
     <string name="character_detail_birth">Birthday</string>
     <string name="character_detail_origin">Character Type</string>
     <string name="character_detail_powers">Powers</string>
+    <string name="character_detail_teams">Teams</string>
+    <string name="character_detail_friends">Friends</string>
+    <string name="character_detail_enemies">Enemies</string>
 
     <string name="character_detail_no_starlists">No Starlists available!</string>
 
