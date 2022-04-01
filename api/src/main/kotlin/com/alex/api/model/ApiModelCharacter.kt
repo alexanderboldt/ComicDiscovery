@@ -8,7 +8,7 @@ data class ApiModelCharacter(
     val id: Int,
     val name: String,
     @Json(name = "deck") val summary: String,
-    val realName: String?,
+    @Json(name = "real_name") val realName: String?,
     val image: ApiModelImage,
     val gender: Int,
     val aliases: String?,
