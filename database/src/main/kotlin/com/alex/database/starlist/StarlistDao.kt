@@ -11,6 +11,8 @@ interface StarlistDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(starlist: DbModelStarlist): Long
 
+    // ----------------------------------------------------------------------------
+
     // read
 
     @Query("select * from DbModelStarlist")
@@ -24,13 +26,17 @@ interface StarlistDao {
         """)
     suspend fun getCharacters(starlistId: Long): List<DbModelCharacter>
 
+    // ----------------------------------------------------------------------------
+
     // update
 
     @Update
     suspend fun update(starlist: DbModelStarlist): Int
 
+    // ----------------------------------------------------------------------------
+
     // delete
 
-    @Query("DELETE FROM DbModelStarlist WHERE id = :id")
+    @Query("delete from DbModelStarlist where id = :id")
     fun delete(id: Long): Int
 }

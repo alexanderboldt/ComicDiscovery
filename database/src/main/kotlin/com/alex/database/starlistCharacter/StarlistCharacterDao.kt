@@ -13,16 +13,20 @@ interface StarlistCharacterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(starlistCharacter: DbModelStarlistCharacter): Long
 
+    // ----------------------------------------------------------------------------
+
     // read
 
-    @Query("SELECT count(*) FROM DbModelStarlistCharacter where characterId = :characterId")
+    @Query("select count(*) from DbModelStarlistCharacter where characterId = :characterId")
     suspend fun getNumberOfAssociations(characterId: Int): Int
 
     @Query("select starlistId from DbModelStarlistCharacter  where characterId = :characterId")
     suspend fun getAssociatedStarlists(characterId: Int): List<Long>
 
+    // ----------------------------------------------------------------------------
+
     // delete
 
-    @Query("DELETE FROM DbModelStarlistCharacter WHERE starlistId = :starlistId AND characterId = :characterId")
+    @Query("delete from DbModelStarlistCharacter where starlistId = :starlistId and characterId = :characterId")
     fun delete(starlistId: Long, characterId: Int): Int
 }

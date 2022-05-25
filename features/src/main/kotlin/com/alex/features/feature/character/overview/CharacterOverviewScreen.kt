@@ -35,6 +35,7 @@ import com.alex.features.feature.destinations.CharacterDetailScreenDestination
 import com.alex.features.ui.components.*
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
+import com.alex.features.util.getTextFieldColors
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.map
@@ -51,9 +52,11 @@ fun CharacterOverviewScreen(navigator: DestinationsNavigator) {
 
     SideEffects(navigator)
 
-    Column(modifier = Modifier
-        .background(getColor(BrightGray, DarkCharcoal))
-        .fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .background(getColor(BrightGray, DarkCharcoal))
+            .fillMaxSize()
+    ) {
 
         Searchbar()
 
@@ -93,42 +96,6 @@ fun Searchbar() {
     val viewModel: CharacterOverviewViewModel = getViewModel()
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val colors = if (MaterialTheme.colors.isLight) {
-        TextFieldDefaults.textFieldColors(
-            // background
-            backgroundColor = BrightGray,
-            // icon
-            leadingIconColor = UltramarineBlue,
-            // label
-            unfocusedLabelColor = DarkElectricBlue,
-            focusedLabelColor = UltramarineBlue,
-            // text
-            textColor = DarkCharcoal,
-            // indicator
-            unfocusedIndicatorColor = DarkElectricBlue,
-            focusedIndicatorColor = UltramarineBlue,
-            // cursor
-            cursorColor = DarkElectricBlue
-        )
-    } else {
-        TextFieldDefaults.textFieldColors(
-            // background
-            backgroundColor = DarkCharcoal,
-            // icon
-            leadingIconColor = BrightGray,
-            // label
-            unfocusedLabelColor = BrightGray,
-            focusedLabelColor = BrightGray,
-            // text
-            textColor = BrightGray,
-            // indicator
-            unfocusedIndicatorColor = BrightGray,
-            focusedIndicatorColor = BrightGray,
-            // cursor
-            cursorColor = BrightGray
-        )
-    }
-
     TextField(
         value = viewModel.state.query,
         onValueChange = { value -> viewModel.onQueryChange(value) },
@@ -137,7 +104,8 @@ fun Searchbar() {
         leadingIcon = { Icon(Icons.Filled.Search, null) },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Search),
+            imeAction = ImeAction.Search
+        ),
         keyboardActions = KeyboardActions(
             onSearch = {
                 viewModel.onQuerySubmit()
@@ -145,7 +113,7 @@ fun Searchbar() {
             }
         ),
         shape = RoundedCornerShape(0.dp),
-        colors = colors
+        colors = getTextFieldColors()
     )
 }
 
@@ -185,7 +153,8 @@ fun CharactersScreen(state: State.Content.Items) {
                 backgroundColor = CoralRed,
                 modifier = Modifier
                     .padding(16.dp)
-                    .align(Alignment.BottomEnd)) {
+                    .align(Alignment.BottomEnd)
+            ) {
                 Image(
                     imageVector = Icons.Rounded.KeyboardArrowUp,
                     contentDescription = null,
@@ -201,19 +170,23 @@ fun CharactersScreen(state: State.Content.Items) {
 
 @Composable
 fun LoadingScreen(message: String) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp), verticalArrangement = Arrangement.Center) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp), verticalArrangement = Arrangement.Center
+    ) {
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = getColor(UltramarineBlue, BrightGray))
+            color = getColor(UltramarineBlue, BrightGray)
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = message,
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = getColor(DarkCharcoal, BrightGray))
+            color = getColor(DarkCharcoal, BrightGray)
+        )
     }
 }
 
@@ -225,6 +198,7 @@ fun MessageScreen(message: String) {
         Text(
             text = message,
             modifier = Modifier.align(Alignment.Center),
-            color = getColor(DarkCharcoal, BrightGray))
+            color = getColor(DarkCharcoal, BrightGray)
+        )
     }
 }

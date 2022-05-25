@@ -10,13 +10,17 @@ interface CharacterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(character: DbModelCharacter): Long
 
+    // ----------------------------------------------------------------------------
+
     // read
 
-    @Query("SELECT * FROM DbModelCharacter WHERE id = :id")
+    @Query("select * from DbModelCharacter where id = :id")
     suspend fun getCharacter(id: Int): DbModelCharacter?
+
+    // ----------------------------------------------------------------------------
 
     // delete
 
-    @Query("DELETE FROM DbModelCharacter WHERE id = :id")
+    @Query("delete from DbModelCharacter where id = :id")
     fun delete(id: Int): Int
 }

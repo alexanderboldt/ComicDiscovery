@@ -21,10 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alex.features.R
 import com.alex.features.feature.starlist.model.State
-import com.alex.features.ui.components.ComicDiscoveryButton
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
-import com.google.android.material.navigation.NavigationBarMenu
+import com.alex.features.util.getTextFieldColors
 import com.ramcosta.composedestinations.annotation.Destination
 import org.koin.androidx.compose.getViewModel
 
@@ -209,45 +208,5 @@ fun StarlistItemNew() {
                 tint = if (viewModel.state.isStarlistCreateButtonEnabled) UltramarineBlue else DarkElectricBlue
             )
         }
-    }
-}
-
-@Composable
-fun getTextFieldColors(): TextFieldColors {
-    // todo: centralize
-    return if (MaterialTheme.colors.isLight) {
-        TextFieldDefaults.textFieldColors(
-            // background
-            backgroundColor = BrightGray,
-            // icon
-            leadingIconColor = UltramarineBlue,
-            // label
-            unfocusedLabelColor = DarkElectricBlue,
-            focusedLabelColor = UltramarineBlue,
-            // text
-            textColor = DarkCharcoal,
-            // indicator
-            unfocusedIndicatorColor = DarkElectricBlue,
-            focusedIndicatorColor = UltramarineBlue,
-            // cursor
-            cursorColor = DarkElectricBlue
-        )
-    } else {
-        TextFieldDefaults.textFieldColors(
-            // background
-            backgroundColor = DarkCharcoal,
-            // icon
-            leadingIconColor = BrightGray,
-            // label
-            unfocusedLabelColor = BrightGray,
-            focusedLabelColor = BrightGray,
-            // text
-            textColor = BrightGray,
-            // indicator
-            unfocusedIndicatorColor = BrightGray,
-            focusedIndicatorColor = BrightGray,
-            // cursor
-            cursorColor = BrightGray
-        )
     }
 }
