@@ -105,13 +105,10 @@ dependencies {
         implementation(material)
     }
 
-    implementation(Deps.AndroidX.Navigation.compose)
-
     // 3rd-party libraries
 
     // compose features
     implementation(Deps.Libs.Accompanist.systemUiController)
-    implementation(Deps.Libs.Accompanist.navigationAnimation)
 
     // image
     implementation(Deps.Libs.Coil.compose)
@@ -131,8 +128,11 @@ dependencies {
         implementation(compose)
     }
 
-    implementation("io.github.raamcosta.compose-destinations:core:1.4.0-beta")
-    ksp("io.github.raamcosta.compose-destinations:ksp:1.4.0-beta")
+    // navigation
+    Deps.Libs.ComposeDestinations.apply {
+        implementation(core)
+        this@dependencies.ksp(ksp)
+    }
 
     implementation(project(":util"))
     implementation(project(":repository"))

@@ -48,10 +48,6 @@ object Deps {
 
         const val material = "com.google.android.material:material:1.5.0"
 
-        object Navigation {
-            const val compose = "androidx.navigation:navigation-compose:2.4.0"
-        }
-
         object Room {
             private const val version = "2.4.2"
             const val room = "androidx.room:room-runtime:$version"
@@ -59,7 +55,7 @@ object Deps {
             const val compiler = "androidx.room:room-compiler:$version"
         }
 
-        const val splashScreen = "androidx.core:core-splashscreen:1.0.0-beta01"
+        const val splashScreen = "androidx.core:core-splashscreen:1.0.0-rc01"
 
         object Test {
             const val junit = "androidx.test.ext:junit:1.1.3"
@@ -70,9 +66,8 @@ object Deps {
 
     object Libs {
         object Accompanist {
-            private val version = "0.23.1"
-            val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
-            val navigationAnimation = "com.google.accompanist:accompanist-navigation-animation:$version"
+            private const val version = "0.23.1"
+            const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
         }
 
         object Coil {
@@ -87,8 +82,14 @@ object Deps {
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
         }
 
+        object ComposeDestinations {
+            private const val version = "1.5.7-beta"
+            const val core = "io.github.raamcosta.compose-destinations:core:$version"
+            const val ksp = "io.github.raamcosta.compose-destinations:ksp:$version"
+        }
+
         object Koin {
-            private const val version = "3.1.5"
+            private const val version = "3.2.0"
             const val koin = "io.insert-koin:koin-android:$version"
             const val compose = "io.insert-koin:koin-androidx-compose:$version"
         }
