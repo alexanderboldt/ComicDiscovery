@@ -1,13 +1,12 @@
 package com.alex.features.feature.image
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
 import com.alex.features.ui.theme.Black
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
@@ -22,11 +21,9 @@ fun ImageScreen(url: String) {
         systemUiController.isSystemBarsVisible = false
     }
 
-    Image(
-        painter = rememberImagePainter(url),
+    AsyncImage(
+        model = url,
         contentDescription = null,
-        modifier = Modifier
-            .background(Black)
-            .fillMaxSize()
+        modifier = Modifier.background(Black).fillMaxSize()
     )
 }

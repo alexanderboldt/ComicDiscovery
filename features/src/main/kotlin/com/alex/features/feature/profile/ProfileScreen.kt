@@ -26,7 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
 import com.alex.features.R
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
@@ -82,8 +82,8 @@ fun ProfileScreen() {
                         colorFilter = ColorFilter.tint(BrightGray)
                     )
                 } else {
-                    Image(
-                        painter = rememberImagePainter(avatar),
+                    AsyncImage(
+                        model = avatar,
                         contentDescription = null,
                         contentScale = ContentScale.Crop
                     )

@@ -27,10 +27,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
 import com.alex.features.R
 import com.alex.features.feature.character.detail.model.*
 import com.alex.features.feature.character.detail.model.State
+import com.alex.features.feature.character.overview.LoadingScreen
+import com.alex.features.feature.character.overview.MessageScreen
 import com.alex.features.feature.destinations.ImageScreenDestination
 import com.alex.features.ui.theme.*
 import com.alex.features.ui.theme.UltramarineBlue
@@ -88,8 +90,8 @@ fun CharacterScreen(state: State.Content.Character, viewModel: CharacterDetailVi
             .fillMaxSize()
             .verticalScroll(rememberScrollState())) {
 
-            Image(
-                painter = rememberImagePainter(state.character.imageUrl),
+            AsyncImage(
+                model = state.character.imageUrl,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
