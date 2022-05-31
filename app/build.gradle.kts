@@ -5,32 +5,6 @@ plugins {
     kotlin()
 }
 
-fun getCommitCount(): Int {
-    return try {
-        val stdout = ByteArrayOutputStream()
-        exec {
-            commandLine("git", "rev-list", "--count", "HEAD")
-            standardOutput = stdout
-        }
-        Integer.parseInt(stdout.toString().trim())
-    } catch (exception: Exception) {
-        1
-    }
-}
-
-fun getTag(): String? {
-    return try {
-        val stdout = ByteArrayOutputStream()
-        exec {
-            commandLine("git", "describe", "--tags", "--dirty")
-            standardOutput = stdout
-        }
-        stdout.toString().trim()
-    } catch (exception: Exception) {
-        null
-    }
-}
-
 android {
     compileSdk = Config.sdk
 
@@ -40,8 +14,8 @@ android {
         minSdk = Config.minSdk
         targetSdk = Config.sdk
 
-        versionCode = getCommitCount()
-        versionName = getTag()
+        versionCode = execute("git", "rev-list", "--count", "HEAD")?.let { Integer.parseInt(it) } ?: 1
+        versionName = execute("git", "describe", "--tags", "--dirty")
 
         ndk.abiFilters.addAll(mutableSetOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
 
@@ -112,4 +86,15 @@ dependencies {
     implementation(Deps.Libs.logcat)
 
     implementation(project(":features"))
+}
+
+fun execute(vararg args: Any) = try {
+    val stdout = ByteArrayOutputStream()
+    exec {
+        commandLine(*args)
+        standardOutput = stdout
+    }
+    stdout.toString().trim()
+} catch (exception: Exception) {
+    null
 }
