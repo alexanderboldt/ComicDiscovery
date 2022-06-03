@@ -30,7 +30,6 @@ val bottomNavigationItems = listOf(
     BottomNavigationItem("SettingsScreen", "Settings", Icons.Rounded.Settings)
 )
 
-@ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi

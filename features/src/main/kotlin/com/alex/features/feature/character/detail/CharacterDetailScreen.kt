@@ -26,7 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
 import com.alex.features.R
 import com.alex.features.feature.character.detail.model.*
@@ -45,8 +44,6 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 @Destination
-@ExperimentalCoilApi
-@ExperimentalAnimationApi
 @Composable
 fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigator: DestinationsNavigator) {
     val viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, userComesFromStarredScreen) })
@@ -79,8 +76,6 @@ fun SideEffects(viewModel: CharacterDetailViewModel) {
 
 // ----------------------------------------------------------------------------
 
-@ExperimentalAnimationApi
-@ExperimentalCoilApi
 @Composable
 fun CharacterScreen(state: State.Content.Character, viewModel: CharacterDetailViewModel, navigator: DestinationsNavigator) {
     BoxWithConstraints(modifier = Modifier
@@ -129,7 +124,6 @@ fun AttributeItem(@StringRes label: Int, text: String) {
     }
 }
 
-@ExperimentalAnimationApi
 @Composable
 fun BoxWithConstraintsScope.Starlist(viewModel: CharacterDetailViewModel) {
     var isExpanded by remember { mutableStateOf(false) }

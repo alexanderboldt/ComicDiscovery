@@ -28,7 +28,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import org.koin.androidx.compose.getViewModel
 
 @Destination
-@ExperimentalMaterialApi
 @Composable
 fun StarlistSettingsScreen() {
     val viewModel: StarlistViewModel = getViewModel()

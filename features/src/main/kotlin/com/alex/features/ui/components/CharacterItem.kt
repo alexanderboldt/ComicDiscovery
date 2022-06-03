@@ -11,12 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
 import com.alex.features.ui.theme.BrightGray
 import com.alex.features.ui.theme.DarkCharcoal
 
-@ExperimentalCoilApi
 @Composable
 fun CharacterItem(character: UiModelCharacter, onClick: () -> Unit) {
     Column(

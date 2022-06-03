@@ -27,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import coil.annotation.ExperimentalCoilApi
 import com.alex.features.R
 import com.alex.features.feature.character.overview.model.SideEffect
 import com.alex.features.feature.character.overview.model.State
@@ -43,9 +42,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Destination(start = true, route = "CharacterOverviewScreen")
-@ExperimentalCoilApi
 @ExperimentalComposeUiApi
-@ExperimentalAnimationApi
 @Composable
 fun CharacterOverviewScreen(navigator: DestinationsNavigator) {
     val viewModel: CharacterOverviewViewModel = getViewModel()
@@ -70,8 +67,6 @@ fun CharacterOverviewScreen(navigator: DestinationsNavigator) {
 
 // ----------------------------------------------------------------------------
 
-@ExperimentalCoilApi
-@ExperimentalAnimationApi
 @Composable
 fun SideEffects(navigator: DestinationsNavigator) {
     val viewModel: CharacterOverviewViewModel = getViewModel()
@@ -119,8 +114,6 @@ fun Searchbar() {
 
 // ----------------------------------------------------------------------------
 
-@ExperimentalAnimationApi
-@ExperimentalCoilApi
 @Composable
 fun CharactersScreen(state: State.Content.Items) {
     Box(modifier = Modifier.fillMaxSize()) {

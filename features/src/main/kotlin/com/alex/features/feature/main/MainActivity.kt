@@ -8,7 +8,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import coil.annotation.ExperimentalCoilApi
 import com.alex.features.feature.home.HomeScreen
 import com.alex.features.feature.main.model.State
 import com.alex.features.ui.theme.*
@@ -17,7 +16,6 @@ import org.koin.androidx.compose.getViewModel
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
-@ExperimentalCoilApi
 @ExperimentalMaterialApi
 class MainActivity : AppCompatActivity() {
 

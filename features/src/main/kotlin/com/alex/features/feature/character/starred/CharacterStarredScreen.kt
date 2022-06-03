@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
-import coil.annotation.ExperimentalCoilApi
 import com.alex.features.R
 import com.alex.features.feature.character.starred.model.SideEffect
 import com.alex.features.feature.character.starred.model.State
@@ -34,9 +33,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Destination(route = "CharacterStarredScreen")
-@ExperimentalMaterialApi
-@ExperimentalAnimationApi
-@ExperimentalCoilApi
 @Composable
 fun CharacterStarredScreen(navigator: DestinationsNavigator) {
     val viewModel: CharacterStarredViewModel = getViewModel()
@@ -62,9 +58,6 @@ fun CharacterStarredScreen(navigator: DestinationsNavigator) {
 
 // ----------------------------------------------------------------------------
 
-@ExperimentalMaterialApi
-@ExperimentalCoilApi
-@ExperimentalAnimationApi
 @Composable
 fun SideEffects(navigator: DestinationsNavigator) {
     val viewModel: CharacterStarredViewModel = getViewModel()
@@ -160,8 +153,6 @@ fun Starlist() {
 
 // ----------------------------------------------------------------------------
 
-@ExperimentalAnimationApi
-@ExperimentalCoilApi
 @Composable
 fun BoxScope.CharactersScreen(state: State.Content.Characters) {
     val viewModel: CharacterStarredViewModel = getViewModel()
