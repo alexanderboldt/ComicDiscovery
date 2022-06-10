@@ -30,8 +30,6 @@ import coil.compose.AsyncImage
 import com.alex.features.R
 import com.alex.features.feature.character.detail.model.*
 import com.alex.features.feature.character.detail.model.State
-import com.alex.features.feature.character.overview.LoadingScreen
-import com.alex.features.feature.character.overview.MessageScreen
 import com.alex.features.feature.destinations.ImageScreenDestination
 import com.alex.features.ui.theme.*
 import com.alex.features.ui.theme.UltramarineBlue
@@ -77,13 +75,21 @@ fun SideEffects(viewModel: CharacterDetailViewModel) {
 // ----------------------------------------------------------------------------
 
 @Composable
-fun CharacterScreen(state: State.Content.Character, viewModel: CharacterDetailViewModel, navigator: DestinationsNavigator) {
-    BoxWithConstraints(modifier = Modifier
-        .background(getColor(BrightGray, DarkCharcoal))
-        .fillMaxSize()) {
-        Column(modifier = Modifier
+fun CharacterScreen(
+    state: State.Content.Character,
+    viewModel: CharacterDetailViewModel,
+    navigator: DestinationsNavigator
+) {
+    BoxWithConstraints(
+        modifier = Modifier
+            .background(getColor(BrightGray, DarkCharcoal))
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())) {
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
 
             AsyncImage(
                 model = state.character.imageUrl,
@@ -139,7 +145,8 @@ fun BoxWithConstraintsScope.Starlist(viewModel: CharacterDetailViewModel) {
             .size(animateWidth, animateHeight),
         shape = RoundedCornerShape(animateCorner),
         color = CoralRed,
-        elevation = 6.dp) {
+        elevation = 6.dp
+    ) {
 
         Box {
             AnimatedVisibility(visible = isExpanded, enter = fadeIn(), exit = fadeOut()) {
@@ -214,8 +221,9 @@ fun StarlistItem(starlist: State.UiModelStarlist, viewModel: CharacterDetailView
                 checkedColor = BrightGray,
                 uncheckedColor = BrightGray,
                 checkmarkColor = CoralRed
-            ))
-        Spacer(modifier = Modifier.width(16.dp))
+            )
+        )
+        Spacer(Modifier.width(MaterialTheme.spacing.medium))
         Text(text = starlist.name, color = BrightGray)
     }
 }
@@ -224,22 +232,25 @@ fun StarlistItem(starlist: State.UiModelStarlist, viewModel: CharacterDetailView
 
 @Composable
 fun LoadingScreen(message: String) {
-    Column (
+    Column(
         modifier = Modifier
             .background(getColor(BrightGray, DarkCharcoal))
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center) {
+        verticalArrangement = Arrangement.Center
+    ) {
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = getColor(UltramarineBlue, BrightGray))
+            color = getColor(UltramarineBlue, BrightGray)
+        )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(Modifier.height(MaterialTheme.spacing.medium))
 
         Text(
             text = message,
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = getColor(DarkCharcoal, BrightGray))
+            color = getColor(DarkCharcoal, BrightGray)
+        )
     }
 }
 
@@ -247,12 +258,15 @@ fun LoadingScreen(message: String) {
 
 @Composable
 fun MessageScreen(message: String) {
-    Box(modifier = Modifier
-        .background(getColor(BrightGray, DarkCharcoal))
-        .fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .background(getColor(BrightGray, DarkCharcoal))
+            .fillMaxSize()
+    ) {
         Text(
             text = message,
             modifier = Modifier.align(Alignment.Center),
-            color = getColor(DarkCharcoal, BrightGray))
+            color = getColor(DarkCharcoal, BrightGray)
+        )
     }
 }

@@ -4,12 +4,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 
 @Composable
 fun ComicDiscoveryTheme(isDarkTheme: Boolean, content: @Composable () -> Unit) {
-    MaterialTheme(
-        colors = if (isDarkTheme) darkColors() else lightColors(),
-        typography = Typography,
-        shapes = Shapes,
-        content = content)
+    CompositionLocalProvider(LocalSpacing provides Spacing()) {
+        MaterialTheme(
+            colors = if (isDarkTheme) darkColors() else lightColors(),
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
+    }
 }

@@ -16,7 +16,8 @@ fun ComicDiscoveryOutlinedButton(text: String, modifier: Modifier = Modifier, is
     val color = if (MaterialTheme.colors.isLight) UltramarineBlue else BrightGray
 
     OutlinedButton(
-        onClick = { if (isEnabled) onClick() },
+        onClick = { onClick() },
+        enabled = isEnabled,
         modifier = modifier,
         border = BorderStroke(1.dp, if (isEnabled) color else DarkElectricBlue),
         colors = ButtonDefaults.outlinedButtonColors(

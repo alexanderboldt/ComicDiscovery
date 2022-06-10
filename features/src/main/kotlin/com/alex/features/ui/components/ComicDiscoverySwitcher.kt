@@ -32,12 +32,11 @@ fun ComicDiscoverySwitcher(
             .clip(MaterialTheme.shapes.small)
             .padding(0.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically) {
-
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         require(options.size >= 2) { "Number of options must be at least 2" }
 
         options.forEachIndexed { index, text ->
-
             val backgroundColor = when (selected) {
                 index -> getColor(UltramarineBlue, DarkElectricBlue)
                 else -> getColor(BrightGray, DarkCharcoal)
@@ -55,15 +54,18 @@ fun ComicDiscoverySwitcher(
                 elevation = ButtonDefaults.elevation(0.dp, 0.dp),
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxHeight()) {
+                    .fillMaxHeight()
+            ) {
                 Text(text)
             }
 
             if (index != options.lastIndex) {
-                Spacer(modifier = Modifier
-                    .width(1.dp)
-                    .fillMaxHeight()
-                    .background(getColor(UltramarineBlue, DarkElectricBlue)))
+                Spacer(
+                    Modifier
+                        .width(1.dp)
+                        .fillMaxHeight()
+                        .background(getColor(UltramarineBlue, DarkElectricBlue))
+                )
             }
         }
     }

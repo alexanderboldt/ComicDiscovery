@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alex.features.R
 import com.alex.features.feature.starlist.model.State
+import com.alex.features.ui.components.HorizontalBorder
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
 import com.alex.features.util.getTextFieldColors
@@ -79,10 +80,8 @@ fun StarlistSettingsScreen() {
                         }
                     }
 
-                    Spacer(
-                        modifier = Modifier
-                            .height(1.dp)
-                            .fillMaxWidth()
+                    HorizontalBorder(
+                        Modifier
                             .padding(horizontal = 16.dp)
                             .background(getColor(DarkElectricBlue, BrightGray))
                     )

@@ -25,6 +25,7 @@ import com.alex.features.feature.character.starred.model.State
 import com.alex.features.feature.destinations.CharacterDetailScreenDestination
 import com.alex.features.feature.destinations.StarlistSettingsScreenDestination
 import com.alex.features.ui.components.CharacterItem
+import com.alex.features.ui.components.HorizontalBorder
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
 import com.ramcosta.composedestinations.annotation.Destination
@@ -142,12 +143,7 @@ fun Starlist() {
             }
         }
 
-        Spacer(
-            modifier = Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-                .background(getColor(DarkElectricBlue, BrightGray))
-        )
+        HorizontalBorder(Modifier.background(getColor(DarkElectricBlue, BrightGray)))
     }
 }
 

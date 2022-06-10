@@ -12,13 +12,15 @@ import com.alex.features.R
 
 @Composable
 fun LoadMoreItem(isEnabled: Boolean, onClick: () -> Unit) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp), contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier.fillMaxWidth().padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
         ComicDiscoveryOutlinedButton(
             text = stringResource(id = R.string.character_overview_load_more_characters),
             isEnabled = isEnabled,
-            onClick = onClick)
+            onClick = onClick
+        )
     }
 }
 

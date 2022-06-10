@@ -54,7 +54,6 @@ fun CharacterOverviewScreen(navigator: DestinationsNavigator) {
             .background(getColor(BrightGray, DarkCharcoal))
             .fillMaxSize()
     ) {
-
         Searchbar()
 
         when (val state = viewModel.state.content) {
@@ -140,7 +139,6 @@ fun CharactersScreen(state: State.Content.Items) {
             enter = expandIn(animationSpec = tween(300), expandFrom = Alignment.TopStart),
             exit = shrinkOut(animationSpec = tween(300), shrinkTowards = Alignment.TopStart)
         ) {
-
             FloatingActionButton(
                 onClick = { scope.launch { listState.animateScrollToItem(0) } },
                 backgroundColor = CoralRed,
@@ -173,7 +171,7 @@ fun LoadingScreen(message: String) {
             color = getColor(UltramarineBlue, BrightGray)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(Modifier.height(MaterialTheme.spacing.medium))
 
         Text(
             text = message,
