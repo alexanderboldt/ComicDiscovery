@@ -42,7 +42,7 @@ object Deps {
         }
 
         object LifeCycle {
-            private const val version = "2.4.0"
+            private const val version = "2.4.1"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         }
 
@@ -76,14 +76,14 @@ object Deps {
         }
 
         object Coroutines {
-            private const val version = "1.6.0"
+            private const val version = "1.6.2"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
         }
 
         object ComposeDestinations {
-            private const val version = "1.5.7-beta"
+            private const val version = "1.5.9-beta"
             const val core = "io.github.raamcosta.compose-destinations:core:$version"
             const val ksp = "io.github.raamcosta.compose-destinations:ksp:$version"
         }
