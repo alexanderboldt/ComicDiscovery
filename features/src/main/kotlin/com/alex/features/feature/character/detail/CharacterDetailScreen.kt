@@ -90,7 +90,6 @@ fun CharacterScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-
             AsyncImage(
                 model = state.character.imageUrl,
                 contentDescription = null,
@@ -155,12 +154,10 @@ fun BoxWithConstraintsScope.Starlist(viewModel: CharacterDetailViewModel) {
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(16.dp)
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Text(
-                                text = stringResource(id = R.string.character_detail_no_starlists),
-                                modifier = Modifier.align(Alignment.Center)
-                            )
+                            Text(text = stringResource(id = R.string.character_detail_no_starlists))
                         }
                     }
                     is State.Starlist.Starlists -> {
@@ -261,11 +258,11 @@ fun MessageScreen(message: String) {
     Box(
         modifier = Modifier
             .background(getColor(BrightGray, DarkCharcoal))
-            .fillMaxSize()
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = message,
-            modifier = Modifier.align(Alignment.Center),
             color = getColor(DarkCharcoal, BrightGray)
         )
     }

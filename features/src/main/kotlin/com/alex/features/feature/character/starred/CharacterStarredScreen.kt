@@ -45,14 +45,11 @@ fun CharacterStarredScreen(navigator: DestinationsNavigator) {
             .background(getColor(BrightGray, DarkCharcoal))
             .fillMaxSize()
     ) {
-
         Starlist()
 
-        Box(modifier = Modifier.fillMaxSize()) {
-            when (val state = viewModel.state.content) {
-                is State.Content.Characters -> CharactersScreen(state)
-                is State.Content.Message -> MessageScreen(state.message)
-            }
+        when (val state = viewModel.state.content) {
+            is State.Content.Characters -> CharactersScreen(state)
+            is State.Content.Message -> MessageScreen(state.message)
         }
     }
 }
@@ -150,43 +147,45 @@ fun Starlist() {
 // ----------------------------------------------------------------------------
 
 @Composable
-fun BoxScope.CharactersScreen(state: State.Content.Characters) {
+fun CharactersScreen(state: State.Content.Characters) {
     val viewModel: CharacterStarredViewModel = getViewModel()
 
     val listState = rememberLazyListState()
 
     val scope = rememberCoroutineScope()
 
-    LazyColumn(state = listState) {
-        items(
-            items = state.characters,
-            key = { character -> character.id }) { character ->
-            CharacterItem(character) {
-                viewModel.onClickCharacter(character.id)
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(state = listState) {
+            items(
+                items = state.characters,
+                key = { character -> character.id }) { character ->
+                CharacterItem(character) {
+                    viewModel.onClickCharacter(character.id)
+                }
             }
         }
-    }
 
-    AnimatedVisibility(
-        visible = listState.firstVisibleItemIndex >= 1,
-        modifier = Modifier.align(Alignment.BottomEnd),
-        enter = expandIn(animationSpec = tween(300), expandFrom = Alignment.TopStart),
-        exit = shrinkOut(animationSpec = tween(300), shrinkTowards = Alignment.TopStart)
-    ) {
-
-        FloatingActionButton(
-            onClick = { scope.launch { listState.animateScrollToItem(0) } },
-            backgroundColor = CoralRed,
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.BottomEnd)
+        AnimatedVisibility(
+            visible = listState.firstVisibleItemIndex >= 1,
+            modifier = Modifier.align(Alignment.BottomEnd),
+            enter = expandIn(animationSpec = tween(300), expandFrom = Alignment.TopStart),
+            exit = shrinkOut(animationSpec = tween(300), shrinkTowards = Alignment.TopStart)
         ) {
-            Image(
-                imageVector = Icons.Rounded.KeyboardArrowUp,
-                contentDescription = null,
-                modifier = Modifier.size(32.dp),
-                colorFilter = ColorFilter.tint(BrightGray)
-            )
+
+            FloatingActionButton(
+                onClick = { scope.launch { listState.animateScrollToItem(0) } },
+                backgroundColor = CoralRed,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.BottomEnd)
+            ) {
+                Image(
+                    imageVector = Icons.Rounded.KeyboardArrowUp,
+                    contentDescription = null,
+                    modifier = Modifier.size(32.dp),
+                    colorFilter = ColorFilter.tint(BrightGray)
+                )
+            }
         }
     }
 }
@@ -194,10 +193,11 @@ fun BoxScope.CharactersScreen(state: State.Content.Characters) {
 // ----------------------------------------------------------------------------
 
 @Composable
-fun BoxScope.MessageScreen(message: String) {
-    Text(
-        text = message,
-        modifier = Modifier.align(Alignment.Center),
-        color = getColor(DarkCharcoal, BrightGray)
-    )
+fun MessageScreen(message: String) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(
+            text = message,
+            color = getColor(DarkCharcoal, BrightGray)
+        )
+    }
 }

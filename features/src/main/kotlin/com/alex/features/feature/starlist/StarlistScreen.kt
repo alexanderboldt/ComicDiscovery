@@ -40,10 +40,10 @@ fun StarlistSettingsScreen() {
     ) {
 
         var showDialogUpdate by remember { mutableStateOf(false) }
-        var updateStarlist: State.UiModelStarlistItem.Existing? by remember { mutableStateOf(null) }
+        var updateStarlist: State.StarlistItem.Existing? by remember { mutableStateOf(null) }
 
         var showDialogDelete by remember { mutableStateOf(false) }
-        var deleteStarlist: State.UiModelStarlistItem.Existing? by remember { mutableStateOf(null) }
+        var deleteStarlist: State.StarlistItem.Existing? by remember { mutableStateOf(null) }
 
         Column {
             val textStyle = TextStyle(
@@ -62,7 +62,7 @@ fun StarlistSettingsScreen() {
             LazyColumn(state = listState) {
                 items(items = viewModel.state.starlists) { starlist ->
                     when (starlist) {
-                        is State.UiModelStarlistItem.Existing -> {
+                        is State.StarlistItem.Existing -> {
                             StarlistItemExisting(
                                 starlist,
                                 onClickUpdate = {
@@ -75,7 +75,7 @@ fun StarlistSettingsScreen() {
                                 }
                             )
                         }
-                        State.UiModelStarlistItem.New -> {
+                        State.StarlistItem.New -> {
                             StarlistItemNew()
                         }
                     }
@@ -149,9 +149,9 @@ fun StarlistSettingsScreen() {
 
 @Composable
 fun StarlistItemExisting(
-    starlist: State.UiModelStarlistItem.Existing,
-    onClickUpdate: (State.UiModelStarlistItem.Existing) -> Unit,
-    onClickDelete: (State.UiModelStarlistItem.Existing) -> Unit
+    starlist: State.StarlistItem.Existing,
+    onClickUpdate: (State.StarlistItem.Existing) -> Unit,
+    onClickDelete: (State.StarlistItem.Existing) -> Unit
 ) {
     Row(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),

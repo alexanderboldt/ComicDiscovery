@@ -21,6 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -164,7 +165,8 @@ fun LoadingScreen(message: String) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp), verticalArrangement = Arrangement.Center
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center
     ) {
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -185,10 +187,9 @@ fun LoadingScreen(message: String) {
 
 @Composable
 fun MessageScreen(message: String) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(
             text = message,
-            modifier = Modifier.align(Alignment.Center),
             color = getColor(DarkCharcoal, BrightGray)
         )
     }

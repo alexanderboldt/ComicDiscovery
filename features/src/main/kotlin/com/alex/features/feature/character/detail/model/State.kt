@@ -21,19 +21,19 @@ class State(initialContent: Content) {
         val enemies: String
     )
 
-    sealed class Content {
-        data class Character(val character: UiModelCharacter) : Content()
-        data class Loading(val message: String) : Content()
-        data class Message(val message: String) : Content()
+    sealed interface Content {
+        data class Character(val character: UiModelCharacter) : Content
+        data class Loading(val message: String) : Content
+        data class Message(val message: String) : Content
     }
 
     // ----------------------------------------------------------------------------
 
     data class UiModelStarlist(val id: Long, val name: String, val isChecked: Boolean)
 
-    sealed class Starlist {
-        object NoListsAvailable : Starlist()
-        data class Starlists(val starlists: List<UiModelStarlist>) : Starlist()
+    sealed interface Starlist {
+        object NoListsAvailable : Starlist
+        data class Starlists(val starlists: List<UiModelStarlist>) : Starlist
     }
 
     // ----------------------------------------------------------------------------

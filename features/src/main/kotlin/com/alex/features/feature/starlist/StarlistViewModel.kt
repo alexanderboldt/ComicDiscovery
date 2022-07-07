@@ -7,7 +7,6 @@ import com.alex.repository.model.RpModelList
 import com.alex.repository.StarlistRepository
 import com.alex.util.clearAndAdd
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.launch
 
@@ -25,7 +24,6 @@ class StarlistViewModel(private val starlistRepository: StarlistRepository) : Ba
 
     fun setNewStarlistName(name: String) {
         state.starlistNameNew = name
-
     }
 
     fun onCreateNewStarlist() {
@@ -66,8 +64,8 @@ class StarlistViewModel(private val starlistRepository: StarlistRepository) : Ba
 
     private fun mapStarlists(repositoryStarlists: List<RpModelList>) {
         repositoryStarlists
-            .map { State.UiModelStarlistItem.Existing(it.id, it.name) }
-            .plus(State.UiModelStarlistItem.New)
+            .map { State.StarlistItem.Existing(it.id, it.name) }
+            .plus(State.StarlistItem.New)
             .also { state.starlists.clearAndAdd(it) }
     }
 }

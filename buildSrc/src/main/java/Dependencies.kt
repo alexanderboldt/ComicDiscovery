@@ -21,11 +21,11 @@ object Deps {
         }
 
         object LifeCycle {
-            private const val version = "2.4.1"
+            private const val version = "2.5.0"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         }
 
-        const val material = "com.google.android.material:material:1.5.0"
+        const val material = "com.google.android.material:material:1.6.1"
 
         object Room {
             private const val version = "2.4.2"
@@ -62,7 +62,7 @@ object Deps {
         }
 
         object ComposeDestinations {
-            private const val version = "1.5.9-beta"
+            private const val version = "1.5.12-beta"
             const val core = "io.github.raamcosta.compose-destinations:core:$version"
             const val ksp = "io.github.raamcosta.compose-destinations:ksp:$version"
         }
@@ -73,12 +73,12 @@ object Deps {
             const val compose = "io.insert-koin:koin-androidx-compose:$version"
         }
 
-        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.8.1"
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.9.1"
 
         const val logcat = "com.squareup.logcat:logcat:0.1"
 
         object Mockito {
-            const val core = "org.mockito:mockito-core:4.3.1"
+            const val core = "org.mockito:mockito-core:4.6.1"
         }
 
         object Moshi {
@@ -88,7 +88,7 @@ object Deps {
         }
 
         object ProtoBuf {
-            private const val version = "3.19.1"
+            private const val version = "3.21.2"
             const val protoc = "com.google.protobuf:protoc:$version"
             const val javaLite = "com.google.protobuf:protobuf-javalite:$version"
         }

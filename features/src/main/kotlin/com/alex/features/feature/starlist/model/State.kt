@@ -7,14 +7,14 @@ import androidx.compose.runtime.setValue
 
 class State {
 
-    sealed class UiModelStarlistItem {
-        data class Existing(val id: Long, val name: String) : UiModelStarlistItem()
-        object New : UiModelStarlistItem()
+    sealed interface StarlistItem {
+        data class Existing(val id: Long, val name: String) : StarlistItem
+        object New : StarlistItem
     }
 
     // ----------------------------------------------------------------------------
 
-    val starlists = mutableStateListOf<UiModelStarlistItem>()
+    val starlists = mutableStateListOf<StarlistItem>()
 
     var starlistNameNew by mutableStateOf("")
 
