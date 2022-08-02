@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.2.0")
+        classpath("com.android.tools.build:gradle:7.2.1")
         classpath(kotlin("gradle-plugin", Deps.Kotlin.version))
         classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.18")
 

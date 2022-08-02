@@ -1,19 +1,19 @@
 object Deps {
     object Kotlin {
-        const val version = "1.6.10"
+        const val version = "1.7.0"
         const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
     }
 
     object AndroidX {
         object Compose {
-            const val version = "1.1.1"
+            const val version = "1.2.0"
             const val ui = "androidx.compose.ui:ui:$version"
             const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
             const val material = "androidx.compose.material:material:$version"
         }
 
-        const val core = "androidx.core:core-ktx:1.7.0"
+        const val core = "androidx.core:core-ktx:1.8.0"
 
         object DataStore {
             private const val version = "1.0.0"
@@ -34,7 +34,7 @@ object Deps {
             const val compiler = "androidx.room:room-compiler:$version"
         }
 
-        const val splashScreen = "androidx.core:core-splashscreen:1.0.0-rc01"
+        const val splashScreen = "androidx.core:core-splashscreen:1.0.0"
 
         object Test {
             const val junit = "androidx.test.ext:junit:1.1.3"
@@ -45,7 +45,7 @@ object Deps {
 
     object Libs {
         object Accompanist {
-            private const val version = "0.23.1"
+            private const val version = "0.25.0"
             const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
         }
 
@@ -55,14 +55,14 @@ object Deps {
         }
 
         object Coroutines {
-            private const val version = "1.6.2"
+            private const val version = "1.6.4"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
         }
 
         object ComposeDestinations {
-            private const val version = "1.5.12-beta"
+            private const val version = "1.6.15-beta"
             const val core = "io.github.raamcosta.compose-destinations:core:$version"
             const val ksp = "io.github.raamcosta.compose-destinations:ksp:$version"
         }
@@ -88,7 +88,7 @@ object Deps {
         }
 
         object ProtoBuf {
-            private const val version = "3.21.2"
+            private const val version = "3.21.4"
             const val protoc = "com.google.protobuf:protoc:$version"
             const val javaLite = "com.google.protobuf:protobuf-javalite:$version"
         }
