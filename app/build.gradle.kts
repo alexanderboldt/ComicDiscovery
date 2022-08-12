@@ -41,12 +41,11 @@ android {
             isDebuggable = false
 
             // enables code shrinking, obfuscation and optimization
-            // currently turned off, because of the huge effort for a stable build
-            isMinifyEnabled = false
+            isMinifyEnabled = true
 
             // enables resource shrinking, which is performed by the Android Gradle Plugin
             // this depends on isMinifyEnabled
-            isShrinkResources = false
+            isShrinkResources = true
 
             // rules for R8
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
