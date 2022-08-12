@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.alex.features.R
 import com.alex.features.feature.base.BaseViewModel
 import com.alex.features.feature.base.ResourceProvider
+import com.alex.features.feature.base.WidgetManager
 import com.alex.features.feature.character.detail.model.*
 import com.alex.features.util.printCatch
 import com.alex.repository.CharacterRepository
@@ -17,8 +18,9 @@ class CharacterDetailViewModel(
     private val userComesFromStarredScreen: Boolean,
     private val starlistRepository: StarlistRepository,
     private val characterRepository: CharacterRepository,
-    private val resourceProvider: ResourceProvider
-) : BaseViewModel<State, SideEffect>(State(State.Content.Message(resourceProvider.getString(R.string.character_detail_message_loading)))) {
+    private val resourceProvider: ResourceProvider,
+    private val widgetManager: WidgetManager
+) : BaseViewModel<State, Unit>(State(State.Content.Message(resourceProvider.getString(R.string.character_detail_message_loading)))) {
 
     init {
         getCharacter()
@@ -38,9 +40,7 @@ class CharacterDetailViewModel(
                 when (isChecked) {
                     true -> R.string.character_detail_message_error_star
                     false -> R.string.character_detail_message_error_unstar
-                }.also { messageResource ->
-                    postSideEffect(SideEffect.Message(resourceProvider.getString(messageResource)))
-                }
+                }.also { widgetManager.showToast(resourceProvider.getString(it)) }
                 state.isStarlistLoading = false
             }.collect {
                 getStarlists()

@@ -2,6 +2,7 @@ package com.alex.features
 
 import android.content.Context
 import com.alex.features.feature.base.ResourceProvider
+import com.alex.features.feature.base.WidgetManager
 import com.alex.features.feature.character.detail.CharacterDetailViewModel
 import com.alex.features.feature.character.overview.CharacterOverviewViewModel
 import com.alex.features.feature.character.starred.CharacterStarredViewModel
@@ -30,12 +31,13 @@ object Features {
                 viewModel { CharacterOverviewViewModel(get(), get()) }
                 viewModel { CharacterStarredViewModel(get(), get()) }
                 viewModel { (name: Int, userComesFromStarredScreen: Boolean) ->
-                    CharacterDetailViewModel(name, userComesFromStarredScreen, get(), get(), get())
+                    CharacterDetailViewModel(name, userComesFromStarredScreen, get(), get(), get(), get())
                 }
                 viewModel { SettingsViewModel(get()) }
                 viewModel { ProfileViewModel(get()) }
                 // resource
                 single { ResourceProvider(androidContext().resources) }
+                single { WidgetManager(androidContext()) }
             }
         )
     }

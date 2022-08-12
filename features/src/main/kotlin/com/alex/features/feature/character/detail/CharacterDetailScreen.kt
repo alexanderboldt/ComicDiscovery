@@ -1,6 +1,5 @@
 package com.alex.features.feature.character.detail
 
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
@@ -21,14 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.alex.features.R
-import com.alex.features.feature.character.detail.model.*
 import com.alex.features.feature.character.detail.model.State
 import com.alex.features.feature.destinations.ImageScreenDestination
 import com.alex.features.ui.theme.*
@@ -36,8 +33,6 @@ import com.alex.features.ui.theme.UltramarineBlue
 import com.alex.features.util.getColor
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -46,29 +41,10 @@ import org.koin.core.parameter.parametersOf
 fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigator: DestinationsNavigator) {
     val viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, userComesFromStarredScreen) })
 
-    SideEffects(viewModel)
-
     when (val state = viewModel.state.content) {
         is State.Content.Character -> CharacterScreen(state, viewModel, navigator)
         is State.Content.Loading -> LoadingScreen(state.message)
         is State.Content.Message -> MessageScreen(state.message)
-    }
-}
-
-// ----------------------------------------------------------------------------
-
-@Composable
-fun SideEffects(viewModel: CharacterDetailViewModel) {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-
-    LaunchedEffect(Unit) {
-        scope.launch {
-            viewModel
-                .event
-                .map { it as SideEffect.Message }
-                .collect { Toast.makeText(context, it.message, Toast.LENGTH_LONG).show() }
-        }
     }
 }
 

@@ -6,7 +6,6 @@ import com.alex.features.feature.settings.model.State
 import com.alex.repository.model.RpModelTheme
 import com.alex.repository.SettingsRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val settingsRepository: SettingsRepository) : BaseViewModel<State, Unit>(State()) {
