@@ -8,6 +8,7 @@
     <!-- MainActivity -->
     <string name="bottom_navigation_page_search">Search</string>
     <string name="bottom_navigation_page_starred">Starred</string>
+    <string name="bottom_navigation_page_user">User</string>
     <string name="bottom_navigation_page_settings">Settings</string>
 
     <!-- Screen Character Overview -->

@@ -1,6 +1,8 @@
 package com.alex.features
 
 import android.content.Context
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.alex.features.feature.base.ResourceProvider
 import com.alex.features.feature.base.WidgetManager
 import com.alex.features.feature.character.detail.CharacterDetailViewModel
@@ -17,6 +19,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalAnimationApi::class)
 object Features {
 
     fun init(context: Context) {
@@ -24,9 +27,12 @@ object Features {
 
         loadKoinModules(
             module {
+                // resource
+                single { ResourceProvider(androidContext().resources) }
+                single { WidgetManager(androidContext()) }
                 // features
                 viewModel { MainViewModel(get()) }
-                viewModel { HomeViewModel() }
+                viewModel { HomeViewModel(get()) }
                 viewModel { StarlistViewModel(get()) }
                 viewModel { CharacterOverviewViewModel(get(), get()) }
                 viewModel { CharacterStarredViewModel(get(), get()) }
@@ -35,9 +41,6 @@ object Features {
                 }
                 viewModel { SettingsViewModel(get()) }
                 viewModel { ProfileViewModel(get()) }
-                // resource
-                single { ResourceProvider(androidContext().resources) }
-                single { WidgetManager(androidContext()) }
             }
         )
     }

@@ -41,7 +41,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-@Destination(start = true, route = "CharacterOverviewScreen")
+@Destination(start = true)
 @ExperimentalComposeUiApi
 @Composable
 fun CharacterOverviewScreen(navigator: DestinationsNavigator) {

@@ -33,7 +33,7 @@ import com.alex.features.util.getColor
 import com.ramcosta.composedestinations.annotation.Destination
 import org.koin.androidx.compose.getViewModel
 
-@Destination(route = "ProfileScreen")
+@Destination
 @ExperimentalAnimationApi
 @Composable
 fun ProfileScreen() {

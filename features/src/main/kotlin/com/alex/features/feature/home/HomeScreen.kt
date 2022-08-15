@@ -13,13 +13,14 @@ import com.alex.features.feature.NavGraphs
 import com.alex.features.ui.theme.*
 import com.alex.features.util.getColor
 import com.ramcosta.composedestinations.DestinationsNavHost
+import org.koin.androidx.compose.getViewModel
 
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen() {
-    val viewModel: HomeViewModel = viewModel()
+    val viewModel: HomeViewModel = getViewModel()
     val navController = rememberNavController()
 
     Scaffold(

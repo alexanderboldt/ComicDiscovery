@@ -18,7 +18,7 @@ import com.alex.features.util.getColor
 import com.ramcosta.composedestinations.annotation.Destination
 import org.koin.androidx.compose.getViewModel
 
-@Destination(route = "SettingsScreen")
+@Destination
 @Composable
 fun SettingsScreen() {
     val viewModel: SettingsViewModel = getViewModel()

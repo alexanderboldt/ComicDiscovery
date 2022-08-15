@@ -33,7 +33,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-@Destination(route = "CharacterStarredScreen")
+@Destination
 @Composable
 fun CharacterStarredScreen(navigator: DestinationsNavigator) {
     val viewModel: CharacterStarredViewModel = getViewModel()
