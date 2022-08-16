@@ -5,9 +5,10 @@ import com.alex.database.character.CharacterDao
 import com.alex.database.starlist.StarlistDao
 import com.alex.database.starlistCharacter.StarlistCharacterDao
 
-object ComicDiscoveryDatabase {
+class ComicDiscoveryDatabase(context: Context) {
 
-    fun init(context: Context) {
+    init {
+        println("debugg: ComicDiscoveryDatabase init")
         ComicDiscoveryDatabaseInternal.init(context)
     }
 

@@ -1,6 +1,5 @@
 package com.alex.repository
 
-import android.content.Context
 import com.alex.api.ApiClient
 import com.alex.database.ComicDiscoveryDatabase
 import com.alex.datastore.settings.SettingsDataStore
@@ -9,20 +8,18 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
-object Repository {
+object RepositoryModule {
 
-    fun init(context: Context) {
-        ComicDiscoveryDatabase.init(context)
-
+    fun init() {
         loadKoinModules(
             module {
-                // datasource-classes
+                // datasource classes
                 factory { ApiClient.routes }
-                factory { ComicDiscoveryDatabase }
+                single { ComicDiscoveryDatabase(androidContext()) }
                 factory { SettingsDataStore(androidContext()) }
                 factory { FileManager(androidContext()) }
 
-                // repository-classes
+                // repository classes
                 factory { CharacterRepository(get(), get()) }
                 factory { ProfileRepository(androidContext(), get()) }
                 factory { SearchRepository(get()) }

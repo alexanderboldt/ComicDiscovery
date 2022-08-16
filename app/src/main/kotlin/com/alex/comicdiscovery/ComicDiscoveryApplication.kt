@@ -1,7 +1,7 @@
 package com.alex.comicdiscovery
 
 import android.app.Application
-import com.alex.features.Features
+import com.alex.features.FeaturesModule
 import logcat.AndroidLogcatLogger
 import logcat.LogPriority
 import org.koin.android.ext.koin.androidContext
@@ -13,7 +13,7 @@ class ComicDiscoveryApplication : Application() {
         super.onCreate()
 
         setupKoin()
-        setupFeatures()
+        setupFeaturesModule()
         setupLogcat()
     }
 
@@ -25,8 +25,8 @@ class ComicDiscoveryApplication : Application() {
         }
     }
 
-    private fun setupFeatures() {
-        Features.init(this)
+    private fun setupFeaturesModule() {
+        FeaturesModule.init()
     }
 
     private fun setupLogcat() {

@@ -1,6 +1,5 @@
 package com.alex.features
 
-import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.alex.features.feature.base.ResourceProvider
@@ -20,16 +19,17 @@ import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalAnimationApi::class)
-object Features {
+object FeaturesModule {
 
-    fun init(context: Context) {
-        Repository.init(context)
+    fun init() {
+        RepositoryModule.init()
 
         loadKoinModules(
             module {
                 // resource
                 single { ResourceProvider(androidContext().resources) }
                 single { WidgetManager(androidContext()) }
+
                 // features
                 viewModel { MainViewModel(get()) }
                 viewModel { HomeViewModel(get()) }
