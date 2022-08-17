@@ -11,11 +11,9 @@ import com.alex.repository.model.RpModelCharacterMinimal
 import com.alex.repository.model.RpModelList
 import com.alex.repository.model.RpModelResponse
 import com.alex.repository.util.fields
+import com.alex.repository.util.flowIo
 import com.alex.repository.util.withPrefix
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 /**
  * Manages the handling of the Starlists and associated characters.
@@ -28,7 +26,6 @@ class StarlistRepository(
     private val database: ComicDiscoveryDatabase
 ) {
 
-    // ----------------------------------------------------------------------------
     // Starlist-functions
 
     /**
@@ -38,19 +35,19 @@ class StarlistRepository(
      *
      * @return Returns [RpModelList] in a [Flow].
      */
-    fun create(name: String) = flow {
+    fun create(name: String) = flowIo {
         val id = database.starlistDao.insert(DbModelStarlist(0, name))
         emit(RpModelList(id, name))
-    }.flowOn(Dispatchers.IO)
+    }
 
     /**
      * Returns all Starlists.
      *
      * @return Returns a [List] of [RpModelList] in a [Flow].
      */
-    fun getAll() = flow {
+    fun getAll() = flowIo {
         emit(database.starlistDao.getAll().toRpModel())
-    }.flowOn(Dispatchers.IO)
+    }
 
     /**
      * Updates an existing Starlist with a new name.
@@ -60,10 +57,9 @@ class StarlistRepository(
      *
      * @return Returns true, if it was successful otherwise false.
      */
-    fun update(id: Long, name: String) = flow {
-        val affectedRows = database.starlistDao.update(DbModelStarlist(id, name))
-        emit(affectedRows > 0)
-    }.flowOn(Dispatchers.IO)
+    fun update(id: Long, name: String) = flowIo {
+        emit(database.starlistDao.update(DbModelStarlist(id, name)) > 0)
+    }
 
     /**
      * Deletes a Starlist.
@@ -72,10 +68,9 @@ class StarlistRepository(
      *
      * @return Returns true, if it was successful otherwise false in a [Flow].
      */
-    fun delete(id: Long) = flow {
-        val affectedRows = database.starlistDao.delete(id)
-        emit(affectedRows > 0)
-    }.flowOn(Dispatchers.IO)
+    fun delete(id: Long) = flowIo {
+        emit(database.starlistDao.delete(id) > 0)
+    }
 
     // ----------------------------------------------------------------------------
     // Associated characters
@@ -88,7 +83,7 @@ class StarlistRepository(
      *
      * @return Returns true, if it was successful otherwise false in a [Flow].
      */
-    fun linkCharacter(starlistId: Long, characterId: Int) = flow {
+    fun linkCharacter(starlistId: Long, characterId: Int) = flowIo {
         if (database.characterDao.getCharacter(characterId) == null) {
             apiRoutes
                 .getCharacter(characterId.withPrefix, fields)
@@ -98,7 +93,7 @@ class StarlistRepository(
 
         database.starlistCharacterDao.insert(DbModelStarlistCharacter(starlistId, characterId))
         emit(true)
-    }.flowOn(Dispatchers.IO)
+    }
 
     /**
      * Releases a character from a Starlist.
@@ -108,7 +103,7 @@ class StarlistRepository(
      *
      * @return Returns true, if it was successful otherwise false in a [Flow].
      */
-    fun releaseCharacter(starlistId: Long, characterId: Int) = flow {
+    fun releaseCharacter(starlistId: Long, characterId: Int) = flowIo {
         database.starlistCharacterDao.delete(starlistId, characterId)
 
         // if the current character is not associated with another list,
@@ -117,7 +112,7 @@ class StarlistRepository(
             database.characterDao.delete(characterId)
         }
         emit(true)
-    }.flowOn(Dispatchers.IO)
+    }
 
     /**
      * Returns all characters associated to a Starlist.
@@ -126,7 +121,7 @@ class StarlistRepository(
      *
      * @return Returns a [List] of [RpModelCharacterMinimal] in a [Flow].
      */
-    fun getStarredCharacters(starlistId: Long) = flow {
+    fun getStarredCharacters(starlistId: Long) = flowIo {
         database
             .starlistDao
             .getCharacters(starlistId)
@@ -137,7 +132,7 @@ class StarlistRepository(
                     characters.toRpModelMinimal()
                 )
             }.also { emit(it) }
-    }.flowOn(Dispatchers.IO)
+    }
 
     /**
      * Returns all Starlists associated to a character.
@@ -146,7 +141,7 @@ class StarlistRepository(
      *
      * @return Returns a [List] of [Long]-Id's in a [Flow].
      */
-    fun getAssociatedStarlists(characterId: Int) = flow {
+    fun getAssociatedStarlists(characterId: Int) = flowIo {
         emit(database.starlistCharacterDao.getAssociatedStarlists(characterId))
-    }.flowOn(Dispatchers.IO)
+    }
 }

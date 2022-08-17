@@ -6,11 +6,9 @@ import com.alex.repository.mapping.toRpModel
 import com.alex.repository.model.RpModelCharacter
 import com.alex.repository.model.RpModelResponse
 import com.alex.repository.util.fields
+import com.alex.repository.util.flowIo
 import com.alex.repository.util.withPrefix
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 
 /**
  * Manages the data-handling of the characters.
@@ -30,7 +28,7 @@ class CharacterRepository(
      *
      * @return Returns [RpModelCharacter] in a [Flow].
      */
-    suspend fun getCharacter(id: Int) = flow {
+    fun getCharacter(id: Int) = flowIo {
         apiRoutes
             .getCharacter(id.withPrefix, fields)
             .let { response ->
@@ -40,7 +38,7 @@ class CharacterRepository(
                     response.results.toRpModel(database.characterDao.getCharacter(id) != null)
                 )
             }.also { emit(it) }
-    }.flowOn(Dispatchers.IO)
+    }
 
     // ----------------------------------------------------------------------------
 
@@ -51,7 +49,7 @@ class CharacterRepository(
      *
      * @return Returns [RpModelCharacter] in a [Flow].
      */
-    suspend fun getStarredCharacter(id: Int) = flow {
+    fun getStarredCharacter(id: Int) = flowIo {
         database
             .characterDao
             .getCharacter(id)!!
@@ -62,5 +60,5 @@ class CharacterRepository(
                     character.toRpModel(true)
                 )
             }.also { emit(it) }
-    }.flowOn(Dispatchers.IO)
+    }
 }

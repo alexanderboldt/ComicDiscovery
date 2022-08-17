@@ -4,7 +4,9 @@ import com.alex.datastore.settings.SettingsDataStore
 import com.alex.repository.mapping.toDsModel
 import com.alex.repository.mapping.toRpModel
 import com.alex.repository.model.RpModelTheme
+import com.alex.repository.util.flowIo
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
@@ -29,6 +31,11 @@ class SettingsRepository(private val settingsDataStore: SettingsDataStore) {
      * Sets a theme to the DataStore.
      *
      * @param theme The theme as [RpModelTheme].
+     *
+     * @return Returns [Boolean], if it was successful or not, in a [Flow].
      */
-    suspend fun setTheme(theme: RpModelTheme) = settingsDataStore.setTheme(theme.toDsModel())
+    fun setTheme(theme: RpModelTheme) = flowIo {
+        settingsDataStore.setTheme(theme.toDsModel())
+        emit(true)
+    }
 }

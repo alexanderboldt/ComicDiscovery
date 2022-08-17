@@ -2,10 +2,8 @@ package com.alex.repository
 
 import android.content.Context
 import com.alex.filemanager.FileManager
-import kotlinx.coroutines.Dispatchers
+import com.alex.repository.util.flowIo
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import java.io.File
 
 /**
@@ -24,9 +22,9 @@ class ProfileRepository(
      *
      * @return Returns a [File] in a [Flow].
      */
-    fun getAvatar() = flow {
+    fun getAvatar() = flowIo {
         emit(fileManager.getAvatar())
-    }.flowOn(Dispatchers.IO)
+    }
 
     /**
      * Saves the assigned file in the app-storage.
@@ -35,7 +33,7 @@ class ProfileRepository(
      *
      * @return Returns the saved avatar as a [File] in a [Flow].
      */
-    fun saveAvatar(file: File) = flow {
+    fun saveAvatar(file: File) = flowIo {
         emit(fileManager.saveAvatar(file))
-    }.flowOn(Dispatchers.IO)
+    }
 }

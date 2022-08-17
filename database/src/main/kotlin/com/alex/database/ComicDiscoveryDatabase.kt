@@ -8,7 +8,6 @@ import com.alex.database.starlistCharacter.StarlistCharacterDao
 class ComicDiscoveryDatabase(context: Context) {
 
     init {
-        println("debugg: ComicDiscoveryDatabase init")
         ComicDiscoveryDatabaseInternal.init(context)
     }
 

@@ -4,10 +4,8 @@ import com.alex.api.ApiRoutes
 import com.alex.repository.mapping.toRpModel
 import com.alex.repository.model.RpModelCharacterMinimal
 import com.alex.repository.model.RpModelResponse
-import kotlinx.coroutines.Dispatchers
+import com.alex.repository.util.flowIo
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 /**
  * Manages the data-handling of search-operations.
@@ -21,9 +19,10 @@ class SearchRepository(private val apiRoutes: ApiRoutes) {
      *
      * @param query The search-query as [String].
      * @param limit The limit as [Int].
+     *
      * @return Returns a [List] of [RpModelCharacterMinimal] in a [Flow].
      */
-    suspend fun getSearch(query: String, limit: Int) = flow {
+    fun getSearch(query: String, limit: Int) = flowIo {
         apiRoutes
             .getSearch(
                 mapOf(
@@ -40,5 +39,5 @@ class SearchRepository(private val apiRoutes: ApiRoutes) {
                     response.results.toRpModel()
                 )
             }.also { emit(it) }
-    }.flowOn(Dispatchers.IO)
+    }
 }

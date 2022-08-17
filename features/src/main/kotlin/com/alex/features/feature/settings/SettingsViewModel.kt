@@ -6,6 +6,7 @@ import com.alex.features.feature.settings.model.State
 import com.alex.repository.model.RpModelTheme
 import com.alex.repository.SettingsRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val settingsRepository: SettingsRepository) : BaseViewModel<State, Unit>(State()) {
@@ -21,9 +22,7 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Ba
     // ----------------------------------------------------------------------------
 
     fun onSelectTheme(theme: State.UiModelTheme) {
-        viewModelScope.launch(Dispatchers.Main) {
-            settingsRepository.setTheme(RpModelTheme.values()[theme.ordinal])
-            state.theme = theme
-        }
+        settingsRepository.setTheme(RpModelTheme.values()[theme.ordinal]).launchIn(viewModelScope)
+        state.theme = theme
     }
 }
