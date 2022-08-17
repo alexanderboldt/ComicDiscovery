@@ -4,6 +4,7 @@ import com.google.protobuf.gradle.protoc
 
 plugins {
     android()
+    dokka()
     kotlin()
     protobuf()
 }
