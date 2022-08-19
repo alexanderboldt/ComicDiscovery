@@ -8,9 +8,9 @@ import com.ihsanbal.logging.LoggingInterceptor
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
-object ApiClient {
+class ApiClient {
 
-    private const val TIMEOUT: Long = 30
+    private val TIMEOUT: Long = 30
 
     // ----------------------------------------------------------------------------
 

@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.alex.features.R
 import com.alex.features.feature.character.detail.model.State
+import com.alex.features.feature.character.overview.LoadingScreen
 import com.alex.features.feature.destinations.ImageScreenDestination
 import com.alex.features.ui.theme.*
 import com.alex.features.ui.theme.UltramarineBlue
@@ -39,7 +40,7 @@ import org.koin.core.parameter.parametersOf
 @Destination
 @Composable
 fun CharacterDetailScreen(id: Int, userComesFromStarredScreen: Boolean, navigator: DestinationsNavigator) {
-    val viewModel: CharacterDetailViewModel = getViewModel(parameters = { parametersOf(id, userComesFromStarredScreen) })
+    val viewModel: CharacterDetailViewModel = getViewModel { parametersOf(id, userComesFromStarredScreen) }
 
     when (val state = viewModel.state.content) {
         is State.Content.Character -> CharacterScreen(state, viewModel, navigator)

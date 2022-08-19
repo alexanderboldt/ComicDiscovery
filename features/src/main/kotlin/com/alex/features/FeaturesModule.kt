@@ -14,8 +14,9 @@ import com.alex.features.feature.settings.SettingsViewModel
 import com.alex.features.feature.starlist.StarlistViewModel
 import com.alex.repository.*
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.context.loadKoinModules
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalAnimationApi::class)
@@ -26,21 +27,20 @@ object FeaturesModule {
 
         loadKoinModules(
             module {
-                // resource
-                single { ResourceProvider(androidContext().resources) }
-                single { WidgetManager(androidContext()) }
+                // resource classes
+                factory { androidContext().resources }
+                factoryOf(::ResourceProvider)
+                factoryOf(::WidgetManager)
 
-                // features
-                viewModel { MainViewModel(get()) }
-                viewModel { HomeViewModel(get()) }
-                viewModel { StarlistViewModel(get()) }
-                viewModel { CharacterOverviewViewModel(get(), get()) }
-                viewModel { CharacterStarredViewModel(get(), get()) }
-                viewModel { (name: Int, userComesFromStarredScreen: Boolean) ->
-                    CharacterDetailViewModel(name, userComesFromStarredScreen, get(), get(), get(), get())
-                }
-                viewModel { SettingsViewModel(get()) }
-                viewModel { ProfileViewModel(get()) }
+                // feature ViewModels
+                viewModelOf(::MainViewModel)
+                viewModelOf(::HomeViewModel)
+                viewModelOf(::StarlistViewModel)
+                viewModelOf(::CharacterOverviewViewModel)
+                viewModelOf(::CharacterStarredViewModel)
+                viewModelOf(::CharacterDetailViewModel)
+                viewModelOf(::SettingsViewModel)
+                viewModelOf(::ProfileViewModel)
             }
         )
     }
