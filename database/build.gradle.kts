@@ -53,6 +53,8 @@ dependencies {
     }
     androidTestImplementation(Deps.Libs.truth)
     androidTestImplementation(Deps.Libs.Coroutines.test)
+    
+    implementation(Deps.Libs.Koin.koin)
 
     Deps.AndroidX.Room.apply {
         implementation(room)

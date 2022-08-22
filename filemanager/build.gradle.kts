@@ -43,4 +43,5 @@ repositories {
 
 dependencies {
     implementation(Deps.Kotlin.stdLib)
+    implementation(Deps.Libs.Koin.koin)
 }

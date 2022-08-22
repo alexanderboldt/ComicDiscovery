@@ -1,26 +1,23 @@
 package com.alex.repository
 
-import com.alex.api.ApiClient
-import com.alex.database.ComicDiscoveryDatabase
-import com.alex.datastore.settings.SettingsDataStore
-import com.alex.filemanager.FileManager
+import com.alex.api.ApiModule
+import com.alex.database.DatabaseModule
+import com.alex.datastore.settings.DatastoreModule
+import com.alex.filemanager.FileManagerModule
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 object RepositoryModule {
 
     fun init() {
+        ApiModule.init()
+        DatabaseModule.init()
+        DatastoreModule.init()
+        FileManagerModule.init()
+
         loadKoinModules(
             module {
-                // datasource classes
-                single { ApiClient().routes }
-                singleOf(::ComicDiscoveryDatabase)
-                factoryOf(::SettingsDataStore)
-                factoryOf(::FileManager)
-
-                // repository classes
                 factoryOf(::CharacterRepository)
                 factoryOf(::ProfileRepository)
                 factoryOf(::SearchRepository)

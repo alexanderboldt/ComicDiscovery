@@ -54,6 +54,8 @@ dependencies {
         implementation(okHttpLogging)
     }
 
+    implementation(Deps.Libs.Koin.koin)
+
     Deps.Libs.Moshi.apply {
         implementation(moshi)
         ksp(codeGen)

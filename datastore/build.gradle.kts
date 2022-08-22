@@ -68,4 +68,5 @@ repositories {
 dependencies {
     implementation(Deps.AndroidX.DataStore.datastore)
     implementation(Deps.Libs.ProtoBuf.javaLite)
+    implementation(Deps.Libs.Koin.koin)
 }
