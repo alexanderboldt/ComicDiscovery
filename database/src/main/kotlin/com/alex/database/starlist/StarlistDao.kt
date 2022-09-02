@@ -6,37 +6,37 @@ import com.alex.database.character.DbModelCharacter
 @Dao
 interface StarlistDao {
 
-    // create
+    // region create
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(starlist: DbModelStarlist): Long
 
+    // endregion
+
     // ----------------------------------------------------------------------------
 
-    // read
+    // region read
 
     @Query("select * from DbModelStarlist")
     suspend fun getAll(): List<DbModelStarlist>
 
-    @Query("""
-        select DbModelCharacter.* from DbModelStarlist
-        left join DbModelStarlistCharacter on DbModelStarlist.id = DbModelStarlistCharacter.starlistId
-        left join DbModelCharacter on DbModelStarlistCharacter.characterId = DbModelCharacter.id
-        where DbModelStarlist.id = :starlistId
-        """)
-    suspend fun getCharacters(starlistId: Long): List<DbModelCharacter>
+    // endregion
 
     // ----------------------------------------------------------------------------
 
-    // update
+    // region update
 
     @Update
     suspend fun update(starlist: DbModelStarlist): Int
 
+    // endregion
+
     // ----------------------------------------------------------------------------
 
-    // delete
+    // region delete
 
     @Query("delete from DbModelStarlist where id = :id")
-    fun delete(id: Long): Int
+    suspend fun delete(id: Long): Int
+
+    // endregion
 }

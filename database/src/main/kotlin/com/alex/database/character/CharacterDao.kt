@@ -5,22 +5,28 @@ import androidx.room.*
 @Dao
 interface CharacterDao {
 
-    // create
+    // region create
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(character: DbModelCharacter): Long
 
+    // endregion
+
     // ----------------------------------------------------------------------------
 
-    // read
+    // region read
 
     @Query("select * from DbModelCharacter where id = :id")
-    suspend fun getCharacter(id: Int): DbModelCharacter?
+    suspend fun get(id: Int): DbModelCharacter?
+
+    // endregion
 
     // ----------------------------------------------------------------------------
 
-    // delete
+    // region delete
 
     @Query("delete from DbModelCharacter where id = :id")
-    fun delete(id: Int): Int
+    suspend fun delete(id: Int): Int
+
+    // endregion
 }

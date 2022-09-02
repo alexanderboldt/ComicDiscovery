@@ -35,7 +35,7 @@ class CharacterRepository(
                 RpModelResponse(
                     response.numberOfPageResults,
                     response.numberOfTotalResults,
-                    response.results.toRpModel(database.characterDao.getCharacter(id) != null)
+                    response.results.toRpModel(database.characterDao.get(id) != null)
                 )
             }.also { emit(it) }
     }
@@ -52,7 +52,7 @@ class CharacterRepository(
     fun getStarredCharacter(id: Int) = flowIo {
         database
             .characterDao
-            .getCharacter(id)!!
+            .get(id)!!
             .let { character ->
                 RpModelResponse(
                     1,

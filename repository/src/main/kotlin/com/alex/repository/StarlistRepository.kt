@@ -84,7 +84,7 @@ class StarlistRepository(
      * @return Returns true, if it was successful otherwise false in a [Flow].
      */
     fun linkCharacter(starlistId: Long, characterId: Int) = flowIo {
-        if (database.characterDao.getCharacter(characterId) == null) {
+        if (database.characterDao.get(characterId) == null) {
             apiRoutes
                 .getCharacter(characterId.withPrefix, fields)
                 .results
@@ -123,7 +123,7 @@ class StarlistRepository(
      */
     fun getStarredCharacters(starlistId: Long) = flowIo {
         database
-            .starlistDao
+            .starlistCharacterDao
             .getCharacters(starlistId)
             .let { characters ->
                 RpModelResponse(
@@ -142,6 +142,6 @@ class StarlistRepository(
      * @return Returns a [List] of [Long]-Id's in a [Flow].
      */
     fun getAssociatedStarlists(characterId: Int) = flowIo {
-        emit(database.starlistCharacterDao.getAssociatedStarlists(characterId))
+        emit(database.starlistCharacterDao.getAssociatedStarlistIds(characterId))
     }
 }
