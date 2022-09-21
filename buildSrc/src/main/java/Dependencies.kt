@@ -13,7 +13,7 @@ object Deps {
             const val material = "androidx.compose.material:material:$version"
         }
 
-        const val core = "androidx.core:core-ktx:1.8.0"
+        const val core = "androidx.core:core-ktx:1.9.0"
 
         object DataStore {
             private const val version = "1.0.0"
@@ -77,8 +77,8 @@ object Deps {
 
         const val logcat = "com.squareup.logcat:logcat:0.1"
 
-        object Mockito {
-            const val core = "org.mockito:mockito-core:4.6.1"
+        object Mockk {
+            const val mockk = "io.mockk:mockk:1.12.8"
         }
 
         object Moshi {

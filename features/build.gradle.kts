@@ -70,7 +70,7 @@ repositories {
 dependencies {
     // testing
     testImplementation(Deps.AndroidX.Test.junit)
-    testImplementation(Deps.Libs.Mockito.core)
+    testImplementation(Deps.Libs.Mockk.mockk)
     testImplementation(Deps.Libs.Coroutines.test)
     testImplementation(Deps.Libs.truth)
 
