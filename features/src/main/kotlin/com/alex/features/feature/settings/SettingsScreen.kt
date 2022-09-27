@@ -23,6 +23,7 @@ import org.koin.androidx.compose.getViewModel
 fun SettingsScreen() {
     val viewModel: SettingsViewModel = getViewModel()
 
+
     Column(
         modifier = Modifier
             .background(getColor(BrightGray, DarkCharcoal))
