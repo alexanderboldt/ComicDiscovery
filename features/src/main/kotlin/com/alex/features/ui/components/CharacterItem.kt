@@ -4,12 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.alex.features.ui.theme.BrightGray
@@ -30,12 +28,8 @@ fun CharacterItem(character: UiModelCharacter, onClick: () -> Unit) {
             contentScale = ContentScale.Crop
         )
         Column(Modifier.padding(8.dp, 8.dp, 8.dp, 16.dp)) {
-            val textStyle = if (MaterialTheme.colors.isLight) DarkCharcoal else BrightGray
-
-            ProvideTextStyle(TextStyle(textStyle)) {
-                Text(text = character.name)
-                Text(text = character.realName.orEmpty())
-            }
+            Text(text = character.name, style = MaterialTheme.typography.body1)
+            Text(text = character.realName.orEmpty(), style = MaterialTheme.typography.body1)
         }
     }
 }

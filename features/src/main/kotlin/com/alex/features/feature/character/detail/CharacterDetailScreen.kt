@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -77,20 +76,18 @@ fun CharacterScreen(
                 contentScale = ContentScale.Crop
             )
 
-            ProvideTextStyle(value = if (MaterialTheme.colors.isLight) TextStyle(DarkCharcoal) else TextStyle(BrightGray)) {
-                Column(Modifier.padding(16.dp)) {
-                    AttributeItem(R.string.character_detail_name, state.character.name)
-                    AttributeItem(R.string.character_detail_summary, state.character.summary)
-                    AttributeItem(R.string.character_detail_real_name, state.character.realName)
-                    AttributeItem(R.string.character_detail_aliases, state.character.aliases)
-                    AttributeItem(R.string.character_detail_gender, state.character.gender)
-                    AttributeItem(R.string.character_detail_birth, state.character.birth)
-                    AttributeItem(R.string.character_detail_origin, state.character.origin)
-                    AttributeItem(R.string.character_detail_powers, state.character.powers)
-                    AttributeItem(R.string.character_detail_teams, state.character.teams)
-                    AttributeItem(R.string.character_detail_friends, state.character.friends)
-                    AttributeItem(R.string.character_detail_enemies, state.character.enemies)
-                }
+            Column(Modifier.padding(16.dp)) {
+                AttributeItem(R.string.character_detail_name, state.character.name)
+                AttributeItem(R.string.character_detail_summary, state.character.summary)
+                AttributeItem(R.string.character_detail_real_name, state.character.realName)
+                AttributeItem(R.string.character_detail_aliases, state.character.aliases)
+                AttributeItem(R.string.character_detail_gender, state.character.gender)
+                AttributeItem(R.string.character_detail_birth, state.character.birth)
+                AttributeItem(R.string.character_detail_origin, state.character.origin)
+                AttributeItem(R.string.character_detail_powers, state.character.powers)
+                AttributeItem(R.string.character_detail_teams, state.character.teams)
+                AttributeItem(R.string.character_detail_friends, state.character.friends)
+                AttributeItem(R.string.character_detail_enemies, state.character.enemies)
             }
         }
 
@@ -101,8 +98,13 @@ fun CharacterScreen(
 @Composable
 fun AttributeItem(@StringRes label: Int, text: String) {
     Row(Modifier.padding(bottom = 8.dp)) {
-        Text(text = stringResource(label), modifier = Modifier.width(100.dp), fontWeight = FontWeight.Medium)
-        Text(text = text)
+        Text(
+            text = stringResource(label),
+            modifier = Modifier.width(100.dp),
+            fontWeight = FontWeight.Medium,
+            style = MaterialTheme.typography.body1
+        )
+        Text(text = text, style = MaterialTheme.typography.body1)
     }
 }
 

@@ -11,7 +11,7 @@ fun ComicDiscoveryTheme(isDarkTheme: Boolean, content: @Composable () -> Unit) {
     CompositionLocalProvider(LocalSpacing provides Spacing()) {
         MaterialTheme(
             colors = if (isDarkTheme) darkColors() else lightColors(),
-            typography = Typography,
+            typography = if (isDarkTheme) DarkTypography else LightTypography,
             shapes = Shapes,
             content = content
         )

@@ -6,9 +6,30 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Set of Material typography styles to start with
-val Typography = Typography(
+val LightTypography = Typography(
+    h6 = TextStyle(
+        color = DarkElectricBlue,
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp,
+        letterSpacing = 0.15.sp
+    ),
     body1 = TextStyle(
+        color = DarkCharcoal,
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
+    )
+)
+
+val DarkTypography = Typography(
+    h6 = TextStyle(
+        color = BrightGray,
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp,
+        letterSpacing = 0.15.sp
+    ),
+    body1 = TextStyle(
+        color = BrightGray,
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
@@ -22,10 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.alex.features.R
 import com.alex.features.ui.theme.*
@@ -45,16 +43,9 @@ fun ProfileScreen() {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-
-        val textStyle = TextStyle(
-            color = getColor(DarkElectricBlue, BrightGray),
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Medium
-        )
-
         Text(
             text = stringResource(R.string.profile_title),
-            style = textStyle,
+            style = MaterialTheme.typography.h6,
             modifier = Modifier.padding(16.dp)
         )
 
